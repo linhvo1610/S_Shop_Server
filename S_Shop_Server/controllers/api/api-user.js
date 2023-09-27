@@ -1,4 +1,6 @@
 const MyModel = require('../../models/model')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 exports.listUsers = async (req, res, next) => {
     let dataR = {
@@ -24,6 +26,30 @@ exports.listUsers = async (req, res, next) => {
     //trả về client
     res.json(dataR);
     console.log(dataR);
+}
+exports.register = async (req, res, next) => {
+    try {
+  const { username, password, email,sex,dob,phone,image,fullname,role } = req.body;
+
+  // Kiểm tra xem tên người dùng đã tồn tại chưa
+  const existingUser = await MyModel.usersModel.findOne({ username });
+  if (existingUser) {
+    return res.status(400).json({ message: 'Tên người dùng đã tồn tại' });
+  }
+
+  // Mã hóa mật khẩu
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Tạo người dùng mới
+  const user = new MyModel.usersModel({ username, password: hashedPassword,email,sex,dob,phone,image,fullname,role });
+  await user.save();
+
+  res.status(201).json({ message: 'Đăng ký thành công' });
+} catch (error) {
+  console.error('Đăng ký thất bại:', error);
+  res.status(500).json({ message: 'Đăng ký thất bại' });
+}
+
 }
 
 
