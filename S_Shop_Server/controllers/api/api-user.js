@@ -28,40 +28,45 @@ exports.listUsers = async (req, res, next) => {
 
 
 
-// exports.addUsers =async (req, res, next) => {
-//     let dataR = {
-//         status: 1,
-//         msg: "ok"
-//     }
-//     if(req.method =='POST'){
+exports.addUsers =async (req, res, next) => {
+    let dataR = {
+
+    }
+    if(req.method =='POST'){
        
-//         let objUser = new MyModel.usersModel();
-//         objUser.email = req.body.email;
-//         objUser.username = req.body.username;
-//         objUser.password=req.body.password;
-//         objUser.role = 'User';
+        let objUser = new MyModel.usersModel();
+        objUser.email = req.body.email;
+        objUser.username = req.body.username;
+        objUser.password=req.body.password;
+        objUser.role = 'User';
+        objUser.fullname = req.body.fullname;
+        objUser.image = req.body.image;
+        objUser.sex= req.body.sex;
+        objUser.phone= req.body.phone;
+        objUser.dob = req.body.dob;
+
         
-//         try{
-//             let dataR = await objUser.save();
+        try{
+            let dataR = await objUser.save();
             
-//             console.log(dataR);
+            console.log(dataR);
 
-//             console.log("Đã ghi thành công");
+            console.log("Đã ghi thành công");
            
-//         }catch(err){
-//             console.log(err);
-//             dataR.msg = err.message;
-//         }
+        }catch(err){
+            console.log(err);
+            dataR.msg = err.message;
+        }
  
-//     }
+    }
 
-//     //code xử lý add
+    //code xử lý add
 
 
-//     //trả về client
-//     res.json(dataR)
+    //trả về client
+    res.json(dataR)
 
-// }
+}
 
 // exports.updateUsers = (req, res, next) => {
 //     let data = {
