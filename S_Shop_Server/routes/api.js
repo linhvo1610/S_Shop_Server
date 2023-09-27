@@ -7,8 +7,7 @@ var apiU=require('../controllers/api/api-user');
 //get users
 router.get('/users', apiU.listUsers);
 
-// //post users
-// router.post('/users', apiU.addUsers);
+router.post('/users', apiU.addUsers);
 // //update 
 
 // router.put('/users/:iduser', apiU.updateUsers);
