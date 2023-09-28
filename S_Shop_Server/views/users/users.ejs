@@ -1,0 +1,180 @@
+<%- include('../inc/top') %>
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 10px;">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"><b>LIST OF USERS </b></h2>
+            </div>
+
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <form action="" method="GET">
+                <div class="input-group rounded">
+                    <input type="search" class="form-control rounded" placeholder="Search" name="username"
+                        aria-describedby="search-addon" />
+                    <button type="submit" style="display: inline-block;
+                        line-height: 30px;
+                        padding: 0 50px;
+                        -webkit-transition: all 0.4s ease;
+                        -o-transition: all 0.4s ease;
+                        -moz-transition: all 0.4s ease;
+                        transition: all 0.4s ease;
+                        cursor: pointer;
+                        font-size: 15px;
+                        border-radius: 6px;
+                        margin-left: 5px;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        color: #fff;
+                        background-color: blue;
+                        font-family: inherit;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="row" style="min-height: 600px;">
+            <div class="col-md-12 ">
+                <div class="d-flex flex-row-reverse" style="margin-bottom: 5px;"><button type="button"
+                        class="btn btn-success " onclick="location.href='http://localhost:3000/users/add'">Add
+                        User</button></div>
+                <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="padding: 30px;">
+                    <div class="table-wrap ">
+                        <table id="myTable" class="table table-responsive-xl  ">
+                            <thead class="thead-dark">
+                                <tr>
+
+                                    <th>Id</th>
+                                    <th onclick="openPageEmail()">Email
+                                    </th>
+                                    <th onclick="openPageUsername()">
+                                        Username
+                                    </th>
+                                    <th onclick="openPageRole()">Role</th>
+
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% list.forEach(data=>{%>
+                                    <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
+                                        <th><%=data._id%></th>
+                                        <td class="d-flex align-items-center">
+                                            <div class="img" style="background-image: url(images/person_1.jpg);"></div>
+                                            <div class="pl-3 email">
+                                                <span>
+                                                    <%=data.email %>
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <%=data.username %>
+                                        </td>
+
+                                        <td class="status"><span class="active">
+                                                <%=data.role %>
+                                            </span></td>
+
+                                        <td>
+
+
+                                            <button type="submit">
+                                                <span><a href="/users/delete/<%=data._id%>"
+                                                        onclick="return confirm_alert(this);"><i class="fa fa-trash" style="font-size: 20px; color: rgb(245, 65, 65);"></i></a></span>
+                                            </button>
+                                            <button type="submit">
+                                                <span><a href="/users/edit/<%=data._id%>">
+                                                        <i class="fa fa-pencil-square-o" style="font-size: 20px; color: rgb(65, 245, 92); margin-left: 10px;"></i>
+                                                    </a>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                            aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có muốn xóa người dùng này?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"><a
+                                                            href="/users/delete/<%=data._id%>">Delete</a></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%} ) %>
+
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        function confirm_alert(node) {
+            return confirm("Bấm OK để xóa người dùng này.");
+        }
+
+    </script>
+
+      <script>
+        function openPageRole() {
+          const currentUrl = window.location.href;
+          const targetUrl = 'http://localhost:3000/users';
+          const newUrl = 'http://localhost:3000/users/sortrole';
+      
+          if (currentUrl === targetUrl) {
+            window.location.href = newUrl;
+          } else if (currentUrl === newUrl) {
+            window.history.back();
+          }
+        }
+      </script>
+      <script>
+        function openPageEmail() {
+          const currentUrl = window.location.href;
+          const targetUrl = 'http://localhost:3000/users';
+          const newUrl = 'http://localhost:3000/users/sortemail';
+      
+          if (currentUrl === targetUrl) {
+            window.location.href = newUrl;
+          } else if (currentUrl === newUrl) {
+            window.history.back();
+          }
+        }
+      </script>
+      <script>
+        function openPageUsername() {
+          const currentUrl = window.location.href;
+          const targetUrl = 'http://localhost:3000/users';
+          const newUrl = 'http://localhost:3000/users/sortusername';
+      
+          if (currentUrl === targetUrl) {
+            window.location.href = newUrl;
+          } else if (currentUrl === newUrl) {
+            window.history.back();
+          }
+        }
+      </script>
+      
+
+
+
+    <%- include('../inc/bottom') %>
