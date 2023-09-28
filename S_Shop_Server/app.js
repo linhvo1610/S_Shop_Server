@@ -7,8 +7,8 @@ var session = require('express-session')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var apiRouter = require('./routes/api')
 var loginRouter = require('./routes/login');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
