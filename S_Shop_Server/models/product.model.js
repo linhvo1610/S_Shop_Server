@@ -1,11 +1,16 @@
 var db = require('./db');
 const productSchema = new db.mongoose.Schema(
     { 
-        image:{type:String,required:true},
+        
         name: { type: String, required: true },
-        description:{type:String,required:false},
+        id_cat:{type: db.mongoose.Schema.Types.ObjectId,ref:'categoryModel'},
+        trademark:{type:String,require:true},
         price:{type:Number,required:true},
-        id_cat:{type: db.mongoose.Schema.Types.ObjectId,ref:'categoryModel'}
+        quantity:{type:Number,required:true},
+        size:{type:Number,required:true},
+        description:{type:String,required:false},
+        note:{type:String,require:true},
+        image:{type:String,required:false},
 
     },
     {collection:'products'}
