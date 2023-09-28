@@ -20,9 +20,13 @@ router.post('/users', apiU.addUsers);
 // router.get('/balance/:idbalance',apiBalance.updateBalance);
 // router.put('/balance/:idbalance',apiBalance.updateBalance);
 router.post('/catgory',apiP.addCat);
+router.put('/catgory/edit/:id',apiP.editCat);
+router.delete('/catgory/delete/:id',apiP.deleteCatgory);
 router.get('/product',apiP.listProduct);
-router.post('/product',apiP.addProduct);
 
+router.post('/product',apiP.addProduct);
+router.put('/product/edit/:id',apiP.editProduct);
+router.delete('/product/delete/:id',apiP.deleteProduct);
 
 
 module.exports = router;
