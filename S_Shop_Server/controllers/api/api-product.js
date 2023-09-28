@@ -98,3 +98,29 @@ exports.deleteProduct = async (req, res, next)=>{
         }
       
      }
+     exports.editCat = async(req,res,next) =>{
+        try {
+            let id = req.params.id;
+
+            let objCt = await MyModel.categoryModel.findById(id);
+            objCt.name = req.body.name;
+            await MyModel.categoryModel.findByIdAndUpdate(id,objCt);
+            res.status(201).json(objCt);
+        } catch (error) {
+            return res.status(204).json({msg:error.message});
+        }
+      
+     }
+     exports.deleteCatgory = async (req, res, next)=>{
+        try {
+           let id = req.params.id;
+          
+          
+           await MyModel.categoryModel.findByIdAndDelete(id);
+          return res.status(200).json({data:{}});
+        } catch (error) {
+           console.log(error);
+           
+        }
+         
+         }
