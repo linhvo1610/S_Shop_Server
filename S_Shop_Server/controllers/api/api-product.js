@@ -74,7 +74,7 @@ exports.deleteProduct = async (req, res, next)=>{
      
      }
 
-     exports.listCat = async (req,res,next) =>{
+exports.listCat = async (req,res,next) =>{
         try {
           let  listTL = await MyModel.categoryModel.find();
           res.json(listTL);
@@ -87,7 +87,7 @@ exports.deleteProduct = async (req, res, next)=>{
      
        
      }
-     exports.addCat = async(req,res,next) =>{
+exports.addCat = async(req,res,next) =>{
         try {
             let objCt = new MyModel.categoryModel();
             objCt.name = req.body.name;
