@@ -76,38 +76,39 @@ exports.list = async(req,res,next)=>{
 
 //     res.render('manageusers/users',{list:list})
 // }
-// exports.addUser = async (req, res, next)=>{
-//     let msg = ''; // ghi câu thông báo
+exports.addUser = async (req, res, next)=>{
+    let msg = ''; // ghi câu thông báo
 
-//     if(req.method =='POST'){
-//         // xử lý ghi CSDL ở đây
-//         // kiểm tra hợp lệ dữ liệu ở chỗ này.
-
-
-//         // tạo đối tượng model 
-//         let objUser = new myModel.usersModel();
-//         objUser.email = req.body.email;
-//         objUser.username = req.body.username;
-//         objUser.password=req.body.password;
-//         objUser.role = req.body.role;
+    if(req.method =='POST'){
+      
+        let objUser = new myModel.usersModel();
+        objUser.email = req.body.email;
+        objUser.username = req.body.username;
+        objUser.password=req.body.password;
+        objUser.role = req.body.role;
+        objUser.fullname = req.body.fullname;
+        objUser.image = req.body.image;
+        objUser.sex= req.body.gender;
+        objUser.phone= req.body.phone;
+        objUser.dob = req.body.dob;
         
-//         try{
-//             let new_user = await objUser.save();
+        try{
+            let new_user = await objUser.save();
             
-//             console.log(new_user);
+            console.log(new_user);
 
-//             console.log("Đã ghi thành công");
-//             msg = 'Đã thêm thành công';
-//         }catch(err){
-//             console.log(err);
-//             msg ='Lỗi '+ error.message;
+            console.log("Đã ghi thành công");
+            msg = 'Đã thêm thành công';
+        }catch(err){
+            console.log(err);
+            msg ='Lỗi '+ error.message;
 
-//         }
+        }
  
-//     }
+    }
 
-//     res.render('manageusers/adduser', {msg:msg});
-// }
+    res.render('users/adduser', {msg:msg});
+}
 // exports.editUser = async (req,res,next)=>{
 //     let msg = ''; // chứa câu thông báo
 //     // load dữ liệu cũ để hiển thị
