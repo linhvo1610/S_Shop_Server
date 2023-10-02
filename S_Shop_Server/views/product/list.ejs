@@ -1,20 +1,13 @@
 <%- include('../inc/top') %>
 
-<div style="width: 1170px; margin: auto">
-  <div style="margin-top: 30px">
-    <div style="margin-bottom: 20px">
-      <form action="" method="GET">
-        <div class="input-group rounded">
-          <input
-            type="search"
-            class="form-control rounded"
-            placeholder="Search"
-            name="username"
-            aria-describedby="search-addon"
-          />
-          <button
-            type="submit"
-            style="
+  <div style="width: 1170px; margin: auto">
+    <div style="margin-top: 30px">
+      <div style="margin-bottom: 20px">
+        <form action="" method="GET">
+          <div class="input-group rounded">
+            <input type="search" class="form-control rounded" placeholder="Search" name="username"
+              aria-describedby="search-addon" />
+            <button type="submit" style="
               display: inline-block;
               line-height: 30px;
               padding: 0 50px;
@@ -31,236 +24,209 @@
               color: #fff;
               background-color: blue;
               font-family: inherit;
-            "
-          >
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </form>
-    </div>
-    <!-- <div style="flex-direction: column;">
-            
-                <form action="/product/locPrice" method="post">
-                <select class="form-select" aria-label="Default select example" name="id_cat" >
-              <% listLoai.forEach((row) => { %>
-    
-    
-                <option   
-                value="<%= row.id  %>"
-                ><%= row.name  %>
-                </option>
-               
-              <% }) %>
-
-            </select>
-            <br>
-            <label for="size">Kích cỡ:</label>
-            <input style="width: 100px;border-width: 2px;" type="text" name="size" id="size">
-            <br>
-            <div class=" col-4  ">
-                <button style="width: 70px;background-color: aqua;height: 30px;
-                border-radius: 10px;" type="submit"  >Filter</button>
-              </div>
-            </form>
-          </div> -->
-
-    <button onclick="showDialog()">Lọc sản phẩm</button>
-    <div class="dialog" id="dialog">
-        <p style="float: right;" onclick="closeDialog()">Đóng</p>
-      <div style="flex-direction: column">
-        <form action="/product/locPrice" method="post">
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            name="id_cat"
-          >
-            <% listLoai.forEach((row) => { %>
-            <option value="<%= row.id  %>"><%= row.name %></option>
-
-            <% }) %>
-          </select>
-          <br />
-          <div>
-            <div  style="float: left;">
-                <label for="size">Kích cỡ:</label>
-            <input
-              style="width: 100px; border-width: 2px"
-              type="text"
-              name="size"
-              id="size"
-            />
-            </div>
-            <div style="float: right;">
-                <label for="size">Màu sắc:</label>
-            <input
-              style="width: 100px; border-width: 2px"
-              type="text"
-              name="description"
-              id="description"
-            />
-            </div>
-          </div>
-          <br />
-          <div style="text-align: center;">
-            <button
-              style="
-                width: 80px;
-                background-color: rgb(221, 59, 186);
-                height: 30px;
-                border-radius: 10px;margin-top: 10px;
-                color: #f0f0f0;
-              "
-              type="submit"
-            >
-              Tìm kiếm
+            ">
+              <i class="fa fa-search"></i>
             </button>
-        </div>
+          </div>
         </form>
       </div>
-    </div>
+      
 
-    <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
-      <button
-        type="button"
-        class="btn btn-success"
-        onclick="location.href='http://localhost:3000/users/add'"
-      >
-        Add Product
-      </button>
-    </div>
-    <table id="myTable" class="table table-responsive-xl">
-      <thead class="thead-dark">
-        <tr>
-          <th>Id</th>
-          <th>Tên sản phẩm</th>
-          <th>Loại SP</th>
-          <th>Giá</th>
-          <th>Số lượng</th>
-          <th>Kích cỡ</th>
-          <th>Miêu tả</th>
-
-          <th>&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if (listProduct.length > 0) { %> <% listProduct.forEach(data=>{%>
-        <tr
-          class="alert"
-          role="alert"
-          data-id="<%= data.id %>"
-          data-target="#exampleModal"
-        >
-          <th><%=data._id%></th>
-          <td class="d-flex align-items-center">
-            <div
-              class="img"
-              style="background-image: url(images/person_1.jpg)"
-            ></div>
-            <div class="pl-3 email">
-              <span> <%=data.name %> </span>
-            </div>
-          </td>
-
-          <td><%=data.id_cat.name %></td>
-
-          <td><%=data.price %></td>
-          <td><%=data.quantity %></td>
-          <td><%=data.size %></td>
-          <td><%=data.description %></td>
-
-          <td>
-            <button type="submit">
-              <span
-                ><a
-                  href="/users/delete/<%=data._id%>"
-                  onclick="return confirm_alert(this);"
-                  ><i
-                    class="fa fa-trash"
-                    style="font-size: 20px; color: rgb(245, 65, 65)"
-                  ></i></a
-              ></span>
+          <div class="container">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+              Filter
             </button>
-            <button type="submit">
-              <span
-                ><a href="/users/edit/<%=data._id%>">
-                  <i
-                    class="fa fa-pencil-square-o"
-                    style="
+            <div class="collapse" id="filterCollapse">
+              <div class="card card-body">
+                <h4>Filter Options</h4>
+                <form id="filterForm" action="/product/list/filter" method="post">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="size">Size:</label>
+                        <select class="form-control" id="size" name="size">
+                          <option value="">All</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="color">Loại:</label>
+                        <select class="form-control" id="color" name="color">
+                          <option value="">All</option>
+                          <% for (let i = 0; i < listLoai.length; i++) { %>
+                            <option value="<%= listLoai[i]._id %>"><%= listLoai[i].name %></option>
+                          <% } %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Apply Filter</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          
+
+      <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
+        <button type="button" class="btn btn-success" onclick="location.href='http://localhost:3000/users/add'">
+          Add Product
+        </button>
+      </div>
+      <table id="myTable" class="table table-responsive-xl">
+        <thead class="thead-dark">
+          <tr>
+            <th>Id</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại SP</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Kích cỡ</th>
+            <th>Miêu tả</th>
+
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (listProduct.length> 0) { %> <% listProduct.forEach(data=>{%>
+              <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
+                <th>
+                  <%=data._id%>
+                </th>
+                <td class="d-flex align-items-center">
+                  <div class="img" style="background-image: url(images/person_1.jpg)"></div>
+                  <div class="pl-3 email">
+                    <span>
+                      <%=data.name %>
+                    </span>
+                  </div>
+                </td>
+
+                <td>
+                  <%=data.id_cat.name %>
+                </td>
+
+                <td>
+                  <%=data.price %>
+                </td>
+                <td>
+                  <%=data.quantity %>
+                </td>
+                <td>
+                  <%=data.size %>
+                </td>
+                <td>
+                  <%=data.description %>
+                </td>
+
+                <td>
+                  <button type="submit">
+                    <span><a href="/users/delete/<%=data._id%>" onclick="return confirm_alert(this);"><i
+                          class="fa fa-trash" style="font-size: 20px; color: rgb(245, 65, 65)"></i></a></span>
+                  </button>
+                  <button type="submit">
+                    <span><a href="/users/edit/<%=data._id%>">
+                        <i class="fa fa-pencil-square-o" style="
                       font-size: 20px;
                       color: rgb(65, 245, 92);
                       margin-left: 10px;
-                    "
-                  ></i>
-                </a>
-              </span>
-            </button>
-          </td>
-        </tr>
-        <div
-          class="modal fade"
-          id="myModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="myModalLabel"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                    "></i>
+                      </a>
+                    </span>
+                  </button>
+                </td>
+              </tr>
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">Bạn có muốn xóa người dùng này?</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                      </button>
+                      <button type="button" class="btn btn-primary">
+                        <a href="/users/delete/<%=data._id%>">Delete</a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="modal-body">Bạn có muốn xóa người dùng này?</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  <a href="/users/delete/<%=data._id%>">Delete</a>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <%} ) %> <% } else { %>
-        <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
-        <% } %>
-      </tbody>
-    </table>
+              <%} ) %>
+                <% } else { %>
+                  <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
+                  <% } %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-<script>
-  function showDialog() {
-    var dialog = document.getElementById("dialog");
-    dialog.style.display = "block";
-  }
-  function closeDialog() {
-    var dialog = document.querySelector(".dialog");
-    dialog.style.display = "none";
-  }
-  document.addEventListener('DOMContentLoaded', (event) => {
-  showDialog();
-});
-</script>
-<style>
-  .dialog {
-    width: 300px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
-</style>
+  <script>
+    function showDialog() {
+      var dialog = document.getElementById("dialog");
+      dialog.style.display = "block";
+    }
+    function closeDialog() {
+      var dialog = document.querySelector(".dialog");
+      dialog.style.display = "none";
+    }
+    document.addEventListener('DOMContentLoaded', (event) => {
+      showDialog();
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#filterForm').submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+  
+        // Get the selected filter values
+        var selectedSize = $('#size').val();
+        var selectedColor = $('#color').val();
+  
+        // Construct the URL with the selected filter values
+        var url = '/product/list/filter?';
+  
+        if (selectedSize) {
+          url += 'size=' + selectedSize + '&';
+        }
+  
+        if (selectedColor) {
+          url += 'id_cat=' + selectedColor;
+        }
+  
+        // Remove the trailing '&' if both values are selected
+        if (url.endsWith('&')) {
+          url = url.slice(0, -1);
+        }
+  
+        // Redirect to the filtered page
+        window.location.href = url;
+      });
+    });
+  </script>
+  <style>
+    .dialog {
+      width: 300px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 
-<%- include('../inc/bottom') %>
+  <%- include('../inc/bottom') %>
