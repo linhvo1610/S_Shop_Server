@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var apiU=require('../controllers/api/api-user');
+var apiP = require ('../controllers/api/api-product')
+
 
 /* GET home page. */
 
@@ -17,8 +19,14 @@ router.post('/users', apiU.addUsers);
 // router.post('/balance',apiBalance.addBalance);
 // router.get('/balance/:idbalance',apiBalance.updateBalance);
 // router.put('/balance/:idbalance',apiBalance.updateBalance);
+router.post('/catgory',apiP.addCat);
+router.put('/catgory/edit/:id',apiP.editCat);
+router.delete('/catgory/delete/:id',apiP.deleteCatgory);
+router.get('/product',apiP.listProduct);
 
-
+router.post('/product',apiP.addProduct);
+router.put('/product/edit/:id',apiP.editProduct);
+router.delete('/product/delete/:id',apiP.deleteProduct);
 
 
 module.exports = router;

@@ -63,6 +63,35 @@ nav,
 section {
     display: block;
 }
+.filter {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .filter p {
+    cursor: pointer;
+  }
+  
+  .filter-options {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+  
+  .filter-options label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .filter-options button {
+    display: block;
+    margin-top: 10px;
+  }
 
 body {
     margin: 0;
