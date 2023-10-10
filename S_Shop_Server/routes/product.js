@@ -8,4 +8,7 @@ router.get('/list/filter',proCtl.filter);
 
 router.post('/locPrice', proCtl.locPrice)
 
+router.get('/addProduct', proCtl.addProduct)
+router.post('/addProduct', proCtl.addProduct)
+
 module.exports = router;
