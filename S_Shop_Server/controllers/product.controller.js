@@ -61,4 +61,10 @@ exports.addProduct = async (req, res, next) => {
 });
 }
 
+exports.category =async(req,res,next) => {
+  const loaiSP = await myModel.categoryModel.find();
+
+  res.render("product/category", {listLoai: loaiSP,});
+}
+
 
