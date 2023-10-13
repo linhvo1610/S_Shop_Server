@@ -10,6 +10,9 @@ var apiP = require ('../controllers/api/api-product')
 router.get('/users', apiU.listUsers);
 
 router.post('/users', apiU.addUsers);
+
+router.post('/login', apiU.loginUser);
+router.post('/register', apiU.registerUser);
 // //update 
 
 // router.put('/users/:iduser', apiU.updateUsers);
