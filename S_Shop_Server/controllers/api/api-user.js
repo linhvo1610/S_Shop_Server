@@ -1,5 +1,5 @@
 const MyModel = require('../../models/model')
-
+const bcrypt = require('bcrypt');
 exports.listUsers = async (req, res, next) => {
     let dataR = {
 
@@ -69,13 +69,32 @@ exports.addUsers =async (req, res, next) => {
 }
 
 exports.loginUser = async (req, res, next) =>{  
-    const { username, password } = req.body;
-    const user = await MyModel.usersModel.findOne({ username, password });
-    if (user) {
-      // Trả về thông tin người dùng 
-      res.json(user);
-    } else {
-      res.status(401).json({ message: 'Đăng nhập không thành công' });
+    // const { username, password } = req.body;
+    // const user = await MyModel.usersModel.findOne({ username, password });
+    // if (user) {
+    //   // Trả về thông tin người dùng 
+    //   res.json(user);
+    // } else {
+    //   res.status(401).json({ message: 'Đăng nhập không thành công' });
+    // }
+    try {
+      const { username, password,role } = req.body;
+  
+      const user = await MyModel.usersModel.findOne({ username });
+      if (!user) {
+        return res.status(401).json({ message: 'Tên người dùng không tồn tại' });
+      }
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+          return res.status(401).json({ message: 'Mật khẩu không chính xác' });
+      }
+    //   const token = jwt.sign({ userId: user._id }, 'secretKey');
+  
+    //   res.json({ token });
+      res.status(201).json({ message: 'Đăng nhập thành công', role: user.role });
+    } catch (error) {
+      console.error('Đăng nhập thất bại:', error);
+      res.status(500).json({ message: 'Đăng nhập thất bại' });
     }
 }
 
@@ -90,8 +109,8 @@ exports.registerUser = async (req, res, next) =>{
     if (existingEmail) {
       return res.status(409).json({ message: 'Email người dùng đã tồn tại' });
     }
-
-    const newPerson = new MyModel.usersModel({ username, fullname , email, image, password, dob, sex, role, phone });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newPerson = new MyModel.usersModel({ username, fullname , email, image, password:hashedPassword, dob, sex, role, phone });
   
     newPerson
       .save()
