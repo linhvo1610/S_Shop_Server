@@ -2,14 +2,14 @@ var db = require('./db');
 const userSchema = new db.mongoose.Schema(
     {
         email: { type: String, required: true },
-        fullname: { type: String, required: true },
+        fullname: { type: String, required: false },
         username:{type:String,required:true},
         password:{type:String,required:true},
-        image: { type: String, required: true },
+        image: { type: String, required: false },
         phone: { type: String, required: true },
-        dob: { type: String, required: true },
-        sex: { type: String, required: true },
-        role: {type:String,required: true}
+        dob: { type: String, required: false },
+        sex: { type: String, required: false },
+        role: {type:String, required: false}
     },
     {collection:'users'}
 );

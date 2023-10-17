@@ -10,6 +10,9 @@ var loginRouter = require('./routes/login');
 var apiRouter = require('./routes/api');
 var productRouter = require('./routes/product');
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 var app = express();
 
 // view engine setup
