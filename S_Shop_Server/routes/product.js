@@ -13,6 +13,10 @@ router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct', proCtl.addProduct)
 router.get('/addCategory',proCtl.addCategory);
 router.post('/addCategory',proCtl.addCategory);
+router.get('/updateCategory/:idTl',proCtl.updateCategory);
+router.post('/updateCategory/:idTl',proCtl.updateCategory);
+router.get('/deleteCategory/:id', proCtl.deleteCategory);
+
 
 
 module.exports = router;

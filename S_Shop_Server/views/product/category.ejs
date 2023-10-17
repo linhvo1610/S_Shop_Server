@@ -4,6 +4,11 @@
     <div style="text-align: center;">
      <h1>Category</h1>
     </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      
+      <a href="/product/addCategory" class="m-1 btn btn-danger me-md-2 ">Add</a>
+    </div>
+   
     
     <div class="mt-5">
       <table class="table">
@@ -19,15 +24,14 @@
                 <tr>
                     <td><%= item._id %></td>
                     <td><%= item.name %></td>
+                    <form id="delete-category">
+              
+                    </form>
                     <td>
-                 
                       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                       <a href="/product/addCategory" class="m-1">Add</a>
-                       <a href="" class="m-1" data-bs-toggle="modal" data-bs-target="#deleteModal" >Delete</a>
-                       <a href="" class="m-1">Update</a>
-                      
+                       <img src="/images/dl.png" width="30" height="30" class="rounded-circle m-lg-1" alt="" data-id="<%= item._id  %>" data-bs-toggle="modal" data-bs-target="#deleteModal" >
+                       <a href="/product/updateCategory/<%= item._id  %>" class="m-1"> <img src="/images/ud.png" width="30" height="30" class="rounded-circle m-lg-1 " alt=""></a>
                       </div>
-                       
                     </td>
                 </tr>
             <% }); %>
@@ -46,19 +50,40 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Category Delete</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
        Can you delete the category?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Delete</button>
+        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" id="btn_delete" class="btn btn-primary">Delete</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded' , function(){
+    var categoryId;
+    var deleteForm = document.forms['delete-category'];
+    var btn_deleteCategory = document.getElementById('btn_delete');
+    const exampleModal = document.getElementById('deleteModal');
+    exampleModal.addEventListener('show.bs.modal', event =>{
+      const button = event.relatedTarget
+      categoryId = button.getAttribute('data-id');
+
+    });
+    btn_deleteCategory.onclick = function(){
+      deleteForm.action = '/product/deleteCategory/' + categoryId + '?_method=DELETE';
+      deleteForm.submit();
+
+    }
+  });
+
+  
+</script>
   
 
 <%- include('../inc/bottom') %>
