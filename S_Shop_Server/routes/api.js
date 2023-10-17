@@ -13,6 +13,7 @@ router.post('/users', apiU.addUsers);
 
 router.post('/login', apiU.loginUser);
 router.post('/register', apiU.registerUser);
+router.get('/register', apiU.registerUser);
 // //update 
 
 // router.put('/users/:iduser', apiU.updateUsers);

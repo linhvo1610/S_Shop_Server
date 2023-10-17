@@ -91,7 +91,9 @@ exports.loginUser = async (req, res, next) =>{
     //   const token = jwt.sign({ userId: user._id }, 'secretKey');
   
     //   res.json({ token });
-      res.status(201).json({ message: 'Đăng nhập thành công', role: user.role });
+      res.status(201).json({ message: 'Đăng nhập thành công',
+      role: user.role,id: user._id,email: user.email, username: user.username,phone: user.phone, 
+      image: user.image,phone: user.phone,dob: user.dob,sex: user.sex,role: user.role});
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
       res.status(500).json({ message: 'Đăng nhập thất bại' });
