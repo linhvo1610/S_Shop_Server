@@ -62,7 +62,7 @@ exports.addProduct = async (req, res, next) => {
 }
 
 exports.category =async(req,res,next) => {
-  const loaiSP = await myModel.categoryModel.find();
+  const loaiSP = await myModel.categoryModel.find().sort();
 
   res.render("product/category", {listLoai: loaiSP,});
 }
@@ -82,5 +82,46 @@ exports.addCategory = async (req, res, next) => {
 }
   res.render("product/addCategory", {listLoai:loaiSP});
 }
+exports.updateCategory = async (req, res, next) => {
+  let msg = '';
+  let objSp = await myModel.categoryModel.findById(req.params.idTl);
+  console.log(objSp);
+  if (req.method == 'POST') {
+      let objSP = new myModel.categoryModel();
+      objSP.name = req.body.name;
+      objSP._id = req.params.idTl;
+      try {
+          // update dữ liệu
+          // await myModel.spModel.updateOne( {_id:  req.params.idsp},   objSP );
+          await myModel.categoryModel.findByIdAndUpdate({ _id: req.params.idTl }, objSP);
 
+          console.log("Đã ghi thành công");
+          msg = 'Đã ghi thành công';
+          res.redirect('/product/Category');
+      } catch (err) {
+          console.log(err);
+          msg = 'Lỗi ' + err.message;
+      }
+  }
+  res.render('product/updateCategory', { title: 'updateCategories', msg: msg , objSp:objSp })
+}
+exports.deleteCategory = async (req, res, next) => {
+  let mssg = '';
+  try {
+      let id = req.params.id;
+      var product_delete = await myModel.categoryModel.findByIdAndDelete(id);
+      if (!product_delete) {
+          mssg = "that bai";
+          console.log(mssg);
+      } else {
+          mssg: " da xoa";
+          res.redirect('/product/Category');
+
+      }
+
+  } catch (err) {
+      res.status(500).json({ message: err.message })
+
+  }
+}
 
