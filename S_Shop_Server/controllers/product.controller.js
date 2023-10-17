@@ -66,5 +66,21 @@ exports.category =async(req,res,next) => {
 
   res.render("product/category", {listLoai: loaiSP,});
 }
+exports.addCategory = async (req, res, next) => {
+  const loaiSP = await myModel.categoryModel.find();
+  if (req.method == 'POST') {
+    let objSp = new myModel.categoryModel();
+    objSp.name = req.body.name;
+    try {
+        let new_sp = await objSp.save();
+        console.log(new_sp);
+        msg = "da them thanh cong "
+        res.redirect('/product/Category');
+    } catch (error) {
+        console.log(error);
+    }
+}
+  res.render("product/addCategory", {listLoai:loaiSP});
+}
 
 

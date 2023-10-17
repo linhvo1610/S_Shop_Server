@@ -11,5 +11,8 @@ router.get('/category',proCtl.category);
 
 router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct', proCtl.addProduct)
+router.get('/addCategory',proCtl.addCategory);
+router.post('/addCategory',proCtl.addCategory);
+
 
 module.exports = router;
