@@ -123,6 +123,8 @@ exports.registerUser = async (req, res, next) =>{
       });
 }
 
+
+
 // exports.updateUsers = (req, res, next) => {
 //     let data = {
 //         status: 1,
