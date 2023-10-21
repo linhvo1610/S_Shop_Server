@@ -56,7 +56,7 @@ exports.filter = async (req, res, next) => {
 exports.addProduct = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
 if (req.method == "POST") {
-  //xủ lí lưu
+  
   let objPr = new myModel.productModel();
     objPr.name = req.body.name;
     objPr.id_cat = req.body.id_cat;
