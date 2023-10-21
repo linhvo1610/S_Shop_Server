@@ -55,9 +55,48 @@ exports.filter = async (req, res, next) => {
 };
 exports.addProduct = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
+//   try {
+//     let objPr = new myModel.productModel();
+//     objPr.name = req.body.name;
+//     objPr.id_cat = req.body.id_cat;
+//     objPr.trademark = req.body.trademark;
+//     objPr.price = req.body.price;
+//     objPr.description = req.body.description;
+//     objPr.image = req.file.filename;
 
-  res.render("product/addProduct", {
-    listLoai: loaiSP,
+//     await objPr.save();
+//     console.log(new_sp);
+           
+
+//     // Save the product to the database
+//     await product.save();
+
+// } catch (error) {
+//   res.render("product/addProduct", {
+//     listLoai: loaiSP,
+// });
+// }
+if (req.method == "POST") {
+  //xủ lí lưu
+  let objPr = new myModel.productModel();
+    objPr.name = req.body.name;
+    objPr.id_cat = req.body.id_cat;
+    objPr.trademark = req.body.trademark;
+    objPr.price = req.body.price;
+    objPr.description = req.body.description;
+    objPr.image = req.file.filename;
+
+  // obj.image = req.files.filename;
+  try {
+    await objPr.save();
+    console.log(new_sp);
+    console.log("Đăng Kí Thành Công");
+  } catch (error) {
+    msg = "Lỗi " + error.message;
+  }
+}
+res.render("product/addProduct", {
+  listLoai: loaiSP,
 });
 }
 
@@ -66,5 +105,3 @@ exports.category =async(req,res,next) => {
 
   res.render("product/category", {listLoai: loaiSP,});
 }
-
-
