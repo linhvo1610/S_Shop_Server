@@ -64,8 +64,6 @@ if (req.method == "POST") {
     objPr.price = req.body.price;
     objPr.description = req.body.description;
     objPr.image = req.file.filename;
-
-  // obj.image = req.files.filename;
   try {
     await objPr.save();
     console.log(new_sp);
