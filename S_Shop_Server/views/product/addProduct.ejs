@@ -2,70 +2,58 @@
 <div class="container">
     <div class="page-wrapper p-t-45 p-b-50">
         <div class="wrapper wrapper--w790">
-            <div class="card card-5">
-                <div class="card-heading">
-                    <h2 class="title"> ADD Product</h2>
-                </div>
-                <div class="" style="width: 470px;">
+          <div class="card card-5">
+          <div class="card-heading">
+              <h2 class="title"> ADD Product</h2>
+          </div>
+          <div class="" style="width: 470px;">
+<form accept="" method="post" enctype="multipart/form-data">
+  <div class="container">
+    <div style="float: left;">
+        <div>
+            <img src="/S_Shop_Server/public/images/1.png" id="selectedImage"
+            width="300px"height="300px" style="margin-top: 0px;"/> 
+            <div style="width: 200px;height: 30px;">
+                <input type="file" width="auto"id="inputFile" onchange="displayImage()"
+                style="margin-left: 80px;margin-top: 6px;" name="image" />
+            </div>
+        </div>
+    </div>
+    <div style="margin-left: 310px;">
+        <div>
+            <input type="text" placeholder="Ten san pham" class="input" name="name" required />
+            <input type="number" placeholder="500$" class="inputgia" name="price" required />
+        </div>
+       
+        <div>
+            <select style="width: 150px;" id="color" name="id_cat">
+                <option value="">Loai san pham</option>
+                <% listLoai.forEach(data=> { %>
+                  <option value="<%= data.id %>"><%= data.name %></option>
+                <% } ) %>
+              </select>
 
 
-                    <div class="container">
-                        <div style="float: left;">
-                            <div>
-                                <img src="/S_Shop_Server/public/images/1.png" id="selectedImage"
-                                width="300px"height="300px" style="margin-top: 0px;"/> 
-                                <div style="width: 200px;height: 30px;">
-                                    <input type="file" width="auto"id="inputFile" onchange="displayImage()"
-                                    style="margin-left: 80px;margin-top: 6px;" />
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-left: 310px;">
-                            <div>
-                                <input type="text" placeholder="Ten san pham" class="input" required />
-                                <input type="number" placeholder="500$" class="inputgia" required />
-                            </div>
-                            <div >
-                                <p>Chon SiZe</p>
-                                <div class="checkbox-container">
-                                    <input type="checkbox" id="size36" name="size" value="36">
-                                    <label for="size36"> 36</label>
-                                  </div>
-                                  <div class="checkbox-container">
-                                    <input type="checkbox" id="size37" name="size" value="37">
-                                    <label for="size37"> 37</label>
-                                  </div>
-                                  <div class="checkbox-container1">
-                                    <input type="checkbox" id="size38" name="size" value="38">
-                                    <label for="size38"> 38</label>
-                            </div>
-                            </div>
-                            <div>
-                                <select style="width: 150px;" id="color" name="color">
-                                    <option value="">Loai san pham</option>
-                                    <% listLoai.forEach(data=> { %>
-                                      <option value="<%= data.id %>"><%= data.name %></option>
-                                    <% } ) %>
-                                  </select>
+          
+        </div>
+        <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()" name="description">
+            Để bỏ viền thẻ input trong HTML 
+        </textarea>
+        <input type="text" name="trademark" placeholder="thuong hieu" />
+        <div style="text-align: center;margin-top: 20px;">
+            <button  type="submit" >Add san pham</button>
+        </div>
+    </div>
 
+</div>
+</form>
 
-                                <input type="number" placeholder="So log: 500" class="inputsoluong" required />
-                            </div>
-                            <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()">
-                                Để bỏ viền thẻ input trong HTML, bạn có thể sử dụng CSS để tùy chỉnh giao diện của thẻ đó. Dưới đây là một ví dụ về cách làm điều này
-                            </textarea>
-                            <div style="text-align: center;margin-top: 20px;">
-                                <button style="text-align: center;width: 300px;height: 30px;color: aliceblue;background-color: rgb(212, 47, 157);border-radius: 10px;
-                                border: none;outline: none;margin-top: 26px;" 
-                                >Add san pham</button>
-                            </div>
-                        </div>
-                
-                    </div>
+             
 
 
 </div>
 </div>
+    
 </div>
 </div>
 <script>
@@ -79,11 +67,37 @@
   reader.onload = function(e) {
     image.src = e.target.result;
   };
-  
   reader.readAsDataURL(file);
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const sizeForm = document.getElementById("productForm");
+    const sizeList = document.getElementById("sizeList");
+    const sizeInput = document.getElementById("size");
+    const quantityInput = document.getElementById("quantity");
+    const addSizeButton = document.getElementById("addSize");
 
+    const sizes = [];
+
+    addSizeButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        const size = sizeInput.value;
+        const quantity = quantityInput.value;
+
+        if (size && quantity) {
+            sizes.push({ size, quantity });
+            sizeList.innerHTML = "";
+            sizes.forEach((size, index) => {
+                sizeList.innerHTML += `<li>${size.size}: ${size.quantity}</li>`;
+            });
+
+            sizeInput.value = "";
+            quantityInput.value = "";
+        }
+    });
+
+});
 </script>
+
 <style>
     .container{
         width: 800px;
@@ -121,7 +135,7 @@
         color: red;
     }
     .myTextarea{
-        width: 300px;
+        width: 400px;
         height: 130px;
         padding-left: 10px;
         border: none;
@@ -191,5 +205,72 @@
     .checkbox-container1 label {
       font-size: 16px;
     }
+ 
   </style>
-<%- include('../inc/bottom') %>
+<%- include('../inc/bottom') %> 
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Post Product</title>
+</head>
+<body>
+  <h1>Post Product</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required><br>
+
+    <select style="width: 150px;" id="color" name="color">
+      <option value="">Loai san pham</option>
+      <% listLoai.forEach(data=> { %>
+        <option value="<%= data.id %>"><%= data.name %></option>
+      <% } ) %>
+    </select>
+    <br>
+    <label for="trademark">Trademark:</label>
+    <input type="text" name="trademark" required><br>
+
+    <label for="price">Price:</label>
+    <input type="number" name="price" required><br>
+
+    <label for="sizes">Sizes:</label>
+    <input type="number" name="sizes[0][size]" placeholder="Size" required>
+    <input type="number" name="sizes[0][quantity]" placeholder="Quantity" required><br>
+    <input type="number" name="sizes[1][size]" placeholder="Size" required>
+    <input type="number" name="sizes[1][quantity]" placeholder="Quantity" required><br>
+  <!-- Add more size inputs as needed -->
+
+    <label for="description">Description:</label>
+    <textarea name="description"></textarea><br>
+
+    <label for="note">Note:</label>
+    <textarea name="note"></textarea><br>
+
+    <div>
+      <img src="/S_Shop_Server/public/images/1.png" id="selectedImage"
+      width="300px"height="300px" style="margin-top: 0px;"/> 
+      <div style="width: 200px;height: 30px;">
+          <input type="file" width="auto"id="inputFile" onchange="displayImage()"
+          style="margin-left: 80px;margin-top: 6px;" />
+      </div>
+
+    <button type="submit">Submit</button>
+  </form>
+  <script>
+        function displayImage() {
+  var input = document.getElementById("inputFile");
+  var image = document.getElementById("selectedImage");
+  
+  var file = input.files[0];
+  var reader = new FileReader();
+  
+  reader.onload = function(e) {
+    image.src = e.target.result;
+  };
+  
+  reader.readAsDataURL(file);
+}
+  </script>
+</body>
+</html> -->

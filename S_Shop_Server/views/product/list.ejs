@@ -97,7 +97,8 @@
           </tr>
         </thead>
         <tbody>
-          <% if (listProduct.length> 0) { %> <% listProduct.forEach(data=>{%>
+          <% if (listProduct.length> 0) { %> 
+            <% listProduct.forEach((data)=>{%>
               <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
                 <th>
                   <%=data._id%>
@@ -112,7 +113,7 @@
                 </td>
 
                 <td>
-                  <%=data.id_cat.name %>
+                  <%=data.name %>
                 </td>
 
                 <td>
