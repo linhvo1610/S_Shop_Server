@@ -18,7 +18,6 @@ const upload = multer({
     
 }).single('image');
 
-/* GET home page. */
 router.get('/list', proCtl.list)
 router.get('/list/filter',proCtl.filter);
 
