@@ -5,12 +5,12 @@ const productSchema = new db.mongoose.Schema(
       id_cat: { type: db.mongoose.Schema.Types.ObjectId, ref: 'categoryModel' },
       trademark: { type: String, required: true },
       price: { type: Number, required: true },
-      // sizes: [
-      //   {
-      //     size: { type: Number, required: false },
-      //     quantity: { type: Number, required: false },
-      //   },
-      // ],
+      sizes: [
+        {
+          size: { type: Number, required: false },
+          quantity: { type: Number, required: false },
+        },
+      ],
       description: { type: String, required: true },
       // note: { type: String, required: false },
       image: { type: String, required: true },
