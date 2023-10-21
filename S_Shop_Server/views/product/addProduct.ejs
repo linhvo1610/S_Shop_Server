@@ -24,6 +24,16 @@
             <input type="text" placeholder="Ten san pham" class="input" name="name" required />
             <input type="number" placeholder="500$" class="inputgia" name="price" required />
         </div>
+
+
+
+        <label for="sizes">Sizes:</label>
+    <input type="number" name="sizes[0][size]" placeholder="Size" required>
+    <input type="number" name="sizes[0][quantity]" placeholder="Quantity" required><br>
+    <input type="number" name="sizes[1][size]" placeholder="Size" required>
+    <input type="number" name="sizes[1][quantity]" placeholder="Quantity" required><br>
+
+
        
         <div>
             <select style="width: 150px;" id="color" name="id_cat">
@@ -239,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <input type="number" name="sizes[0][quantity]" placeholder="Quantity" required><br>
     <input type="number" name="sizes[1][size]" placeholder="Size" required>
     <input type="number" name="sizes[1][quantity]" placeholder="Quantity" required><br>
-  <!-- Add more size inputs as needed -->
+
 
     <label for="description">Description:</label>
     <textarea name="description"></textarea><br>
@@ -273,4 +283,4 @@ document.addEventListener("DOMContentLoaded", function () {
 }
   </script>
 </body>
-</html> -->
+</html> 

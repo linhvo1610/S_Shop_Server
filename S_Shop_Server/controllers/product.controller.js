@@ -64,6 +64,12 @@ if (req.method == "POST") {
     objPr.price = req.body.price;
     objPr.description = req.body.description;
     objPr.image = req.file.filename;
+    objPr.sizes = req.body.sizes.map((size) => ({
+      size: size.size,
+      quantity: size.quantity,
+    }))
+
+
   try {
     await objPr.save();
     console.log(new_sp);
