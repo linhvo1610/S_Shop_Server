@@ -66,7 +66,7 @@ if (req.method == "POST") {
     objPr.image = req.file.filename;
     objPr.sizes = req.body.sizes.map((size) => ({
       size: size.size,
-      quantity: size.quantity,
+      quantity: size.quantity
     }))
 
 
