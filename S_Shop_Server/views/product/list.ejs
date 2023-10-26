@@ -91,7 +91,6 @@
             <th>Giá</th>
             <th>Số lượng</th>
             <th>Kích cỡ</th>
-            <th>Miêu tả</th>
 
             <th>&nbsp;</th>
           </tr>
@@ -120,13 +119,22 @@
                   <%=data.price %>
                 </td>
                 <td>
-                  <%=data.quantity %>
-                </td>
+                      <!-- <% data.sizes.forEach(function(size) { %>
+                          <li><%= size.quantity %></li>
+                      <% }); %> -->
+                        <% let totalQuantity = 0; %> <!-- Khởi tạo biến totalQuantity -->
+                        <% data.sizes.forEach(function(size) { %>
+                            <% totalQuantity += size.quantity; %> <!-- Tính tổng số lượng -->
+                        <% }); %>
+                        <%= totalQuantity %> <!-- Hiển thị tổng số lượng -->
+              </td>
                 <td>
-                  <%=data.size %>
-                </td>
-                <td>
-                  <%=data.description %>
+                  <!-- <% data.sizes.forEach(function(size) { %>
+                    <li><%= size.size %></li>
+                <% }); %> -->
+                    <% var sizes = data.sizes.map(function(size) { return size.size; }); %> <!-- Tạo mảng sizes chứa các kích cỡ -->
+                    <% sizes.sort(function(a, b) { return a - b; }); %> <!-- Sắp xếp kích cỡ từ thấp đến cao -->
+                    <%= sizes.join(', ') %> <!-- Hiển thị kích cỡ với dấu phẩy -->
                 </td>
 
                 <td>
