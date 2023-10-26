@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 
 var apiRouter = require('./routes/api');
 var addressRouter = require('./routes/address.route');
+var cartRouter = require('./routes/cart.route');
 
 
 var loginRouter = require('./routes/login');
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/api',apiRouter);
 
 app.use('/address',addressRouter);
+app.use('/cart',cartRouter);
 
 app.use('/product',productRouter);
 
