@@ -119,9 +119,6 @@
                   <%=data.price %>
                 </td>
                 <td>
-                      <!-- <% data.sizes.forEach(function(size) { %>
-                          <li><%= size.quantity %></li>
-                      <% }); %> -->
                         <% let totalQuantity = 0; %> <!-- Khởi tạo biến totalQuantity -->
                         <% data.sizes.forEach(function(size) { %>
                             <% totalQuantity += size.quantity; %> <!-- Tính tổng số lượng -->
@@ -129,9 +126,6 @@
                         <%= totalQuantity %> <!-- Hiển thị tổng số lượng -->
               </td>
                 <td>
-                  <!-- <% data.sizes.forEach(function(size) { %>
-                    <li><%= size.size %></li>
-                <% }); %> -->
                     <% var sizes = data.sizes.map(function(size) { return size.size; }); %> <!-- Tạo mảng sizes chứa các kích cỡ -->
                     <% sizes.sort(function(a, b) { return a - b; }); %> <!-- Sắp xếp kích cỡ từ thấp đến cao -->
                     <%= sizes.join(', ') %> <!-- Hiển thị kích cỡ với dấu phẩy -->
@@ -143,7 +137,7 @@
                           class="fa fa-trash" style="font-size: 20px; color: rgb(245, 65, 65)"></i></a></span>
                   </button>
                   <button type="submit">
-                    <span><a href="/users/edit/<%=data._id%>">
+                    <span><a href="/product/updateProduct/<%=data._id%>">
                         <i class="fa fa-pencil-square-o" style="
                       font-size: 20px;
                       color: rgb(65, 245, 92);
