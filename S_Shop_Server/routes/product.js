@@ -27,4 +27,7 @@ router.get('/category',proCtl.category);
 router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct',upload, proCtl.addProduct)
 
+router.get('/updateProduct/:idsp', proCtl.updateProduct)
+router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
+
 module.exports = router;

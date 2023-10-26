@@ -10,29 +10,49 @@
 <form accept="" method="post" enctype="multipart/form-data">
   <div class="container">
     <div style="float: left;">
-        <div>
-            <img src="/S_Shop_Server/public/images/1.png" id="selectedImage"
+        <!-- <div>
+            <img id="selectedImage"
+            src="/<%= objPr.image %>" class="rounded-circle"
             width="300px"height="300px" style="margin-top: 0px;"/> 
             <div style="width: 200px;height: 30px;margin-bottom: 20px;">
                 <input type="file" width="auto"id="inputFile" onchange="displayImage()"
-                style="margin-left: 80px;margin-top: 6px;" name="image" />
+                style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image  %>" name="image" />
+            </div>
+        </div> -->
+        <div>
+            <img id="selectedImage" src="/<%= objPr.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+            <div style="width: 200px;height: 30px;margin-bottom: 20px;">
+                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image" />
             </div>
         </div>
+        
+        
     </div>
     <div style="margin-left: 310px;">
         <div>
-            <input type="text" placeholder="Ten san pham" class="input" name="name" required />
-            <input type="number" placeholder="500$" class="inputgia" name="price" required />
+            <input type="text" placeholder="Ten san pham" class="input" name="name" value="<%= objPr.name  %>" required />
+            <input type="number" placeholder="500$" class="inputgia" name="price" value="<%= objPr.price  %>" required />
         </div>
 
 
     <label for="sizes">Sizes:</label>
+    <% objPr.sizes.forEach((size, index) => { %>
+        <div class="input-row">
+          <label for="size">Size:</label>
+          <input type="text" name="sizes[<%= index %>][size]" value="<%= size.size %>">
+          <label for="quantity">Quantity:</label>
+          <input type="text" name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
+        </div>
+      <% }) %>
+      
+      
     <div class="input-row">
     <input type="number" id="quantityInput" placeholder="Nhập số lượng Sizes"
-     min="1" max="20" required style="width: 200px;">
+     min="1" max="20" style="width: 200px;">
     <button onclick="generateInputFields()" style="background-color: rgb(146, 146, 71);padding: 2px;border-radius: 10px;"
     >Generate</button>
     </div>
+
     
     <div id="inputFieldsContainer"></div>
     
@@ -52,24 +72,26 @@
           inputFieldsContainer.innerHTML += inputFields;
         }
       }
-    </script>
+    </script> 
     
-       
+    
         <div>
             <select style="width: 150px;" id="color" name="id_cat">
-                <option value="">Loai san pham</option>
-                <% listLoai.forEach(data=> { %>
-                  <option value="<%= data.id %>"><%= data.name %></option>
-                <% } ) %>
+                <option value="">Loại sản phẩm</option>
+                <% listLoai.forEach((data) => { %>
+                  <% let selected = ''; %>
+                  <% if (String(data._id) === String(objPr.id_cat)) { %>
+                    <% selected = 'selected'; %>
+                  <% } %>
+                  <option <%= selected %> value="<%= data._id %>"><%= data.name %></option>
+                <% }) %>
               </select>
-
-
-          
+              
+              
         </div>
-        <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()" name="description">
-            Để bỏ viền thẻ input trong HTML 
-        </textarea>
-        <input type="text" name="trademark" placeholder="thuong hieu" class="myInput" />
+
+        <input type="text" name="description" value="<%= objPr.description  %>" />
+        <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
         <div style="text-align: center;margin-top: 20px;">
             <button  type="submit" >Add san pham</button>
         </div>
