@@ -39,18 +39,37 @@
             <div class="collapse" id="filterCollapse">
               <div class="card card-body">
                 <h4>Filter Options</h4>
-                <form id="filterForm" action="/product/list/filter" method="post">
+                <form id="filterForm" action="/product/list/filter" method="get">
+
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="size">Size:</label>
-                        <select class="form-control" id="size" name="size">
+                        <!-- <select class="form-control" id="size" name="size">
                           <option value="">All</option>
                           <option value="8">8</option>
                           <option value="9">9</option>
                           <option value="10">10</option>
                           <option value="11">11</option>
-                        </select>
+                        </select> -->
+
+                        <!-- Trong list.ejs -->
+<!-- Trong list.ejs -->
+<select class="form-control" id="size" name="size">
+  <option value="">All Sizes</option>
+  <% var displayedSizes = []; %>
+  <% listProduct.forEach(function(product) { %>
+    <% product.sizes.forEach(function(size) { %>
+      <% if (!displayedSizes.includes(size.size)) { %>
+        <option value="<%= size.size %>" ><%= size.size %></option>
+        <% displayedSizes.push(size.size); %>
+      <% } %>
+    <% }); %>
+  <% }); %>
+</select>
+
+
+
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -97,7 +116,7 @@
         </thead>
         <tbody>
           <% if (listProduct.length> 0) { %> 
-            <% listProduct.forEach((data)=>{%>
+            <% listProduct.reverse().forEach((data)=>{%>
               <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
                 <th>
                   <%=data._id%>

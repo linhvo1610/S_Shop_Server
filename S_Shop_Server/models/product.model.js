@@ -12,7 +12,6 @@ const productSchema = new db.mongoose.Schema(
         },
       ],
       description: { type: String, required: true },
-      // note: { type: String, required: false },
       image: { type: String, required: true },
     },
     { collection: 'products' }
