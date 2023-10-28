@@ -42,15 +42,22 @@ exports.filter = async (req, res, next) => {
       dieu_kien={id_cat:id_cat};
       console.log(dieu_kien);
   }
+
   var posts = await myModel.productModel.find(dieu_kien).populate("id_cat"); // ten cot tham chieu
 
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
 
+  // const selectedSize = req.query.size;
+  // const filteredProducts = posts.filter((product) => {
+  //   return product.sizes.some((size) => size.size === selectedSize);
+  // });
+
   res.render("product/list", {
     listProduct: posts,
     listLoai: loaiSP,
+    // product: filteredProducts,
 });
 };
 exports.addProduct = async (req, res, next) => {
@@ -72,6 +79,7 @@ if (req.method == "POST") {
 
   try {
     await objPr.save();
+    
     console.log(new_sp);
     console.log("Đăng Kí Thành Công");
   } catch (error) {
