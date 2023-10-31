@@ -7,13 +7,12 @@ const productSchema = new db.mongoose.Schema(
       price: { type: Number, required: true },
       sizes: [
         {
-          size: { type: Number, required: true },
-          quantity: { type: Number, required: true },
+          size: { type: Number, required: false },
+          quantity: { type: Number, required: false },
         },
       ],
-      description: { type: String, required: false },
-      note: { type: String, required: true },
-      image: { type: String, required: false },
+      description: { type: String, required: true },
+      image: { type: String, required: true },
     },
     { collection: 'products' }
   );

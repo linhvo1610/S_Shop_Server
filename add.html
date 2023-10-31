@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div style="float: left;">
+            <img src="/S_Shop_Server//public//images/2.jpg" width="300px"height="300px" style="margin-top: 20px;"/> 
+        </div>
+        <div style="margin-left: 310px;">
+            <div>
+                <input type="text" placeholder="Ten san pham" class="input" required />
+                <input type="text" placeholder="500$" class="inputgia" required />
+            </div>
+            <div >
+                <p>Chon Size</p>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="size36" name="size" value="36">
+                    <label for="size36"> 36</label>
+                  </div>
+                  <div class="checkbox-container">
+                    <input type="checkbox" id="size37" name="size" value="37">
+                    <label for="size37"> 37</label>
+                  </div>
+                  <div class="checkbox-container1">
+                    <input type="checkbox" id="size38" name="size" value="38">
+                    <label for="size38"> 38</label>
+            </div>
+            </div>
+            <div>
+                <input type="text" placeholder="Loai san pham" class="input" required />
+                <input type="text" placeholder="So log: 500" class="inputgia" required />
+            </div>
+            <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()">
+                Để bỏ viền thẻ input trong HTML, bạn có thể sử dụng CSS để tùy chỉnh giao diện của thẻ đó. Dưới đây là một ví dụ về cách làm điều nàyjrjr
+            </textarea>
+            <div style="text-align: center;margin-top: 20px;">
+                <button style="text-align: center;width: 300px;height: 30px;color: aliceblue;background-color: rgb(212, 47, 157);border-radius: 10px;
+                border: none;outline: none;" 
+                >Add san pham</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+<style>
+    .container{
+        width: 800px;
+        height: 400px;
+        margin: auto;
+        margin-top: 40px;
+    }
+    .input{
+        width: 200px;
+        height: 30px;
+        border-width: 1px;
+        border-radius: 10px;
+        border-color: blue;
+        padding-left: 10px;
+        border: none;
+        outline: none;
+    }
+    .inputgia{
+        width: 70px;
+        height: 30px;
+        padding-left: 10px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        color: red;
+    }
+    .myTextarea{
+        width: 280px;
+        height: 130px;
+        padding-left: 10px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+    }
+    .size{
+        background-color: beige;
+        border-radius: 3px;
+        width: 30px;
+        height: auto;
+        float: left;
+        text-align: center;
+        color: black;
+    }
+</style>
+<style>
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      float: left;
+    }
+  
+    .checkbox-container input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    .checkbox-container input[type="checkbox"]:checked {
+      background-color: #2196F3;
+      border-color: #2196F3;
+    }
+  
+    .checkbox-container label {
+      font-size: 16px;
+    }
+    .checkbox-container1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    .checkbox-container1 input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    .checkbox-container1 input[type="checkbox"]:checked {
+      background-color: #2196F3;
+      border-color: #2196F3;
+    }
+  
+    .checkbox-container1 label {
+      font-size: 16px;
+    }
+  </style>
+</html>

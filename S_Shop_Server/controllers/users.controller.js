@@ -169,3 +169,26 @@ exports.addUser = async (req, res, next)=>{
 //             {msg:msg})
 
 // }
+exports.phantrang = async (req, res, next) => {
+    const page = parseInt(req.query.page) || 1; // Trang hiện tại
+    const limit = 9; // Số lượng bản ghi trên mỗi trang
+  
+    try {
+      const totalPosts = await myModel.usersModel.countDocuments();
+      const totalPages = Math.ceil(totalPosts / limit);
+  
+      const posts = await myModel.usersModel
+        .find()
+        .skip((page - 1) * limit)
+        .limit(limit);
+  
+      res.render("users/users", {
+        totalPages,
+        currentPage: page,
+        list: posts,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  };

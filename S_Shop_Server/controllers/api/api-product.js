@@ -2,7 +2,7 @@ const MyModel = require("../../models/product.model")
 exports.listProduct = async (req, res, next) => {
     let dataR = {  }
 
- 
+
     //code xử lý lấy danh sách
     let list = []
     try {

@@ -1,0 +1,282 @@
+<%- include('../inc/top') %>
+<div class="container">
+    <div class="page-wrapper p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+          <div class="card card-5">
+          <div class="card-heading">
+              <h2 class="title"> ADD Product</h2>
+          </div>
+          <div class="" style="width: 470px;">
+<form accept="" method="post" enctype="multipart/form-data">
+  <div class="container">
+    <div style="float: left;">
+        <!-- <div>
+            <img id="selectedImage"
+            src="/<%= objPr.image %>" class="rounded-circle"
+            width="300px"height="300px" style="margin-top: 0px;"/> 
+            <div style="width: 200px;height: 30px;margin-bottom: 20px;">
+                <input type="file" width="auto"id="inputFile" onchange="displayImage()"
+                style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image  %>" name="image" />
+            </div>
+        </div> -->
+        <div>
+            <img id="selectedImage" src="/<%= objPr.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+            <div style="width: 200px;height: 30px;margin-bottom: 20px;">
+                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image" />
+            </div>
+        </div>
+        
+        
+    </div>
+    <div style="margin-left: 310px;">
+        <div>
+            <input type="text" placeholder="Ten san pham" class="input" name="name" value="<%= objPr.name  %>" required />
+            <input type="number" placeholder="500$" class="inputgia" name="price" value="<%= objPr.price  %>" required />
+        </div>
+
+
+    <label for="sizes">Sizes:</label>
+    <% objPr.sizes.forEach((size, index) => { %>
+        <div class="input-row">
+          <label for="size">Size:</label>
+          <input type="text" name="sizes[<%= index %>][size]" value="<%= size.size %>">
+          <label for="quantity">Quantity:</label>
+          <input type="text" name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
+        </div>
+      <% }) %>
+      
+      
+    <div class="input-row">
+    <input type="number" id="quantityInput" placeholder="Nhập số lượng Sizes"
+     min="1" max="20" style="width: 200px;">
+    <button onclick="generateInputFields()" style="background-color: rgb(146, 146, 71);padding: 2px;border-radius: 10px;"
+    >Generate</button>
+    </div>
+
+    
+    <div id="inputFieldsContainer"></div>
+    
+    <script>
+      function generateInputFields() {
+        var quantity = document.getElementById("quantityInput").value;
+        var inputFieldsContainer = document.getElementById("inputFieldsContainer");
+        inputFieldsContainer.innerHTML = "";
+    
+        for (var i = 0; i < quantity; i++) {
+          var inputFields = `
+          <div class="input-row">
+            <input type="number" name="sizes[${i}][size]" placeholder="Size" ${i === 0 ? 'required' : ''}>
+            <input type="number" name="sizes[${i}][quantity]" placeholder="Quantity" ${i === 0 ? 'required' : ''}><br>
+          </div>
+          `;
+          inputFieldsContainer.innerHTML += inputFields;
+        }
+      }
+    </script> 
+    
+    
+        <div>
+            <select style="width: 150px;" id="color" name="id_cat">
+                <option value="">Loại sản phẩm</option>
+                <% listLoai.forEach((data) => { %>
+                  <% let selected = ''; %>
+                  <% if (String(data._id) === String(objPr.id_cat)) { %>
+                    <% selected = 'selected'; %>
+                  <% } %>
+                  <option <%= selected %> value="<%= data._id %>"><%= data.name %></option>
+                <% }) %>
+              </select>
+              
+              
+        </div>
+
+        <input type="text" name="description" value="<%= objPr.description  %>" />
+        <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
+        <div style="text-align: center;margin-top: 20px;">
+            <button  type="submit" >Add san pham</button>
+        </div>
+    </div>
+
+</div>
+</form>
+
+             
+
+
+</div>
+</div>
+    
+</div>
+</div>
+<script>
+    function displayImage() {
+  var input = document.getElementById("inputFile");
+  var image = document.getElementById("selectedImage");
+  
+  var file = input.files[0];
+  var reader = new FileReader();
+  
+  reader.onload = function(e) {
+    image.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const sizeForm = document.getElementById("productForm");
+    const sizeList = document.getElementById("sizeList");
+    const sizeInput = document.getElementById("size");
+    const quantityInput = document.getElementById("quantity");
+    const addSizeButton = document.getElementById("addSize");
+
+    const sizes = [];
+
+    addSizeButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        const size = sizeInput.value;
+        const quantity = quantityInput.value;
+
+        if (size && quantity) {
+            sizes.push({ size, quantity });
+            sizeList.innerHTML = "";
+            sizes.forEach((size, index) => {
+                sizeList.innerHTML += `<li>${size.size}: ${size.quantity}</li>`;
+            });
+
+            sizeInput.value = "";
+            quantityInput.value = "";
+        }
+    });
+
+});
+</script>
+
+<style>
+    .container{
+        width: 800px;
+        height: auto;
+        margin: auto;
+        margin-top: 40px;
+    }
+    .myTextarea {
+    border: none;
+  }
+  .myInput {
+    word-wrap: break-word;
+    /* hoặc */
+    overflow-wrap: break-word;
+    width: 60%;
+  }
+    .input{
+        width: 200px;
+        height: 30px;
+        border-width: 1px;
+        border-radius: 10px;
+        border-color: blue;
+        border: none;
+        outline: none;
+        font-size: 18px;
+
+    }
+    .inputgia{
+        width: 130px;
+        height: 30px;
+        padding-left: 10px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        color: red;
+    }
+    .inputsoluong{
+        width: auto;
+        height: 30px;
+        padding-left: 40px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        color: red;
+    }
+    .myTextarea{
+        width: 400px;
+        height: 130px;
+        padding-left: 10px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+    }
+    .size{
+        background-color: beige;
+        border-radius: 3px;
+        width: 30px;
+        height: auto;
+        float: left;
+        text-align: center;
+        color: black;
+    }
+</style>
+<style>
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      float: left;
+    }
+  
+    .checkbox-container input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    .checkbox-container input[type="checkbox"]:checked {
+      background-color: #2196F3;
+      border-color: #2196F3;
+    }
+  
+    .checkbox-container label {
+      font-size: 16px;
+      margin-right: 15px;
+    }
+    .checkbox-container1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    .checkbox-container1 input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    .checkbox-container1 input[type="checkbox"]:checked {
+      background-color: #2196F3;
+      border-color: #2196F3;
+    }
+  
+    .checkbox-container1 label {
+      font-size: 16px;
+    }
+    .input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+ 
+  </style>
+  <script>
+    function trimTextarea() {
+      var textarea = document.getElementById("myTextarea");
+      textarea.value = textarea.value.trim();
+    }
+  </script>
+<%- include('../inc/bottom') %> 
