@@ -20,8 +20,18 @@ const productSchema = new db.mongoose.Schema(
 const categorySchema = new db.mongoose.Schema({
     name:{type:String,required:true}
 },{collection:'category'});
+const CommentSchema = new db.mongoose.Schema({
+  // idproduct : {type: db.mongoose.Schema.Types.ObjectId, required: false, ref: 'productModel'},
+  idProduct: {type: String, required:false},
+  idUser: {type: String, required:false},
+  comment: {type: String, required:false}
+},{
+  collection: 'Comment'
+});
+
+let CommentModel = db.mongoose.model('commentModel',CommentSchema)
 let productModel = db.mongoose.model('productModel',productSchema);
 let categoryModel=db.mongoose.model('categoryModel',categorySchema);
 module.exports={
-    productModel,categoryModel
+    productModel,categoryModel,CommentModel
 }
