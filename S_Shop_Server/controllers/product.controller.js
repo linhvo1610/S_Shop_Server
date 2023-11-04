@@ -91,6 +91,7 @@ if (req.method == "POST") {
       size: size.size,
       quantity: size.quantity
     }))
+    objPr.status = req.body.status;
 
 
   try {
@@ -145,6 +146,7 @@ exports.updateProduct = async(req, res, next) => {
         quantity: size.quantity,
       }))
       objPr._id = req.params.idsp;
+      objPr.status = req.body.status;
   
     try {
       // await objPr.save();
