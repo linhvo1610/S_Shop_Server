@@ -152,7 +152,7 @@ exports.updateProduct = async(req, res, next) => {
       // await objPr.save();
       await myModel.productModel.findByIdAndUpdate({ _id: req.params.idsp }, objPr)
       console.log(new_sp);
-      console.log("Đăng Kí Thành Công");
+    
     } catch (error) {
       msg = "Lỗi " + error.message;
     }
