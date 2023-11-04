@@ -110,8 +110,8 @@
             <th>Giá</th>
             <th>Số lượng</th>
             <th>Kích cỡ</th>
-
-            <th>&nbsp;</th>
+ <th>Trạng thái </th>
+            <th>Chỉnh sửa</th>
           </tr>
         </thead>
         <tbody>
@@ -149,12 +149,42 @@
                     <% sizes.sort(function(a, b) { return a - b; }); %> <!-- Sắp xếp kích cỡ từ thấp đến cao -->
                     <%= sizes.join(', ') %> <!-- Hiển thị kích cỡ với dấu phẩy -->
                 </td>
+                <% if(data.status==true){ %>
+                  <td>
+                    <div style="color: green;">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="checkbox_checked" checked>
+                      
+                        
+                      </div>
+                      
+                    
+                    </div>
+                  </td>
+                  
+                  
+                  <% } else{ %>
+                    <td>
+ <div style="color: green;">
 
+                      <div class="form-check form-switch"> 
+                         <input class="form-check-input" type="checkbox" role="switch" id="checkbox_status" >
+
+
+                        </div>
+                    
+                    </div>
+                    </td>
+                   
+                    <% } %>
+                  
+                 
+               
                 <td>
-                  <button type="submit">
-                    <span><a href="/users/delete/<%=data._id%>" onclick="return confirm_alert(this);"><i
-                          class="fa fa-trash" style="font-size: 20px; color: rgb(245, 65, 65)"></i></a></span>
-                  </button>
+                  
+                 
+                 
+
                   <button type="submit">
                     <span><a href="/product/updateProduct/<%=data._id%>">
                         <i class="fa fa-pencil-square-o" style="
@@ -167,27 +197,7 @@
                   </button>
                 </td>
               </tr>
-              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">Bạn có muốn xóa người dùng này?</div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Close
-                      </button>
-                      <button type="button" class="btn btn-primary">
-                        <a href="/users/delete/<%=data._id%>">Delete</a>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
               <%} ) %>
                 <% } else { %>
                   <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
@@ -209,6 +219,29 @@
       showDialog();
     });
   </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkbox = document.getElementById("checkbox_checked");
+    
+        checkbox.addEventListener("change", function () {
+          if (checkbox.checked) {
+          data.status=false;
+          
+
+
+          
+              
+
+           
+          } else {
+           
+            data.status = true;
+          }
+    
+          // You can also perform other actions here based on the checkbox state.
+        });
+      });
+    </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
