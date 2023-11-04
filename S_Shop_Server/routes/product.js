@@ -23,6 +23,11 @@ router.get('/list/filter',proCtl.filter);
 
 router.post('/locPrice', proCtl.locPrice)
 router.get('/category',proCtl.category);
+router.get('/addCategory',proCtl.addCategory);
+router.post('/addCategory',proCtl.addCategory);
+router.get('/updateCategory/:idTl',proCtl.updateCategory);
+router.post('/updateCategory/:idTl',proCtl.updateCategory);
+router.get('/deleteCategory/:id', proCtl.deleteCategory);
 
 router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct',upload, proCtl.addProduct)
