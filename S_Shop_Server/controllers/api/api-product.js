@@ -1,12 +1,16 @@
 const MyModel = require("../../models/product.model")
 exports.listProduct = async (req, res, next) => {
     let dataR = {  }
-
- 
     //code xử lý lấy danh sách
     let list = []
+    let dieu_kien =null;
+    if(typeof(req.query._id)!='undefined'){
+        let _id =req.query._id;
+        dieu_kien={_id:_id};
+        console.log(dieu_kien);
+    }
     try {
-        list = await MyModel.productModel.find();
+        list = await MyModel.productModel.find(dieu_kien);
         dataR.data = list;
     }
     catch (err) {

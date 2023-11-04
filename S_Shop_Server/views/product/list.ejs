@@ -39,18 +39,37 @@
             <div class="collapse" id="filterCollapse">
               <div class="card card-body">
                 <h4>Filter Options</h4>
-                <form id="filterForm" action="/product/list/filter" method="post">
+                <form id="filterForm" action="/product/list/filter" method="get">
+
                   <div class="row">
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="size">Size:</label>
-                        <select class="form-control" id="size" name="size">
+                        <!-- <select class="form-control" id="size" name="size">
                           <option value="">All</option>
                           <option value="8">8</option>
                           <option value="9">9</option>
                           <option value="10">10</option>
                           <option value="11">11</option>
-                        </select>
+                        </select> -->
+
+                        <!-- Trong list.ejs -->
+<!-- Trong list.ejs -->
+<select class="form-control" id="size" name="size">
+  <option value="">All Sizes</option>
+  <% var displayedSizes = []; %>
+  <% listProduct.forEach(function(product) { %>
+    <% product.sizes.forEach(function(size) { %>
+      <% if (!displayedSizes.includes(size.size)) { %>
+        <option value="<%= size.size %>" ><%= size.size %></option>
+        <% displayedSizes.push(size.size); %>
+      <% } %>
+    <% }); %>
+  <% }); %>
+</select>
+
+
+
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -78,7 +97,7 @@
           
 
       <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
-        <button type="button" class="btn btn-success" onclick="location.href='http://localhost:3000/users/add'">
+        <button type="button" class="btn btn-success" onclick="location.href='http://localhost:3000/product/addProduct'">
           Add Product
         </button>
       </div>
@@ -91,13 +110,13 @@
             <th>Giá</th>
             <th>Số lượng</th>
             <th>Kích cỡ</th>
-            <th>Miêu tả</th>
 
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          <% if (listProduct.length> 0) { %> <% listProduct.forEach(data=>{%>
+          <% if (listProduct.length> 0) { %> 
+            <% listProduct.reverse().forEach((data)=>{%>
               <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
                 <th>
                   <%=data._id%>
@@ -112,20 +131,23 @@
                 </td>
 
                 <td>
-                  <%=data.id_cat.name %>
+                  <%=data.name %>
                 </td>
 
                 <td>
                   <%=data.price %>
                 </td>
                 <td>
-                  <%=data.quantity %>
-                </td>
+                        <% let totalQuantity = 0; %> <!-- Khởi tạo biến totalQuantity -->
+                        <% data.sizes.forEach(function(size) { %>
+                            <% totalQuantity += size.quantity; %> <!-- Tính tổng số lượng -->
+                        <% }); %>
+                        <%= totalQuantity %> <!-- Hiển thị tổng số lượng -->
+              </td>
                 <td>
-                  <%=data.size %>
-                </td>
-                <td>
-                  <%=data.description %>
+                    <% var sizes = data.sizes.map(function(size) { return size.size; }); %> <!-- Tạo mảng sizes chứa các kích cỡ -->
+                    <% sizes.sort(function(a, b) { return a - b; }); %> <!-- Sắp xếp kích cỡ từ thấp đến cao -->
+                    <%= sizes.join(', ') %> <!-- Hiển thị kích cỡ với dấu phẩy -->
                 </td>
 
                 <td>
@@ -134,7 +156,7 @@
                           class="fa fa-trash" style="font-size: 20px; color: rgb(245, 65, 65)"></i></a></span>
                   </button>
                   <button type="submit">
-                    <span><a href="/users/edit/<%=data._id%>">
+                    <span><a href="/product/updateProduct/<%=data._id%>">
                         <i class="fa fa-pencil-square-o" style="
                       font-size: 20px;
                       color: rgb(65, 245, 92);
