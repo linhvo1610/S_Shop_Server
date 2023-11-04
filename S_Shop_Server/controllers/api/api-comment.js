@@ -1,4 +1,4 @@
-const MyModel = require("../../models/product.model")
+const ProModel = require('../../models/model');
 
 
 
@@ -17,7 +17,7 @@ exports.lisetComment = async (req,res,next) =>{
 
     let list = [];
     try {
-        list = await MyModel.CommentModel.find(dieu_kien).populate("id_user").populate("id_product");
+        list = await ProModel.binhluanModel.find(dieu_kien).populate("id_user").populate("id_product");
         dataR.data = list;
 
     } catch (err) {
@@ -42,7 +42,7 @@ exports.listCommentUP = async (req,res,next) =>{
 
     let list = []
     try {
-        list = await MyModel.CommentModel.findById(req.params.idcomment);
+        list = await ProModel.binhluanModel.findById(req.params.idcomment);
         dataR.data = list;
         // dataR.data = listU;
     }
@@ -63,12 +63,13 @@ exports.postComment = async (req,res,next) =>{
     }
 
     if(req.method == 'POST'){
-        let obj = new MyModel.CommentModel();
+        let obj = new ProModel.binhluanModel();
 
         // obj.idproduct = req.body.idproduct;
         obj.id_user = req.body.id_user;
         obj.id_product  = req.body.id_product;
         obj.comment = req.body.comment;
+
 
         try{
             let new_commnent = await obj.save();
@@ -90,12 +91,12 @@ exports.deleteComment = async (req, res, next) => {
         msg: "Xoa thanh cong"
     }
 
-    let objUser = await MyModel.CommentModel.findById(  req.params.idcomment  );
+    let objUser = await ProModel.binhluanModel.findById(  req.params.idcomment  );
     console.log( objUser);
 
     try {
 
-        await MyModel.CommentModel.findByIdAndDelete({ _id: req.params.idcomment });
+        await ProModel.binhluanModel.findByIdAndDelete({ _id: req.params.idcomment });
         console.log("Xoa thanh cong");
 
     } catch (err) {
@@ -115,7 +116,7 @@ exports.updateComment = async (req, res, next) => {
 
         try {
 
-            await MyModel.CommentModel.updateOne({ _id: req.params.idcomment },
+            await ProModel.binhluanModel.updateOne({ _id: req.params.idcomment },
             {
                 $set: {
                     id_product: req.body.id_product,
