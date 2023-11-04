@@ -13,6 +13,16 @@ const userSchema = new db.mongoose.Schema(
     },
     {collection:'users'}
 );
+const binhluanSchema = new db.mongoose.Schema({
+    // idproduct : {type: db.mongoose.Schema.Types.ObjectId, required: false, ref: 'productModel'},
+    id_product: {type: db.mongoose.Schema.Types.ObjectId,ref:'productModel'},
+    id_user: {type: db.mongoose.Schema.Types.ObjectId, ref: 'usersModel'},
+
+    comment: {type: String, required:true}
+},{
+    collection: 'binhluan'
+});
+
 
 
 // const categorySchema = new db.mongoose.Schema(
@@ -41,8 +51,9 @@ const userSchema = new db.mongoose.Schema(
 
 
 let usersModel = db.mongoose.model('usersModel',userSchema);
+let binhluanModel = db.mongoose.model('binhluanModel', binhluanSchema);
 
 
 module.exports={
-   usersModel
+   usersModel,binhluanModel
 }

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const MyModel = require("../models/product.model")
+const MyModel = require("../models/model");
 var apiU=require('../controllers/api/api-user');
 var apiP = require ('../controllers/api/api-product')
 var apiC = require ('../controllers/api/api-comment');
