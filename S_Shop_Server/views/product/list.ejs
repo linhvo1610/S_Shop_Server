@@ -161,8 +161,18 @@
                     <div style="color: green;">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="checkbox_checked" checked>
-                      
                         
+                        <script>
+                          const mongoose = require('mongoose');
+const List = mongoose.model('productModel');
+List.updateOne({ _id:data._id }, { $set: { status: false } }, (err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("Cập nhật thành công");
+    }
+});
+                        </script>
                       </div>
                       
                     
@@ -176,7 +186,18 @@
 
                       <div class="form-check form-switch"> 
                          <input class="form-check-input" type="checkbox" role="switch" id="checkbox_status" >
+                       <script>
+                     const mongoose = require('mongoose');
 
+List.updateOne({ _id:data._id }, { $set: { status: true } }, (err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("Cập nhật thành công");
+    }
+});
+
+                       </script>
 
                         </div>
                     
@@ -232,7 +253,13 @@
     
         checkbox.addEventListener("change", function () {
           if (checkbox.checked) {
-          data.status=false;
+            
+
+          
+
+
+          
+          
           
 
 
