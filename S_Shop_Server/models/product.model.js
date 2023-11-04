@@ -16,7 +16,7 @@ const productSchema = new db.mongoose.Schema(
     },
     { collection: 'products' }
   );
-  
+
 const categorySchema = new db.mongoose.Schema({
     name:{type:String,required:true}
 },{collection:'category'});

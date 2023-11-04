@@ -55,18 +55,25 @@
 
                         <!-- Trong list.ejs -->
 <!-- Trong list.ejs -->
+<% var allSizes = []; %>
+<% listProduct.forEach(function(product) { %>
+  <% product.sizes.forEach(function(size) { %>
+    <% if (!allSizes.includes(size.size)) { %>
+      <% allSizes.push(size.size); %>
+    <% } %>
+  <% }); %>
+<% }); %>
+
+<% var initialSizes = allSizes.slice(); %>
+
+<!-- Size Dropdown -->
 <select class="form-control" id="size" name="size">
   <option value="">All Sizes</option>
-  <% var displayedSizes = []; %>
-  <% listProduct.forEach(function(product) { %>
-    <% product.sizes.forEach(function(size) { %>
-      <% if (!displayedSizes.includes(size.size)) { %>
-        <option value="<%= size.size %>" ><%= size.size %></option>
-        <% displayedSizes.push(size.size); %>
-      <% } %>
-    <% }); %>
+  <% initialSizes.forEach(function(size) { %>
+    <option value="<%= size %>"><%= size %></option>
   <% }); %>
 </select>
+
 
 
 
@@ -97,7 +104,7 @@
           
 
       <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
-        <button type="button" class="btn btn-success" onclick="location.href='http://localhost:3000/product/addProduct'">
+        <button type="button" class="btn btn-success" onclick="location.href='http://10.24.1.225:3000/product/addProduct'">
           Add Product
         </button>
       </div>
