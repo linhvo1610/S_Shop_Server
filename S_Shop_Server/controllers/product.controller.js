@@ -91,7 +91,7 @@ if (req.method == "POST") {
       size: size.size,
       quantity: size.quantity
     }))
-    objPr.status = req.body.status;
+    objPr.status = req.body.status || true;
 
 
   try {
