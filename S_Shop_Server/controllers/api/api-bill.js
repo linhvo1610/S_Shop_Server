@@ -29,9 +29,13 @@ exports.addBill = async (req,res) =>{
         objPr.id_address = req.body.id_address;
         objPr.status = req.body.status;
         objPr.date = new Date();
-        objPr.product =req.body.product.map((id_product) => ({
-            id_product: id_product.id_product,
-        }));
+        if (req.body.product && Array.isArray(req.body.product)) {
+            objPr.product = req.body.product.map((id_product) => ({
+              id_product: id_product,
+            }));
+          } else {
+            objPr.product = [];
+          }
         try{
             let dataR = await objPr.save();
             console.log(dataR);
