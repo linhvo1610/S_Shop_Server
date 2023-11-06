@@ -3,12 +3,15 @@ const myModel = require("../models/product.model");
 exports.list = async (req, res, next) => {
   
   let dieu_kien =null;
-  if(typeof(req.query.id_cat)!='undefined'){
+  let dieu_kien1 = null;
+  if(typeof(req.query.id_cat)!='undefined'||typeof(req.query.sizes)!='undefined'){
       let id_cat =req.query.id_cat;
-      dieu_kien={id_cat:id_cat};
+      let size = req.query.sizes;
+      dieu_kien={id_cat:id_cat,'sizes.size': size};
+      dieu_kien1 = {size:size};
       console.log(dieu_kien);
   }
-  var posts = await myModel.productModel.find().populate("id_cat"); // ten cot tham chieu
+  var posts = await myModel.productModel.find(dieu_kien1).populate("id_cat"); // ten cot tham chieu
 
   console.log(posts);
 
@@ -41,14 +44,27 @@ exports.locPrice = async (req, res, next) => {
 }
 exports.filter = async (req, res, next) => {
   
-  let dieu_kien =null;
-  if(typeof(req.query.id_cat)!='undefined'){
-      let id_cat =req.query.id_cat;
-      dieu_kien={id_cat:id_cat};
-      console.log(dieu_kien);
+  let filter = {};
+  if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined') {
+    let id_cat = req.query.id_cat;
+    let size = req.query.size;
+    console.log("id_cat:", id_cat);
+    console.log("size:", size);
+    
+   
+    if (id_cat && size) {
+      filter = { $or: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } } ] };
+    } else if (id_cat) {
+      filter = { "id_cat": id_cat };
+    } else if (size) {
+      filter = { "sizes": { $elemMatch: { "size": size } } };
+    }
+  
+    console.log("filter:", filter);
+    // Use the 'filter' object in your MongoDB query
   }
 
-  var posts = await myModel.productModel.find(dieu_kien).populate("id_cat"); // ten cot tham chieu
+  var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
 
   console.log(posts);
 
@@ -80,6 +96,7 @@ if (req.method == "POST") {
       size: size.size,
       quantity: size.quantity
     }))
+    objPr.status = req.body.status || true;
 
 
   try {
@@ -134,12 +151,13 @@ exports.updateProduct = async(req, res, next) => {
         quantity: size.quantity,
       }))
       objPr._id = req.params.idsp;
+      objPr.status = req.body.status;
   
     try {
       // await objPr.save();
       await myModel.productModel.findByIdAndUpdate({ _id: req.params.idsp }, objPr)
       console.log(new_sp);
-      console.log("Đăng Kí Thành Công");
+    
     } catch (error) {
       msg = "Lỗi " + error.message;
     }

@@ -4,6 +4,7 @@ const MyModel = require("../models/model");
 var apiU=require('../controllers/api/api-user');
 var apiP = require ('../controllers/api/api-product')
 var apiC = require ('../controllers/api/api-comment');
+var apiB = require('../controllers/api/api-bill')
 
 
 
@@ -60,6 +61,7 @@ router.get('/comment/:idproduct', async (req, res) => {
     }
 });
 
-
+router.get('/bill', apiB.listBill)
+router.post('/bill', apiB.addBill)
 
 module.exports = router;

@@ -1,4 +1,5 @@
 var db = require('./db');
+
 const productSchema = new db.mongoose.Schema(
     {
       name: { type: String, required: true },
@@ -13,10 +14,14 @@ const productSchema = new db.mongoose.Schema(
       ],
       description: { type: String, required: true },
       image: { type: String, required: true },
+      status: {
+        type:Boolean, // Kiểu dữ liệu boolean cho trạng thái
+        defaultValue: true, // Giá trị mặc định
+      },
     },
     { collection: 'products' }
   );
-  
+
 const categorySchema = new db.mongoose.Schema({
     name:{type:String,required:true}
 },{collection:'category'});

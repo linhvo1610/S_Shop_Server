@@ -2,19 +2,20 @@ var db = require('./db');
 
 
 
-const Bill = new db.mongoose.Schema({
-    id_user: { type: String, require: true },
-    name: { type: String, require: true },
-    phone: { type: String, require: true },
-    total:{ type: Number, require: true },
+const billSchema = new db.mongoose.Schema({
+    id_user: {type: db.mongoose.Schema.Types.ObjectId, ref: 'usersModel'},
+    product: [{id_product: {type: db.mongoose.Schema.Types.ObjectId,ref:'productModel'}}],
+    id_address : {type: db.mongoose.Schema.Types.ObjectId, ref: 'Address'},
     date:{ type: Date, default: Date.now },
-    status:{ type: Number, require: true },
-    list: [Object],
-    address:{ type: String, require: true },
-    methodShipping:{ type: String, require: true },
-    methodPayment:{ type: String, require: true },
+    status:{ type: String, require: true },
+    totalQuantity: {type: Number, require: true},
+    totalPrice : {type: Number, require: true},
+    size: {type: Number, require: true}
 }, {
     collection: "bills"
 });
 
-module.exports = db.mongoose.model('Bill', Bill);
+let billModel = db.mongoose.model('billModel', billSchema);
+module.exports={
+    billModel
+}
