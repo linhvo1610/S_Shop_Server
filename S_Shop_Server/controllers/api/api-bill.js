@@ -28,6 +28,9 @@ exports.addBill = async (req,res) =>{
         objPr.id_user = req.body.id_user;
         objPr.id_address = req.body.id_address;
         objPr.status = req.body.status;
+        objPr.totalPrice = req.body.totalPrice;
+        objPr.totalQuantity = req.body.totalQuantity;
+        objPr.size = req.body.size;
         objPr.date = new Date();
         if (req.body.product && Array.isArray(req.body.product)) {
             objPr.product = req.body.product.map((id_product) => ({

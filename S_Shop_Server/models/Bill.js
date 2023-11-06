@@ -8,6 +8,9 @@ const billSchema = new db.mongoose.Schema({
     id_address : {type: db.mongoose.Schema.Types.ObjectId, ref: 'Address'},
     date:{ type: Date, default: Date.now },
     status:{ type: String, require: true },
+    totalQuantity: {type: Number, require: true},
+    totalPrice : {type: Number, require: true},
+    size: {type: Number, require: true}
 }, {
     collection: "bills"
 });
