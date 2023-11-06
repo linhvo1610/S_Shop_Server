@@ -6,77 +6,74 @@
           <div class="card-heading">
               <h2 class="title"> ADD Product</h2>
           </div>
-          <div class="" style="width: 470px;">
-<form accept="" method="post" enctype="multipart/form-data">
-  <div class="container">
-    <div style="float: left;">
-        <div>
-            <img src="/S_Shop_Server/public/images/1.png" id="selectedImage"
-            width="300px"height="300px" style="margin-top: 0px;"/> 
-            <div style="width: 200px;height: 30px;margin-bottom: 20px;">
-                <input type="file" width="auto"id="inputFile" onchange="displayImage()"
-                style="margin-left: 80px;margin-top: 6px;" name="image" />
-            </div>
-        </div>
-    </div>
-    <div style="margin-left: 310px;">
-        <div>
-            <input type="text" placeholder="Ten san pham" class="input" name="name" required />
-            <input type="number" placeholder="500$" class="inputgia" name="price" required />
-        </div>
-
-
-    <label for="sizes">Sizes:</label>
-    <div class="input-row">
-    <input type="number" id="quantityInput" placeholder="Nhập số lượng Sizes"
-     min="1" max="20" required style="width: 200px;">
-    <button onclick="generateInputFields()" style="background-color: rgb(146, 146, 71);padding: 2px;border-radius: 10px;"
-    >Generate</button>
-    </div>
-    
-    <div id="inputFieldsContainer"></div>
-    
-    <script>
-      function generateInputFields() {
-        var quantity = document.getElementById("quantityInput").value;
-        var inputFieldsContainer = document.getElementById("inputFieldsContainer");
-        inputFieldsContainer.innerHTML = "";
-    
-        for (var i = 0; i < quantity; i++) {
-          var inputFields = `
-          <div class="input-row">
-            <input type="number" name="sizes[${i}][size]" placeholder="Size" ${i === 0 ? 'required' : ''}>
-            <input type="number" name="sizes[${i}][quantity]" placeholder="Quantity" ${i === 0 ? 'required' : ''}><br>
-          </div>
-          `;
-          inputFieldsContainer.innerHTML += inputFields;
-        }
-      }
-    </script>
-    
-       
-        <div>
-            <select style="width: 150px;" id="color" name="id_cat">
-                <option value="">Loai san pham</option>
-                <% listLoai.forEach(data=> { %>
-                  <option value="<%= data.id %>"><%= data.name %></option>
-                <% } ) %>
-              </select>
-
-
+          <div class="" style="width: 500px;">
+           
           
-        </div>
-        <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()" name="description">
-            Để bỏ viền thẻ input trong HTML 
-        </textarea>
-        <input type="text" name="trademark" placeholder="thuong hieu" class="myInput" />
-        <div style="text-align: center;margin-top: 20px;">
-            <button  type="submit" >Add san pham</button>
-        </div>
-    </div>
-
-</div>
-</form>
+          <form accept="" method="post" enctype="multipart/form-data">
+              <div class="container">
+                  <div style="float: left;">
+                      <div>
+                          <img src="https://boschbrandstore.com/wp-content/uploads/2019/01/no-image.png" id="selectedImage" alt="Selected Image">
+                          <div style="width: 200px;height: 30px;margin-bottom: 20px;margin-left: 70px; margin-top: 30px;">
+                              <label for="inputFile" class="upload-button" >Choose Image</label>
+                              <input type="file" id="inputFile" onchange="displayImage()" name="image" />
+                          </div>
+                      </div>
+                  </div>
+                  <div style="margin-left: 320px;">
+                      <div>
+                          <div>Sản Phẩm:</div>
+                          <input type="text" placeholder="Nhập tên sản phẩm" class="input" name="name" required />
+                          <div>Giá:</div>
+                          <input type="number" placeholder="Nhập giá tiền" class="inputgia" name="price" required />
+                      </div>
+                      <label for="quantityInput">Sizes:</label>
+                      <div class="input-row">
+                          <input type="number"id="quantityInput" placeholder="Nhập số lượng Sizes" min="1" max="20" required>
+                          <button onclick="generateInputFields()" class="upload-button">Thêm</button>
+                      </div>
+          
+                      <div id="inputFieldsContainer"></div>
+          
+                      <script>
+                          function generateInputFields() {
+                              var quantity = document.getElementById("quantityInput").value;
+                              var inputFieldsContainer = document.getElementById("inputFieldsContainer");
+                              inputFieldsContainer.innerHTML = "";
+          
+                              for (var i = 0; i < quantity; i++) {
+                                  var inputFields = `
+                                  <div class="input-row">
+                                      <input type="number" name="sizes[${i}][size]" placeholder="Size" ${i === 0 ? 'required' : ''}>
+                                      <input type="number" name="sizes[${i}][quantity]" placeholder="Quantity" ${i === 0 ? 'required' : ''}><br>
+                                  </div>
+                                  `;
+                                  inputFieldsContainer.innerHTML += inputFields;
+                              }
+                          }
+                      </script>
+          
+                      <div>
+                        <div>Loại Sản Phẩm:</div>
+                          <select id="color" name="id_cat" style="width: 90%;">
+                              <option value="">Chọn loại sản phẩm</option>
+                              <% listLoai.forEach(data=> { %>
+                              <option value="<%= data.id %>"><%= data.name %></option>
+                              <% } ) %>
+                          </select>
+                      </div>
+                      <div> Mô tả sản phẩm:</div>
+                      <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()" name="description">
+                          Để bỏ viền thẻ input trong HTML
+                      </textarea>
+                      <div>Brand:</div>
+                      <input type="text" name="trademark" placeholder="Nhập tên brand" class="myInput" />
+                      <div style="text-align: center; margin-bottom: 10px;">
+                          <button type="submit">Add Sản Phẩm</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
 
              
 
@@ -127,8 +124,141 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+ <style>
+              .container {
+                  width: 800px;
+                  margin: auto;
+                  margin-top: 40px;
+              }
+          
+              #selectedImage {
+                  display: block;
+                  margin: 0 auto;
+                  margin-top: 20px;
+                  width: 300px;
+                  height: 300px;
+                  object-fit: cover;
+                  border-radius: 5px;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+              }
+          
+              #inputFile {
+                  display: none;
+              }
+          
+              .upload-button {
+                  display: inline-block;
+                  padding: 6px 12px;
+                  background-color: #4CAF50;
+                  color: white;
+                  border: none;
+                  border-radius: 5px;
+                  font-size: 16px;
+                  cursor: pointer;
+              }
+          
+              .upload-button:hover {
+                  background-color: #45a049;
+              }
+          
+              .input {
+                  width: 90%;
+                  height: 40px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 16px;
+                  margin-bottom: 10px;
+              }
+          
+              .inputgia {
+                  width: 90%;
+                  height: 40px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 16px;
+                  margin-bottom: 10px;
+                  color: red;
+              }
+          
+              label {
+                  display: block;
+                  margin-bottom: 5px;
+                  font-size: 16px;
+              }
+          
+              .input-row {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 10px;
+              }
+          
+              .input-row input[type="number"] {
+                  width: 150px;
+                  height: 30px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px;
+                  font-size: 14px;
+              }
+          
+              .input-row input[type="number"]:focus {
+                  outline: none;
+                  border-color: blue;
+              }
+          
+              #inputFieldsContainer {
+                  margin-bottom: 10px;
+              }
+          
+              #color {
+                  width: 100%;
+                  height: 40px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 16px;
+                  margin-bottom: 10px;
+              }
+          
+              .myTextarea {
+                  width: 90%;
+                  height: 100px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px;
+                  font-size: 14px;
+                  margin-bottom: 10px;
+              }
+          
+              .myInput {
+                  width: 90%;
+                  height: 40px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  font-size: 16px;
+                  margin-bottom: 10px;
+              }
+          
+              button[type="submit"] {
+                  background-color: #4CAF50;
+                  color: white;
+                  border: none;
+                  padding: 10px 20px;
+                  border-radius: 5px;
+                  font-size: 16px;
+                  cursor: pointer;
+              }
+          
+              button[type="submit"]:hover {
+                  background-color: #45a049;
+              }
+          </style>
 
-<style>
+<!-- <style>
     .container{
         width: 800px;
         height: auto;
@@ -190,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
         text-align: center;
         color: black;
     }
-</style>
+</style> -->
 <style>
     .checkbox-container {
       display: flex;

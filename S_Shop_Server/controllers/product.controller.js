@@ -128,37 +128,41 @@ exports.addCategory = async (req, res, next) => {
 }
   res.render("product/addCategory", {listLoai:loaiSP});
 }
-exports.updateProduct = async(req, res, next) => {
-  const loaiSP = await myModel.categoryModel.find();
-  let objPr = await myModel.productModel.findById(req.params.idsp)
-  if (req.method == "POST") {
+  exports.updateProduct = async(req, res, next) => {
+    const loaiSP = await myModel.categoryModel.find();
+    let objPr = await myModel.productModel.findById(req.params.idsp)
+    if (req.method == "POST") {
+      
+      let objPr = new myModel.productModel();
+      const updatedProduct = {
+        name: req.body.name,
+        id_cat: req.body.id_cat,
+        trademark: req.body.trademark,
+        price: req.body.price,
+        description: req.body.description,
+        image: req.file.filename,
+        sizes: req.body.sizes.map((size) => ({
+          _id: size._id, // Include _id to identify existing sizes
+          size: size.size,
+          quantity: size.quantity,
+        })),
+      };
     
-    let objPr = new myModel.productModel();
-      objPr.name = req.body.name;
-      objPr.id_cat = req.body.id_cat;
-      objPr.trademark = req.body.trademark;
-      objPr.price = req.body.price;
-      objPr.description = req.body.description;
-      objPr.image = req.file.filename;
-      objPr.sizes = req.body.sizes.map((size) => ({
-        size: size.size,
-        quantity: size.quantity,
-      }))
-      objPr._id = req.params.idsp;
-  
-    try {
-      // await objPr.save();
-      await myModel.productModel.findByIdAndUpdate({ _id: req.params.idsp }, objPr)
-      console.log(new_sp);
-      console.log("Đăng Kí Thành Công");
-    } catch (error) {
-      msg = "Lỗi " + error.message;
+      try {
+        // await objPr.save();
+        await myModel.productModel.findByIdAndUpdate(req.params.idsp, updatedProduct, {
+          new: true, // Return the updated document
+        });
+        console.log(new_sp);
+        console.log("Đăng Kí Thành Công");
+      } catch (error) {
+        msg = "Lỗi " + error.message;
+      }
     }
+    res.render("product/editProduct", {
+      listLoai: loaiSP,objPr : objPr,
+    });
   }
-  res.render("product/editProduct", {
-    listLoai: loaiSP,objPr : objPr,
-  });
-}
 exports.updateCategory = async (req, res, next) => {
   let msg = '';
   let objSp = await myModel.categoryModel.findById(req.params.idTl);
