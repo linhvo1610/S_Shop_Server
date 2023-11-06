@@ -102,6 +102,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const sizeInput = document.getElementById("size");
     const quantityInput = document.getElementById("quantity");
     const addSizeButton = document.getElementById("addSize");
+    const switchCheckbox = document.getElementById('checkbox_status');
+
+switchCheckbox.addEventListener('change', function () {
+  if (this.checked) {
+    status = true;
+    console.log('Switch bật');
+  } else {
+  status = false;
+    console.log('Switch tắt');
+  }
+});
 
     const sizes = [];
 
