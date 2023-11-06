@@ -21,6 +21,8 @@ const upload = multer({
 router.get('/list', proCtl.list)
 router.get('/list/filter',proCtl.filter);
 
+router.get('/order',proCtl.listOrder);
+
 router.post('/locPrice', proCtl.locPrice)
 router.get('/category',proCtl.category);
 router.get('/addCategory',proCtl.addCategory);
