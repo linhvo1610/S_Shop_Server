@@ -37,6 +37,11 @@ exports.locPrice = async (req, res, next) => {
     listLoai: loaiSP,
 });
 }
+exports.chitietProduct = async (req, res, next) => {
+  let objSp = await myModel.productModel.findById(req.params.idsp);
+  let listtl=await myModel.categoryModel.findOne({_id:objSp.the_loai});
+  res.render('product/chitiet', { title: 'chitiet', objSp: objSp, listtl: listtl })
+}
 exports.filter = async (req, res, next) => {
   
   let filter = {};
@@ -96,7 +101,6 @@ if (req.method == "POST") {
 
   try {
     await objPr.save();
-    
     console.log(new_sp);
     console.log("Đăng Kí Thành Công");
   } catch (error) {

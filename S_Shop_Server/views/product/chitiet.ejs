@@ -1,0 +1,17 @@
+<%- include('../inc/top') %>
+<div>
+    Name Pro:<%=objSp.name %>
+    <label for="sizes">Sizes:</label>
+    <% objSp.sizes.forEach((size, index) => { %>
+        <div class="input-row">
+          <label for="size">Size:</label>
+          <p><%= size.size %></p>
+          <label for="quantity">Quantity:</label>
+          <p><%= size.quantity %></p>
+        </div>
+      <% }) %>
+      <div>
+        <img id="selectedImage" src="/<%= objSp.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+    </div>
+</div>
+<%- include('../inc/bottom') %> 

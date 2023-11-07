@@ -34,5 +34,5 @@ router.post('/addProduct',upload, proCtl.addProduct)
 
 router.get('/updateProduct/:idsp', proCtl.updateProduct)
 router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
-
+router.get('/chitiet/:idsp',proCtl.chitietProduct);
 module.exports = router;

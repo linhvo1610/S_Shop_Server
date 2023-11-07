@@ -104,14 +104,14 @@
           
 
       <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
-        <button type="button" class="btn btn-success" onclick="location.href='http://10.24.1.225:3000/product/addProduct'">
+        <button type="button" class="btn btn-success" onclick="location.href='http://192.168.1.2:3000/product/addProduct'">
           Add Product
         </button>
       </div>
       <table id="myTable" class="table table-responsive-xl">
         <thead class="thead-dark">
           <tr>
-            <th>Id</th>
+            <th></th>
             <th>Tên sản phẩm</th>
             <th>Loại SP</th>
             <th>Giá</th>
@@ -126,7 +126,9 @@
             <% listProduct.reverse().forEach((data)=>{%>
               <tr class="alert" role="alert" data-id="<%= data.id %>" data-target="#exampleModal">
                 <th>
-                  <%=data._id%>
+
+                  <a href="/product/chitiet/<%=data._id%>"> Xem thông tin chi tiết</a>
+             
                 </th>
                 <td class="d-flex align-items-center">
                   <div class="img" style="background-image: url(images/person_1.jpg)"></div>
@@ -138,23 +140,27 @@
                 </td>
 
                 <td>
-                  <%=data.name %>
+                  <%=data.id_cat.name %>
                 </td>
 
                 <td>
                   <%=data.price %>
                 </td>
-                <td>
+                <td >
                         <% let totalQuantity = 0; %> <!-- Khởi tạo biến totalQuantity -->
                         <% data.sizes.forEach(function(size) { %>
                             <% totalQuantity += size.quantity; %> <!-- Tính tổng số lượng -->
                         <% }); %>
-                        <%= totalQuantity %> <!-- Hiển thị tổng số lượng -->
+                        <div id="totalQuantity">
+                          <%= totalQuantity %> <!-- Hiển thị tổng số lượng -->
+                        </div>
+                       
               </td>
-                <td>
-                    <% var sizes = data.sizes.map(function(size) { return size.size; }); %> <!-- Tạo mảng sizes chứa các kích cỡ -->
+                <td class="sizeCell">
+                  <% var sizes = data.sizes.map(function(size) { return size.size; }); %> <!-- Tạo mảng sizes chứa các kích cỡ -->
                     <% sizes.sort(function(a, b) { return a - b; }); %> <!-- Sắp xếp kích cỡ từ thấp đến cao -->
                     <%= sizes.join(', ') %> <!-- Hiển thị kích cỡ với dấu phẩy -->
+                
                 </td>
                 <% if(data.status==true){ %>
                   <td>
@@ -230,14 +236,19 @@ List.updateOne({ _id:data._id }, { $set: { status: true } }, (err, result) => {
                 <% } else { %>
                   <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
                   <% } %>
+                  <script>
+                    
+                  </script>
         </tbody>
       </table>
     </div>
   </div>
+ 
   <script>
     function showDialog() {
       var dialog = document.getElementById("dialog");
       dialog.style.display = "block";
+      
     }
     function closeDialog() {
       var dialog = document.querySelector(".dialog");
