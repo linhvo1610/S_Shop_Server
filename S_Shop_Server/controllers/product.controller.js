@@ -129,11 +129,11 @@ exports.addCategory = async (req, res, next) => {
 }
   res.render("product/addCategory", {listLoai:loaiSP});
 }
-  exports.updateProduct = async(req, res, next) => {
-    const loaiSP = await myModel.categoryModel.find();
-    let objPr = await myModel.productModel.findById(req.params.idsp)
-    if (req.method == "POST") {
-      
+exports.updateProduct = async(req, res, next) => {
+  const loaiSP = await myModel.categoryModel.find();
+  let objPr = await myModel.productModel.findById(req.params.idsp)
+  if (req.method == "POST") {
+    
     let objPr = new myModel.productModel();
       objPr.name = req.body.name;
       objPr.id_cat = req.body.id_cat;
@@ -156,10 +156,11 @@ exports.addCategory = async (req, res, next) => {
     } catch (error) {
       msg = "Lỗi " + error.message;
     }
-    res.render("product/editProduct", {
-      listLoai: loaiSP,objPr : objPr,
-    });
   }
+  res.render("product/editProduct", {
+    listLoai: loaiSP,objPr : objPr,
+  });
+}
 exports.updateCategory = async (req, res, next) => {
   let msg = '';
   let objSp = await myModel.categoryModel.findById(req.params.idTl);
@@ -202,4 +203,4 @@ exports.deleteCategory = async (req, res, next) => {
 
   }
 }
-  }
+  
