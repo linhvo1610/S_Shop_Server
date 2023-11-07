@@ -4,7 +4,7 @@ const prModel = require("../models/product.model");
 
 exports.listBill = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("id_user","product"); // ten cot tham chieu
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user");
 
   console.log(posts);
 

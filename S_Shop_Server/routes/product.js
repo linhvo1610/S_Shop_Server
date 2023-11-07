@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var proCtl=require('../controllers/product.controller')
+var billCtl=require('../controllers/bill.controller')
 
 var multer = require("multer");
 
@@ -31,5 +32,7 @@ router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct',upload, proCtl.addProduct)
 router.get('/updateProduct/:idsp', proCtl.updateProduct)
 router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
+
+router.get('/oder',billCtl.listBill);
 
 module.exports = router;

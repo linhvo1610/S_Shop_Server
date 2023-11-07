@@ -37,7 +37,9 @@
               <tr>
                 <th scope="col">Tên người dùng</th>
                 <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Ảnh</th>
+                <th scope="col">Kích cỡ</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng tiền</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col"> Quản lý</th>
               </tr>
@@ -46,8 +48,16 @@
               <% listProduct.forEach(function(item) { %>
                   <tr>
                     <td><%= item.id_user.fullname %></td>
-                    <td><%= item.product.name %></td>
-                    <td><%= item.product.image %></td>
+
+<td>
+                    <% for (var i = 0; i < item.product.length; i++) { %>
+                      <% var product = item.product[i].id_product; %>
+                      <p><%= product.name %></p>
+                    <% } %>
+                  </td>                   
+                    <td><%= item.size %></td>
+                    <td><%= item.totalQuantity %></td>
+                    <td><%= item.totalPrice %></td>
                     <td><%= item.status %></td>
                     <td>
                       <button type="submit" class="btn-primary btn-sm">
