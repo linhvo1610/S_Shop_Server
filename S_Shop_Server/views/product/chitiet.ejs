@@ -1,0 +1,154 @@
+<%- include('../inc/top') %>
+<div style="margin-top: 30px;">
+  <div class="image-container">
+    <img id="selectedImage" src="/<%= objSp.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+  </div>
+      <div style="margin-left: 200px; float: left;">
+        <h1 style="font-style: italic; font-weight:bold;"><%=objSp.name %></h1>
+      <h2 style="color: red;"><%=objSp.price%>$</h2>
+      <label for="sizes">Sizes:</label>
+      <% objSp.sizes.forEach((size, index) => { %>
+          <div class="input-row">
+            <label for="size">Size:</label>
+            <p><%= size.size %></p>
+            <label for="quantity">Quantity:</label>
+            <p><%= size.quantity %></p>
+          </div>
+        <% }) %>
+          <p>Loại sản phẩm: <%=objSp.id_cat.name %></p>
+          <p>Thông tin:</p>
+          <p><%= objSp.description %></p>
+  </div>
+  <div style="clear: both;">
+
+  </div>
+</div>
+
+<style>
+  .image-container img {
+    background-color: aqua;
+  float: left; /* Hiển thị ảnh bên trái */
+  margin-right: 10px; /* Tạo khoảng cách giữa ảnh và văn bản */
+}
+  .container{
+      width: 800px;
+      height: auto;
+      margin: auto;
+      margin-top: 40px;
+  }
+  .myTextarea {
+  border: none;
+}
+.myInput {
+  word-wrap: break-word;
+  /* hoặc */
+  overflow-wrap: break-word;
+  width: 60%;
+}
+  .input{
+      width: 200px;
+      height: 30px;
+      border-width: 1px;
+      border-radius: 10px;
+      border-color: blue;
+      border: none;
+      outline: none;
+      font-size: 18px;
+
+  }
+  .inputgia{
+      width: 130px;
+      height: 30px;
+      padding-left: 10px;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      color: red;
+  }
+  .inputsoluong{
+      width: auto;
+      height: 30px;
+      padding-left: 40px;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      color: red;
+  }
+  .myTextarea{
+      width: 400px;
+      height: 130px;
+      padding-left: 10px;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+  }
+  .size{
+      background-color: beige;
+      border-radius: 3px;
+      width: 30px;
+      height: auto;
+      float: left;
+      text-align: center;
+      color: black;
+  }
+</style>
+<style>
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    float: left;
+  }
+
+  .checkbox-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .checkbox-container input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border-color: #2196F3;
+  }
+
+  .checkbox-container label {
+    font-size: 16px;
+    margin-right: 15px;
+  }
+  .checkbox-container1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .checkbox-container1 input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .checkbox-container1 input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border-color: #2196F3;
+  }
+
+  .checkbox-container1 label {
+    font-size: 16px;
+  }
+  .input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+</style>
+<%- include('../inc/bottom') %> 

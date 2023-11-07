@@ -22,6 +22,12 @@ exports.list = async (req, res, next) => {
     listLoai: loaiSP,
 });
 };
+exports.chitietProduct = async (req, res, next) => {
+  let objSp = await myModel.productModel.findById(req.params.idsp);
+  let listtl=await myModel.categoryModel.findOne({_id:objSp.the_loai});  
+  const loaiSP = await myModel.categoryModel.find();
+  res.render('product/chitiet', { title: 'chitiet', objSp: objSp, listtl: listtl,listLoai:loaiSP })
+}
 exports.locPrice = async (req, res, next) => {
   const size = req.body.size;
   const description = req.body.description;
