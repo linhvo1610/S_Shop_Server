@@ -16,4 +16,53 @@ exports.listBill = async (req, res, next) => {
     user: user,
     pro:pro
 });
+
+};
+exports.updateStatusBill = async (req, res, next) => {
+  let msg = '';
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  if (req.method === 'POST') {
+    let objBill = new myModel.billModel();
+    objBill.status="Success"
+    objBill._id=req.params.idbill;
+
+    try {
+      await myModel.billModel.findByIdAndUpdate({ _id: req.params.idbill }, objBill);
+      console.log("Đã ghi thành công");
+            msg = 'Đã ghi thành công';
+
+        } catch (err) {
+            console.log(err);
+            msg = 'Lỗi ' + err.message;
+
+        }
+  }
+
+  res.redirect('/bill/listBills');
+ // Redirect the user back to the list of bills
+};
+exports.updateStatusBill1 = async (req, res, next) => {
+  let msg = '';
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  if (req.method === 'POST') {
+    let objBill = new myModel.billModel();
+    objBill.status="Failed"
+    objBill._id=req.params.idbill;
+
+    try {
+      await myModel.billModel.findByIdAndUpdate({ _id: req.params.idbill }, objBill);
+      console.log("Đã ghi thành công");
+            msg = 'Đã ghi thành công';
+
+        } catch (err) {
+            console.log(err);
+            msg = 'Lỗi ' + err.message;
+
+        }
+  }
+
+  res.redirect('/bill/listBills');
+ // Redirect the user back to the list of bills
 };
