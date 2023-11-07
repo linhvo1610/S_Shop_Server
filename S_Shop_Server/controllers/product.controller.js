@@ -22,11 +22,6 @@ exports.list = async (req, res, next) => {
     listLoai: loaiSP,
 });
 };
-
-exports.listOrder = async(req, res, next) =>{
-  res.render("product/order")
-}
-
 exports.locPrice = async (req, res, next) => {
   const size = req.body.size;
   const description = req.body.description;
@@ -112,7 +107,6 @@ res.render("product/addProduct", {
   listLoai: loaiSP,
 });
 }
-
 exports.category =async(req,res,next) => {
   const loaiSP = await myModel.categoryModel.find();
 

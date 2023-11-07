@@ -5,7 +5,6 @@
                 <h2 class="heading-section"><b>LIST OF ORDERS</b></h2>
             </div>
         </div>
-
         <div style="margin-bottom: 20px;">
             <form action="" method="GET">
                 <div class="input-group rounded">
@@ -44,25 +43,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Minh Quân</td>
-                <td>Áo T-Shirt</td>
-                <td>aaaa</td>
-                <td>Chua xác nhận</td>
-                <td>
-                  <button type="submit" class="btn-primary btn-sm">
-                    <span>
-                      Xác nhận
-                    </span>
-                  </button>
-
-                  <button type="submit" class="btn-primary btn-sm">
-                    <span>
-                      Hủy
-                    </span>
-                  </button>
-                </td>
-              </tr>
+              <% listProduct.forEach(function(item) { %>
+                  <tr>
+                    <td><%= item.id_user.fullname %></td>
+                    <td><%= item.product.name %></td>
+                    <td><%= item.product.image %></td>
+                    <td><%= item.status %></td>
+                    <td>
+                      <button type="submit" class="btn-primary btn-sm">
+                        <span>
+                          Xác nhận
+                        </span>
+                      </button>
+    
+                      <button type="submit" class="btn-primary btn-sm">
+                        <span>
+                          Hủy
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+            <% }); %>
+            
             </tbody>
           </table>
     </div>
