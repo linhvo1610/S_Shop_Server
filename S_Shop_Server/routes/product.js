@@ -32,7 +32,7 @@ router.get('/addProduct', proCtl.addProduct)
 router.post('/addProduct',upload, proCtl.addProduct)
 router.get('/updateProduct/:idsp', proCtl.updateProduct)
 router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
-
+router.get('/chitiet/:idsp',proCtl.chitietProduct);
 router.get('/oder',billCtl.listBill);
 
 module.exports = router;
