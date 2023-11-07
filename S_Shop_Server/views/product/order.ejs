@@ -1,0 +1,81 @@
+<%- include('../inc/top') %>
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 10px;">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"><b>LIST OF ORDERS</b></h2>
+            </div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <form action="" method="GET">
+                <div class="input-group rounded">
+                    <input type="search" class="form-control rounded" placeholder="Search" name="order"
+                        aria-describedby="search-addon" />
+                    <button type="submit" style="display: inline-block;
+                        line-height: 30px;
+                        padding: 0 50px;
+                        -webkit-transition: all 0.4s ease;
+                        -o-transition: all 0.4s ease;
+                        -moz-transition: all 0.4s ease;
+                        transition: all 0.4s ease;
+                        cursor: pointer;
+                        font-size: 15px;
+                        border-radius: 6px;
+                        margin-left: 5px;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        color: #fff;
+                        background-color: blue;
+                        font-family: inherit;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Tên người dùng</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Kích cỡ</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col"> Quản lý</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% listProduct.forEach(function(item) { %>
+                  <tr>
+                    <td><%= item.id_user.fullname %></td>
+
+<td>
+                    <% for (var i = 0; i < item.product.length; i++) { %>
+                      <% var product = item.product[i].id_product; %>
+                      <p><%= product.name %></p>
+                    <% } %>
+                  </td>                   
+                    <td><%= item.size %></td>
+                    <td><%= item.totalQuantity %></td>
+                    <td><%= item.totalPrice %></td>
+                    <td><%= item.status %></td>
+                    <td>
+                      <button type="submit" class="btn-primary btn-sm">
+                        <span>
+                          Xác nhận
+                        </span>
+                      </button>
+    
+                      <button type="submit" class="btn-primary btn-sm">
+                        <span>
+                          Hủy
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+            <% }); %>
+            
+            </tbody>
+          </table>
+    </div>
+<%- include('../inc/bottom') %>

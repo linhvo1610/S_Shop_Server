@@ -107,7 +107,6 @@ res.render("product/addProduct", {
   listLoai: loaiSP,
 });
 }
-
 exports.category =async(req,res,next) => {
   const loaiSP = await myModel.categoryModel.find();
 
