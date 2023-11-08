@@ -59,16 +59,22 @@
         <td><%= item.totalPrice %></td>
         <td><%= item.status %></td>
         <td>
-          <form action="/bill/updateStatusBill/<%= item._id %>" method="post">
+          <form action="/bill/updatebillPro/<%= item._id %>" method="post">
+            <% if (item.status !== "Xác nhận") { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Xác nhận</span>
             </button>
+            <% } %>
+
           </form>
 
-          <form action="/bill/updateStatusBill1/<%= item._id %>" method="post">
+          <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
+            <% if (item.status === "Xác nhận") { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Hủy</span>
             </button>
+            <% } %>
+
           </form>
         </td>
       </tr>
