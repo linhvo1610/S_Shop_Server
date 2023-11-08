@@ -63,5 +63,7 @@ router.get('/comment/:idproduct', async (req, res) => {
 
 router.get('/bill', apiB.listBill)
 router.post('/bill', apiB.addBill)
+router.get('/billQu', apiB.listBillQuantity)
+
 
 module.exports = router;

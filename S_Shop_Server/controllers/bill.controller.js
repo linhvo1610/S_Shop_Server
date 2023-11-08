@@ -1,20 +1,22 @@
 const myModel = require("../models/Bill");
 const usModel = require("../models/model");
 const prModel = require("../models/product.model");
+const Address = require("../models/Address");
 
 exports.listBill = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user");
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
 
   console.log(posts);
 
   const user = await usModel.usersModel.find();
   const pro = await prModel.productModel.find();
+  const address = await Address.find();
 
   res.render("product/order", {
     listProduct: posts,
     user: user,
-    pro:pro
+    pro:pro,address:address
 });
 
 };
@@ -80,15 +82,16 @@ exports.updatebillPro = async (req, res) => {
     const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
 
     // Lấy danh sách đơn hàng sau khi cập nhật
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user");
+    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
 
     const user = await usModel.usersModel.find();
     const pro = await prModel.productModel.find();
+    const address = await Address.find();
 
     res.render("product/order", {
       listProduct: posts,
       user: user,
-      pro: pro
+      pro: pro,address:address
     });
   } catch (err) {
     console.log(err);
@@ -112,15 +115,15 @@ exports.updatebillProHuy = async (req, res) => {
     const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
 
     // Lấy danh sách đơn hàng sau khi cập nhật
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user");
+    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");;
 
     const user = await usModel.usersModel.find();
     const pro = await prModel.productModel.find();
-
+    const address = await Address.find();
     res.render("product/order", {
       listProduct: posts,
       user: user,
-      pro: pro
+      pro: pro,address:address
     });
   } catch (err) {
     console.log(err);
