@@ -23,7 +23,7 @@ exports.list = async (req, res, next) => {
 });
 };
 exports.chitietProduct = async (req, res, next) => {
-  let objSp = await myModel.productModel.findById(req.params.idsp);
+  let objSp = await myModel.productModel.findById(req.params.idsp).populate("id_cat");
   let listtl=await myModel.categoryModel.findOne({_id:objSp.the_loai});  
   const loaiSP = await myModel.categoryModel.find();
   res.render('product/chitiet', { title: 'chitiet', objSp: objSp, listtl: listtl,listLoai:loaiSP })
