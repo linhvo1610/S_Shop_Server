@@ -71,6 +71,28 @@ exports.listBillname = async (req, res) => {
         // let id_user = req.query.id_user;
         let id_product = req.query.id_product;
         dieu_kien = {  status: "Chờ xác nhận", "product.id_product": id_product };
+       
+        console.log(dieu_kien);
+    }
+    try {
+        list = await Bill.billModel.find(dieu_kien);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+}
+exports.listBillDone = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if ( typeof(req.query.id_product) !== 'undefined') {
+        // let id_user = req.query.id_user;
+        let id_product = req.query.id_product;
+        dieu_kien = {  status: "Done", "product.id_product": id_product };
+       
         console.log(dieu_kien);
     }
     try {
