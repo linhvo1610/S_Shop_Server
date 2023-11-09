@@ -1,5 +1,5 @@
 const Cart = require('../../models/Cart');
-const Product = require('../../models/product.model');
+const {productModel} = require('../../models/product.model');
 
 class ApiController {
 
@@ -17,7 +17,7 @@ class ApiController {
         Cart.find({ id_user: id_user })
             .then(arr => {
                 const promises = arr.map(item => {
-                    return Product.findOne({ _id: item.id_product });
+                    return productModel.findOne({ _id: item.id_product });
                 });
 
                 return Promise.all(promises)
@@ -34,7 +34,10 @@ class ApiController {
             .then(arr => {
                 res.json(arr);
             })
-            .catch(err => res.json(null));
+            .catch(err => {
+                console.error('Error:', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
     }
 
     delete(req, res, next) {
