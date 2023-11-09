@@ -21,6 +21,7 @@ exports.listProduct = async (req, res, next) => {
     res.json(dataR);
     console.log(dataR);
 }
+
 exports.addProduct = async (req,res,next) =>{
     try {
         let objPr = new MyModel.productModel();

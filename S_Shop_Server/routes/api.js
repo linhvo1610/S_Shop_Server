@@ -62,6 +62,8 @@ router.get('/comment/:idproduct', async (req, res) => {
 });
 
 router.get('/bill', apiB.listBill)
+router.get('/billCho', apiB.listBillChoxacnhan)
+router.get('/billName', apiB.listBillname)
 router.post('/bill', apiB.addBill)
 router.get('/billQu', apiB.listBillQuantity)
 

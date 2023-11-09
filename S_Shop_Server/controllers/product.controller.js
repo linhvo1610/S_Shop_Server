@@ -1,4 +1,5 @@
 const myModel = require("../models/product.model");
+const billModel = require("../models/Bill")
 
 exports.list = async (req, res, next) => {
   

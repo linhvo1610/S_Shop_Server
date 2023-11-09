@@ -114,7 +114,7 @@
       <button
         type="button"
         class="btn btn-success"
-        onclick="location.href='http://192.168.1.15:3000/product/addProduct'"
+        onclick="location.href='http://192.168.1.8:3000/product/addProduct'"
       >
         Add Product
       </button>
@@ -163,7 +163,8 @@
             <% data.sizes.forEach(function(size) { %> <% totalQuantity +=
             size.quantity; %>
             <!-- Tính tổng số lượng -->
-            <% }); %> <%= totalQuantity %>
+            <% }); %>
+            <%= totalQuantity %>
             <!-- Hiển thị tổng số lượng -->
           </td>
           <td>
