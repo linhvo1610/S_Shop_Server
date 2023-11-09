@@ -8,12 +8,6 @@ exports.listBill = async (req, res) => {
         dieu_kien={id_user:id_user, status: "Xác nhận", };
         console.log(dieu_kien);
     }
-    // if (typeof(req.query.id_user) !== 'undefined' && typeof(req.query.id_product) !== 'undefined') {
-    //     let id_user = req.query.id_user;
-    //     let id_product = req.query.id_product;
-    //     dieu_kien = { id_user: id_user, status: "Xác nhận", "product.id_product": id_product };
-    //     console.log(dieu_kien);
-    // }
     try {
         list = await Bill.billModel.find(dieu_kien);
         dataR.data = list;
@@ -25,6 +19,29 @@ exports.listBill = async (req, res) => {
     console.log(dataR);
 }
 
+
+exports.listBillChoxacnhan = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if(typeof(req.query.id_user)!='undefined'){
+        let id_user =req.query.id_user;
+        let id_product = req.query.id_product;
+        dieu_kien={id_user:id_user, status: "Chờ xác nhận"};
+        console.log(dieu_kien);
+    }
+    try {
+        list = await Bill.billModel.find(dieu_kien).populate("id_user").populate("product.id_product");
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+}
+
+
 exports.listBillQuantity = async (req, res) => {
     let dataR = {  }
     let list = []
@@ -33,6 +50,27 @@ exports.listBillQuantity = async (req, res) => {
         // let id_user = req.query.id_user;
         let id_product = req.query.id_product;
         dieu_kien = {  status: "Xác nhận", "product.id_product": id_product };
+        console.log(dieu_kien);
+    }
+    try {
+        list = await Bill.billModel.find(dieu_kien);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+}
+
+exports.listBillname = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if ( typeof(req.query.id_product) !== 'undefined') {
+        // let id_user = req.query.id_user;
+        let id_product = req.query.id_product;
+        dieu_kien = {  status: "Chờ xác nhận", "product.id_product": id_product };
         console.log(dieu_kien);
     }
     try {

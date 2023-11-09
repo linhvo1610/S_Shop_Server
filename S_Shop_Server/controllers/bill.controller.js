@@ -98,6 +98,41 @@ exports.updatebillPro = async (req, res) => {
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+exports.updatebillProGiaohang = async (req, res) => {
+  try {
+    const idbill = req.params.idbill;
+    const bill = await myModel.billModel.findById(idbill);
+
+    if (!bill) {
+      return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
+    }
+
+    // Cập nhật trạng thái đơn hàng thành "Xác nhận"
+    bill.status = 'Xác nhận';
+    await bill.save();
+    setTimeout(async function() {
+      bill.status = 'Đang giao';
+      await bill.save();
+    
+    res.redirect("/bill/listBills");
+
+    const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
+    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+    const user = await usModel.usersModel.find();
+    const pro = await prModel.productModel.find();
+    const address = await Address.find();
+    res.render("product/order", {
+      listProduct: posts,
+      user: user,
+      pro: pro,
+      address:address
+    });
+  }, 2000);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Lỗi ' + err.message });
+  }
+};
 exports.updatebillProHuy = async (req, res) => {
   try {
     const idbill = req.params.idbill;
