@@ -96,7 +96,7 @@ exports.listBillDone = async (req, res) => {
         console.log(dieu_kien);
     }
     try {
-        list = await Bill.billModel.find(dieu_kien);
+        list = await Bill.billModel.find(dieu_kien).populate("id_user").populate("product.id_product");
         dataR.data = list;
     }
     catch (err) {
