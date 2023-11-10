@@ -65,6 +65,7 @@ router.get('/bill', apiB.listBill)
 router.get('/billCho', apiB.listBillChoxacnhan)
 router.get('/billName', apiB.listBillname)
 router.get('/billDanhan', apiB.listBillDone)
+router.get('/billCancel', apiB.listBillCancel)  
 router.post('/bill', apiB.addBill)
 router.get('/billQu', apiB.listBillQuantity)
 
