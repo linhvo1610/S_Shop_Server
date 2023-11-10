@@ -64,9 +64,16 @@ router.get('/comment/:idproduct', async (req, res) => {
 router.get('/bill', apiB.listBill)
 router.get('/billCho', apiB.listBillChoxacnhan)
 router.get('/billName', apiB.listBillname)
-router.get('/billDone', apiB.listBillDone)
+router.get('/billDanhan', apiB.listBillDone)
 router.post('/bill', apiB.addBill)
 router.get('/billQu', apiB.listBillQuantity)
+
+router.get('/billG', apiB.listBillGiaohang)
+router.delete('/bill/delete/:id', apiB.huydon)
+router.get('/billDagiao', apiB.listBillDaGiaohang)
+
+router.put('/bill/update/:id', apiB.updateStatus);
+
 
 
 module.exports = router;

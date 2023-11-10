@@ -63,7 +63,7 @@
           align-items: center;
           gap: 10px;">
           <form action="/bill/updatebillPro/<%= item._id %>" method="post">
-            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao") { %>
+            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Xác nhận</span>
             </button>
@@ -71,7 +71,7 @@
           </form>
           
           <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
-            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao") { %>
+            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Hủy</span>
             </button>
@@ -79,11 +79,11 @@
           </form>
           
           <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
-            <% if (item.status === "Xác nhận"&& item.status !== "Đang giao") { %>
+            <% if (item.status === "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
             <button type="submit" class="btn-primary btn-sm" id="deliveryButton">
               <span>Giao hàng</span>
             </button>
-            <% } %>
+            <% } %> 
           </form>
         </div>
         </td>
