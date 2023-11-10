@@ -144,6 +144,28 @@ exports.listBillDone = async (req, res) => {
     console.log(dataR);
 }
 
+exports.listBillCancel = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if ( typeof(req.query.id_product) !== 'undefined') {
+        let id_user = req.query.id_user;
+        let id_product = req.query.id_product;
+        dieu_kien = { id_user: id_user ,status: "Hủy đơn"};
+       
+        console.log(dieu_kien);
+    }
+    try {
+        list = await Bill.billModel.find(dieu_kien).populate("id_user").populate("product.id_product");
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+}
+
 exports.addBill = async (req,res) =>{
     let dataR = {
     }
