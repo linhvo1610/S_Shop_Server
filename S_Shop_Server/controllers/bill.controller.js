@@ -13,8 +13,11 @@ exports.listBill = async (req, res, next) => {
   const pro = await prModel.productModel.find();
   const address = await Address.find();
 
+  const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
+
+
   res.render("product/order", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     user: user,
     pro:pro,address:address
 });
