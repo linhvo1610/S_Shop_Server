@@ -78,4 +78,9 @@ router.put('/bill/update/:id', apiB.updateStatus);
 
 
 
+// tim kiem filter'
+router.get('/filterPrice', apiP.filterPrice)
+
+
+
 module.exports = router;
