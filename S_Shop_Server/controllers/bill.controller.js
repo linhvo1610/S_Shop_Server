@@ -13,8 +13,11 @@ exports.listBill = async (req, res, next) => {
   const pro = await prModel.productModel.find();
   const address = await Address.find();
 
+  const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
+
+
   res.render("product/order", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     user: user,
     pro:pro,address:address
 });
@@ -114,19 +117,23 @@ exports.updatebillProGiaohang = async (req, res) => {
       bill.status = 'Đang giao';
       await bill.save();
     
-    res.redirect("/bill/listBills");
-
-    const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
-    const user = await usModel.usersModel.find();
-    const pro = await prModel.productModel.find();
-    const address = await Address.find();
-    res.render("product/order", {
-      listProduct: posts,
-      user: user,
-      pro: pro,
-      address:address
-    });
+      setTimeout(async function() {
+        bill.status = 'Đã giao';
+        await bill.save();
+  
+        res.redirect("/bill/listBills");
+        const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
+        const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+        const user = await usModel.usersModel.find();
+        const pro = await prModel.productModel.find();
+        const address = await Address.find();
+        res.render("product/order", {
+          listProduct: posts.filter(item => item.status !== "Đã giao"),
+          user: user,
+          pro: pro,
+          address: address
+        });
+      }, 3000);
   }, 2000);
   } catch (err) {
     console.log(err);
