@@ -261,8 +261,8 @@
       </tbody>
     </table>
   </div>
-</div>
-<script>
+  <%- include('../inc/chat') %>
+  <script>
   function showDialog() {
     var dialog = document.getElementById("dialog");
     dialog.style.display = "block";
@@ -330,5 +330,6 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
 </style>
+
 
 <%- include('../inc/bottom') %>

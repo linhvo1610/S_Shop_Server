@@ -12,7 +12,29 @@ exports.list = async (req, res, next) => {
       dieu_kien1 = {size:size};
       console.log(dieu_kien);
   }
-  var posts = await myModel.productModel.find(dieu_kien1).populate("id_cat"); // ten cot tham chieu
+  var posts = await myModel.productModel.find(dieu_kien1).populate('id_cat'); // ten cot tham chieu
+
+  console.log(posts);
+
+  const loaiSP = await myModel.categoryModel.find();
+
+  res.render("product/list", {
+    listProduct: posts,
+    listLoai: loaiSP,
+});
+};
+exports.list1 = async (req, res, next) => {
+  
+  let dieu_kien =null;
+  let dieu_kien1 = null;
+  if(typeof(req.query.id_cat)!='undefined'||typeof(req.query.sizes)!='undefined'){
+      let id_cat =req.query.id_cat;
+      let size = req.query.sizes;
+      dieu_kien={id_cat:id_cat,'sizes.size': size};
+      dieu_kien1 = {size:size};
+      console.log(dieu_kien);
+  }
+  var posts = await myModel.productModel.find().populate('id_cat');
 
   console.log(posts);
 
