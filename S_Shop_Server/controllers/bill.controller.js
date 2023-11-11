@@ -13,7 +13,8 @@ exports.listBill = async (req, res, next) => {
   const pro = await prModel.productModel.find();
   const address = await Address.find();
 
-  const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
+  // const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
+  const filteredPosts = posts.filter(post => post.status == "Chờ xác nhận");
 
 
   res.render("product/order", {
@@ -21,8 +22,67 @@ exports.listBill = async (req, res, next) => {
     user: user,
     pro:pro,address:address
 });
+}
 
+exports.listBillXacNhan = async (req, res, next) => {
+  
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+
+  console.log(posts);
+
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  const address = await Address.find();
+
+  const filteredPosts = posts.filter(post => post.status == "Xác nhận");
+
+
+  res.render("product/XacNhanBill", {
+    listProduct: filteredPosts,
+    user: user,
+    pro:pro,address:address
+});
 };
+
+exports.listBillsDanhan = async (req, res, next) => {
+  
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+
+  console.log(posts);
+
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  const address = await Address.find();
+
+  const filteredPosts = posts.filter(post => post.status == "Đã nhận");
+
+
+  res.render("product/XacNhanBill", {
+    listProduct: filteredPosts,
+    user: user,
+    pro:pro,address:address
+});
+}
+exports.listBillsDagiao = async (req, res, next) => {
+  
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+
+  console.log(posts);
+
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  const address = await Address.find();
+
+  const filteredPosts = posts.filter(post => post.status == "Đã giao");
+
+
+  res.render("product/DaGiaoBill", {
+    listProduct: filteredPosts,
+    user: user,
+    pro:pro,address:address
+});
+}
+
 exports.updateStatusBill = async (req, res, next) => {
   let msg = '';
   const user = await usModel.usersModel.find();
@@ -90,9 +150,11 @@ exports.updatebillPro = async (req, res) => {
     const user = await usModel.usersModel.find();
     const pro = await prModel.productModel.find();
     const address = await Address.find();
+    const filteredPosts = posts.filter(post => post.status === "Chờ xác nhận");
+    
 
     res.render("product/order", {
-      listProduct: posts,
+      listProduct: filteredPosts,
       user: user,
       pro: pro,address:address
     });
@@ -127,8 +189,12 @@ exports.updatebillProGiaohang = async (req, res) => {
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
         const address = await Address.find();
+
+        const filteredPosts = posts.filter(post => post.status === "Xác nhận");
+
+
         res.render("product/order", {
-          listProduct: posts.filter(item => item.status !== "Đã giao"),
+          listProduct: filteredPosts,
           user: user,
           pro: pro,
           address: address

@@ -88,9 +88,6 @@ exports.listCat = async (req,res,next) =>{
         catch (err) {
             dataR.msg = err.message;
         }
-    
-     
-       
      }
 exports.addCat = async(req,res,next) =>{
         try {
@@ -103,7 +100,7 @@ exports.addCat = async(req,res,next) =>{
         }
       
      }
-     exports.editCat = async(req,res,next) =>{
+exports.editCat = async(req,res,next) =>{
         try {
             let id = req.params.id;
 
@@ -116,7 +113,7 @@ exports.addCat = async(req,res,next) =>{
         }
       
      }
-     exports.deleteCatgory = async (req, res, next)=>{
+exports.deleteCatgory = async (req, res, next)=>{
         try {
            let id = req.params.id;
           
@@ -127,5 +124,27 @@ exports.addCat = async(req,res,next) =>{
            console.log(error);
            
         }
-         
-         }
+}
+
+exports.filterPrice = async (req, res) => {
+    const minPrice = req.query.minPrice;
+     const maxPrice = req.query.maxPrice;
+
+     try {
+       let products;
+
+       if (minPrice && maxPrice) {
+         products = await MyModel.productModel.find({
+           price: { $gte: minPrice, $lte: maxPrice },
+         }).populate("id_cat");
+       } else if (minPrice) {
+         products = await MyModel.productModel.find({ price: { $gte: minPrice } })
+       } else if (maxPrice) {
+         products = await MyModel.productModel.find({ price: { $lte: maxPrice } })
+       }
+
+       res.json(products);
+     } catch (error) {
+       res.status(500).json({ error: error.message });
+     }
+   }
