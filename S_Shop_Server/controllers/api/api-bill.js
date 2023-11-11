@@ -163,7 +163,7 @@ exports.listBillCancel = async (req, res) => {
     let dataR = {  }
     let list = []
     let dieu_kien =null;
-    if ( typeof(req.query.id_product) !== 'undefined') {
+    if ( typeof(req.query.id_user) !== 'undefined') {
         let id_user = req.query.id_user;
         let id_product = req.query.id_product;
         dieu_kien = { id_user: id_user ,status: "Hủy đơn"};
