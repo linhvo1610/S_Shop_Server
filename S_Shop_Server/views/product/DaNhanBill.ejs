@@ -76,7 +76,7 @@
         <td><%= item.totalQuantity %></td>
         <td><%= item.totalPrice %></td>
         <td><%= item.status %></td>
-        <td>
+        <!-- <td>
           <div style="display: flex;
           align-items: center;
           gap: 10px;">
@@ -95,16 +95,8 @@
             </button>
             <% } %>
           </form>
-          
-          <!-- <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
-            <% if (item.status === "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
-            <button type="submit" class="btn-primary btn-sm" id="deliveryButton">
-              <span>Giao hàng</span>
-            </button>
-            <% } %> 
-          </form> -->
         </div>
-        </td>
+        </td> -->
       </tr>
       <% }); %>
 
