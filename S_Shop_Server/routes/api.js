@@ -32,6 +32,7 @@ router.put('/updateUser/:id', apiU.updateUsers);
 router.post('/catgory',apiP.addCat);
 router.put('/catgory/edit/:id',apiP.editCat);
 router.delete('/catgory/delete/:id',apiP.deleteCatgory);
+router.get('/filterproduct',apiP.filterProduct)
 router.get('/product',apiP.listProduct);
 
 router.post('/product',apiP.addProduct);

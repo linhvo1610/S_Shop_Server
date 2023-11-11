@@ -10,7 +10,7 @@ exports.listProduct = async (req, res, next) => {
         console.log(dieu_kien);
     }
     try {
-        list = await MyModel.productModel.find(dieu_kien);
+        list = await MyModel.productModel.find(dieu_kien).populate('id_cat');
         dataR.data = list;
     }
     catch (err) {
@@ -21,6 +21,41 @@ exports.listProduct = async (req, res, next) => {
     res.json(dataR);
     console.log(dataR);
 }
+exports.filterProduct = async (req, res, next) => {
+    let dataR = {};
+    let list = [];
+    let dieu_kien = null;
+  
+    console.log(req.query);
+  
+    if (typeof req.query.name !== 'undefined') {
+      const name = req.query.name;
+  
+      // Instead of directly using name in the condition, fetch the id_cat that matches the name
+      const cat = await MyModel.categoryModel.findOne({ name });
+  
+      if (cat) {
+        // Use the retrieved cat._id in the condition
+        const catnameCondition = { 'id_cat': cat._id };
+        dieu_kien = dieu_kien ? { ...dieu_kien, ...catnameCondition } : catnameCondition;
+      } else {
+        // Handle the case where the cat with the specified name is not found
+        return res.status(404).json({ msg: 'Category not found' });
+      }
+    }
+  
+    try {
+      list = await MyModel.productModel.find(dieu_kien).populate('id_cat');
+      dataR.data = list;
+      res.json(dataR);
+    } catch (err) {
+      dataR.msg = err.message;
+      res.status(500).json(dataR);
+    }
+  };
+  
+
+
 
 exports.addProduct = async (req,res,next) =>{
     try {
