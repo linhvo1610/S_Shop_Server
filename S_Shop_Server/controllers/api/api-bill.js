@@ -79,27 +79,42 @@ exports.listBillChoxacnhan = async (req, res) => {
     console.log(dataR);
 }
 
-
 exports.listBillQuantity = async (req, res) => {
-    let dataR = {  }
-    let list = []
-    let dieu_kien =null;
-    if ( typeof(req.query.id_product) !== 'undefined') {
-        // let id_user = req.query.id_user;
-        let id_product = req.query.id_product;
-        dieu_kien = {  status: "Xác nhận", "product.id_product": id_product };
-        console.log(dieu_kien);
+    let dataR = {};
+    let list = [];
+    let dieu_kien = null;
+
+    if (typeof req.query.id_product !== 'undefined') {
+        const id_product = req.query.id_product;
+
+        // Define the id_product filtering condition
+        const idProductCondition = { '_id': id_product }; // Assuming _id is the actual field in id_product
+
+        // Combine with existing conditions or use as the sole condition
+        dieu_kien = dieu_kien ? { ...dieu_kien, 'product.id_product': idProductCondition } : { 'product.id_product': idProductCondition };
     }
+
+    if (typeof req.query.status !== 'undefined') {
+        const status = req.query.status;
+
+        // Define the status filtering condition
+        const statusCondition = { 'status': status };
+
+        // Combine with existing conditions or use as the sole condition
+        dieu_kien = dieu_kien ? { ...dieu_kien, ...statusCondition } : statusCondition;
+    }
+
     try {
-        list = await Bill.billModel.find(dieu_kien);
+        list = await Bill.billModel.find(dieu_kien).populate('id_user').populate('product.id_product');
         dataR.data = list;
-    }
-    catch (err) {
+    } catch (err) {
         dataR.msg = err.message;
     }
+
     res.json(dataR);
     console.log(dataR);
-}
+};
+
 
 exports.listBillname = async (req, res) => {
     let dataR = {  }
