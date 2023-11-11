@@ -10,7 +10,7 @@ exports.listProduct = async (req, res, next) => {
         console.log(dieu_kien);
     }
     try {
-        list = await MyModel.productModel.find(dieu_kien).populate('id_cat');
+        list = await MyModel.productModel.find(dieu_kien);
         dataR.data = list;
     }
     catch (err) {
