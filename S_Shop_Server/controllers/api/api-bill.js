@@ -3,9 +3,11 @@ exports.listBill = async (req, res) => {
     let dataR = {  }
     let list = []
     let dieu_kien =null;
-    if(typeof(req.query.id_user)!='undefined'){
+    if(typeof(req.query.id_user) !== 'undefined' && typeof(req.query.status) !== 'undefined'){
         let id_user =req.query.id_user;
-        dieu_kien={id_user:id_user, status: "Xác nhận", };
+        let status = req.query.status;
+        // dieu_kien={id_user:id_user, status: "Xác nhận", };
+        dieu_kien={id_user:id_user, status: status, };
         console.log(dieu_kien);
     }
     try {
@@ -18,6 +20,35 @@ exports.listBill = async (req, res) => {
     res.json(dataR);
     console.log(dataR);
 }
+
+exports.listBillTop = async (req, res) => {
+    let dataR = {};
+    let list = [];
+    let dieu_kien = null;
+
+    if (typeof req.query.id_product !== 'undefined') {
+        const id_product = req.query.id_product;
+        const idProductCondition = { '_id': id_product }; // Assuming _id is the actual field in id_product
+        dieu_kien = dieu_kien ? { ...dieu_kien, 'product.id_product': idProductCondition } : { 'product.id_product': idProductCondition };
+    }
+
+    if (typeof req.query.status !== 'undefined') {
+        const status = req.query.status;
+        const statusCondition = { 'status': status };
+        dieu_kien = dieu_kien ? { ...dieu_kien, ...statusCondition } : statusCondition;
+    }
+
+    try {
+        list = await Bill.billModel.find(dieu_kien).populate('product.id_product').sort({ totalQuantity: -1 }).limit(2);;
+        dataR.data = list;
+    } catch (err) {
+        dataR.msg = err.message;
+    }
+
+    res.json(dataR);
+    console.log(dataR);
+}
+
 
 exports.listBillGiaohang = async (req, res) => {
     let dataR = { }
@@ -86,21 +117,13 @@ exports.listBillQuantity = async (req, res) => {
 
     if (typeof req.query.id_product !== 'undefined') {
         const id_product = req.query.id_product;
-
-        // Define the id_product filtering condition
         const idProductCondition = { '_id': id_product }; // Assuming _id is the actual field in id_product
-
-        // Combine with existing conditions or use as the sole condition
         dieu_kien = dieu_kien ? { ...dieu_kien, 'product.id_product': idProductCondition } : { 'product.id_product': idProductCondition };
     }
 
     if (typeof req.query.status !== 'undefined') {
         const status = req.query.status;
-
-        // Define the status filtering condition
         const statusCondition = { 'status': status };
-
-        // Combine with existing conditions or use as the sole condition
         dieu_kien = dieu_kien ? { ...dieu_kien, ...statusCondition } : statusCondition;
     }
 

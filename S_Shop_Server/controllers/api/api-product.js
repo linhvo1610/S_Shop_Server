@@ -10,7 +10,7 @@ exports.listProduct = async (req, res, next) => {
         console.log(dieu_kien);
     }
     try {
-        list = await MyModel.productModel.find(dieu_kien);
+        list = await MyModel.productModel.find(dieu_kien)
         dataR.data = list;
     }
     catch (err) {
@@ -171,11 +171,11 @@ exports.filterPrice = async (req, res) => {
        if (minPrice && maxPrice) {
          products = await MyModel.productModel.find({
            price: { $gte: minPrice, $lte: maxPrice },
-         }).populate("id_cat");
+         }).sort({price: 1});
        } else if (minPrice) {
-         products = await MyModel.productModel.find({ price: { $gte: minPrice } })
+         products = await MyModel.productModel.find({ price: { $gte: minPrice } }).sort({price: 1});
        } else if (maxPrice) {
-         products = await MyModel.productModel.find({ price: { $lte: maxPrice } })
+         products = await MyModel.productModel.find({ price: { $lte: maxPrice } }).sort({price: 1});
        }
 
        res.json(products);

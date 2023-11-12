@@ -63,6 +63,25 @@ exports.listBillsDanhan = async (req, res, next) => {
     pro:pro,address:address
 });
 }
+exports.listBillsHuydon = async (req, res, next) => {
+  
+  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+
+  console.log(posts);
+
+  const user = await usModel.usersModel.find();
+  const pro = await prModel.productModel.find();
+  const address = await Address.find();
+
+  const filteredPosts = posts.filter(post => post.status == "Đã hủy");
+
+
+  res.render("product/HuyDon", {
+    listProduct: filteredPosts,
+    user: user,
+    pro:pro,address:address
+});
+}
 exports.listBillsDagiao = async (req, res, next) => {
   
   var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
@@ -183,7 +202,7 @@ exports.updatebillProGiaohang = async (req, res) => {
         bill.status = 'Đã giao';
         await bill.save();
   
-        res.redirect("/bill/listBills");
+        res.redirect("/bill/listBillsDagiao");
         const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
         const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
         const user = await usModel.usersModel.find();

@@ -114,7 +114,7 @@
       <button
         type="button"
         class="btn btn-success"
-        onclick="location.href='http://10.24.8.196:3000/product/addProduct'"
+        onclick="location.href='http://192.168.1.12:3000/product/addProduct'"
       >
         Add Product
       </button>
@@ -150,7 +150,8 @@
               style="background-image: url(images/person_1.jpg)"
             ></div>
             <div class="pl-3 email">
-              <span> <%=data.name %> </span>
+              <% var truncatedName = data.name.length > 40 ? data.name.substring(0, 40) + '...' : data.name; %>
+              <span> <%=truncatedName %> </span>
             </div>
           </td>
 
