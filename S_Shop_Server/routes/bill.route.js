@@ -7,6 +7,7 @@ router.get('/listBills',billController.listBill);
 router.get('/listBillsXacnhan',billController.listBillXacNhan);
 router.get('/listBillsDanhan',billController.listBillsDanhan);
 router.get('/listBillsDagiao',billController.listBillsDagiao);
+router.get('/listBillsHuydon',billController.listBillsHuydon);
 // router.post('/updateStatusBill/:idbill', billController.updateStatusBill);
 // router.post('/updateStatusBill1/:idbill', billController.updateStatusBill1);
 

@@ -1,12 +1,12 @@
 <%- include('../inc/top') %>
-<div style="margin-top: 30px;">
+<div style="padding: 20px;width: 1300px;margin: auto;">
   <div class="image-container">
-    <img id="selectedImage" src="/<%= objSp.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+    <img id="selectedImage" src="/<%= objSp.image %>" class="rounded-circle" 
+    width="300px" height="300px" style="position: relative;top: 50px;"/> 
   </div>
-      <div style="margin-left: 200px; float: left;">
+      <div style="height: 500px;padding: 10px;">
         <h1 style="font-style: italic; font-weight:bold;"><%=objSp.name %></h1>
       <h2 style="color: red;"><%=objSp.price%>$</h2>
-      <label for="sizes">Sizes:</label>
       <% objSp.sizes.forEach((size, index) => { %>
           <div class="input-row">
             <label for="size">Size:</label>
@@ -16,6 +16,7 @@
           </div>
         <% }) %>
           <p>Loại sản phẩm: <%=objSp.id_cat.name %></p>
+          <p>Thương hiệu: <%= objSp.trademark %></p>
           <p>Thông tin:</p>
           <p><%= objSp.description %></p>
   </div>
@@ -25,10 +26,11 @@
 </div>
 
 <style>
-  .image-container img {
-    background-color: aqua;
-  float: left; /* Hiển thị ảnh bên trái */
-  margin-right: 10px; /* Tạo khoảng cách giữa ảnh và văn bản */
+  .image-container {
+  margin-right: 10px; 
+  width: 300px;
+  float: left;
+  height: 600px;
 }
   .container{
       width: 800px;

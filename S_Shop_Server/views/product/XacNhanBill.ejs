@@ -31,26 +31,10 @@
     </form>
   </div>
 
-  <div style="
-    display: flex;
-    align-items: center;
-    gap: 10px;padding: 8px;">
-    <div style="background-color: aquamarine;width: 100px;text-align: center;">
-      <a href="http://192.168.1.10:3000/bill/listBills">Đơn hàng chờ xác nhận</a>
-    </div>
-    <div style="background-color: aquamarine;width: 100px;text-align: center;">
-      <a href="http://192.168.1.10:3000/bill/listBillsXacnhan">Đơn hàng đã xác nhận</a>
-    </div>
-    <div style="background-color: aquamarine;width: 100px;text-align: center;">
-      <a href="http://192.168.1.10:3000/bill/listBillsDagiao">Đơn hàng đã giao vận chuyển</a>
-    </div>
-    <div style="background-color: aquamarine;width: 100px;text-align: center;">
-      <a href="http://192.168.1.10:3000/bill/listBillsDanhan">Đơn hàng đã nhận</a>
-    </div>
-  </div>
+  <%- include('../inc/trangthaibill') %>
 
-  <table class="table">
-    <thead>
+  <table id="myTable" class="table table-responsive-xl">
+    <thead class="thead-dark">
       <tr>
         <th scope="col">Tên người dùng</th>
         <th scope="col">Tên sản phẩm</th>
@@ -69,7 +53,8 @@
         <td>
           <% for (var i = 0; i < item.product.length; i++) { %>
           <% var product = item.product[i].id_product; %>
-          <p><%= product.name %></p>
+          <% var truncatedName = product.name.length > 40 ? product.name.substring(0, 40) + '...' : product.name; %>
+          <p><%= truncatedName %></p>
           <% } %>
         </td>
         <td><%= item.size %></td>

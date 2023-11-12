@@ -77,6 +77,8 @@ router.get('/billDagiao', apiB.listBillDaGiaohang)
 router.put('/bill/update/:id', apiB.updateStatus);
 
 
+router.get('/billTop', apiB.listBillTop)
+
 
 // tim kiem filter'
 router.get('/filterPrice', apiP.filterPrice)
