@@ -189,6 +189,26 @@ exports.updateProduct = async(req, res, next) => {
     listLoai: loaiSP,objPr : objPr,
   });
 }
+exports.updatestatusProduct = async(req, res, next) => {
+  const idpro = req.params.idpro;
+  let objPr = await myModel.productModel.findById(idpro);
+  if (!objPr) {
+    return res.status(404).json({ message: 'Không tìm thấy hàng' });
+  }  else {
+     if(objPr.status==true){
+      objPr.status=false;
+      await objPr.save();
+     } else {
+      objPr.status=true;
+      await objPr.save();
+     }
+  }
+  res.redirect('/product/list');
+
+ 
+    
+    
+}
 exports.updateCategory = async (req, res, next) => {
   let msg = '';
   let objSp = await myModel.categoryModel.findById(req.params.idTl);
