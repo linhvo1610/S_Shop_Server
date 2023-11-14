@@ -211,7 +211,7 @@ exports.addBill = async (req,res) =>{
         let objPr = new Bill.billModel();
         objPr.id_user = req.body.id_user;
         objPr.id_address = req.body.id_address;
-        objPr.status = req.body.status;
+        objPr.status = "Chờ xác nhận";
         objPr.totalPrice = req.body.totalPrice;
         objPr.totalQuantity = req.body.totalQuantity;
         objPr.size = req.body.size;
