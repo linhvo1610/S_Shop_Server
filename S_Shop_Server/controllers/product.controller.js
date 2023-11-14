@@ -190,24 +190,29 @@ exports.updateProduct = async(req, res, next) => {
   });
 }
 exports.updatestatusProduct = async(req, res, next) => {
+
+  
   const idpro = req.params.idpro;
+
+try {
   let objPr = await myModel.productModel.findById(idpro);
   if (!objPr) {
     return res.status(404).json({ message: 'Không tìm thấy hàng' });
-  }  else {
-     if(objPr.status==true){
-      objPr.status=false;
-      await objPr.save();
-     } else {
-      objPr.status=true;
-      await objPr.save();
-     }
-  }
-  res.redirect('/product/list');
+  } else {
+    objPr.status = !objPr.status; // Toggle the status
+    await objPr.save();
+    res.redirect('/product/list');
 
- 
-    
-    
+    const filteredProducts = await myModel.productModel.find({ status: true }).populate('id_cat');;
+    const loaiSP = await myModel.categoryModel.find();
+    res.render('product/list', { products: filteredProducts,listLoai:loaiSP });
+  }
+
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật trạng thái sản phẩm' });
+}
+
 }
 exports.updateCategory = async (req, res, next) => {
   let msg = '';

@@ -114,7 +114,7 @@
       <button
         type="button"
         class="btn btn-success"
-        onclick="location.href='http://192.168.12.125:3000/product/addProduct'"
+        onclick="location.href='http://192.168.1.12:3000/product/addProduct'"
       >
         Add Product
       </button>
@@ -181,58 +181,14 @@
           <td>
             <form action="/product/updatestatusProduct/<%=data._id%>" method="post">
               <% if(data.status==true){ %>
-             <!-- Button trigger modal -->
-<button type="button" class="btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-   Hoạt động
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận chỉnh sửa trạng thái</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Bạn đang muốn sửa trạng thái sản phẩm ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" >Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-                
-                <% } else{ %>
-                  <button type="button" class="btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Dừng bán
-                 </button>
-                 
-                 <!-- Modal -->
-                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                   <div class="modal-dialog">
-                     <div class="modal-content">
-                       <div class="modal-header">
-                         <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận chỉnh sửa trạng thái</h1>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                       </div>
-                       <div class="modal-body">
-                        Bạn đang muốn sửa trạng thái sản phẩm ?
-                       </div>
-                       <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                         <button type="submit" class="btn btn-primary" >Save</button>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                   
-                      <% } %>
-                
+                <button type="submit" class="btn-primary btn-sm"> <!-- Changed from type="button" to type="submit" -->
+                  Hoạt động
+                </button>
+              <% } else { %>
+                <!-- Add the code for the inactive state here -->
+              <% } %>
             </form>
+            
        
           </td>
 
