@@ -3,8 +3,8 @@ exports.listProduct = async (req, res, next) => {
     let dataR = {  }
     //code xử lý lấy danh sách
     let list = []
-    let dieu_kien =null;
-    if(typeof(req.query._id)!='undefined'){
+    let dieu_kien ={status: true};
+    if(typeof(req.query._id)!='undefined' ){
         let _id =req.query._id;
         dieu_kien={_id:_id};
         console.log(dieu_kien);
@@ -197,7 +197,7 @@ exports.filterPrice = async (req, res) => {
        if (minPrice && maxPrice) {
          products = await MyModel.productModel.find({
            price: { $gte: minPrice, $lte: maxPrice },
-         }).sort({price: 1});
+         }).sort({price: 1}).populate('id_cat');
        } else if (minPrice) {
          products = await MyModel.productModel.find({ price: { $gte: minPrice } }).sort({price: 1});
        } else if (maxPrice) {

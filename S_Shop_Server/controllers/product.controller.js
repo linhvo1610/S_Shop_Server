@@ -17,9 +17,10 @@ exports.list = async (req, res, next) => {
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
+  const filteredPosts = posts.filter(post => post.status == true);
 
   res.render("product/list", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
 });
 };
