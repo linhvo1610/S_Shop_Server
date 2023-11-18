@@ -1,26 +1,20 @@
-const myModel = require("../models/Bill");
+const myModel = require("../models/BillMore");
 const usModel = require("../models/model");
 const prModel = require("../models/product.model");
 const Address = require("../models/Address");
 
 exports.listBill = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+  var posts = await myModel.find();
 
   console.log(posts);
 
-  const user = await usModel.usersModel.find();
-  const pro = await prModel.productModel.find();
-  const address = await Address.find();
-
   // const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
-  const filteredPosts = posts.filter(post => post.status == "Chờ xác nhận");
+  // const filteredPosts = posts.filter(post => post.status == "Chờ xác nhận");
 
 
   res.render("product/order", {
-    listProduct: filteredPosts,
-    user: user,
-    pro:pro,address:address
+    listBill: posts,
 });
 }
 
