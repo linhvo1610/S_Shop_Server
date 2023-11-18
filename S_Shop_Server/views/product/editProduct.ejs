@@ -22,7 +22,7 @@
         <div>
             <img id="selectedImage" src="/<%= objPr.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
             <div style="width: 200px;height: 30px;margin-bottom: 20px;">
-                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image" />
+                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image"/>
             </div>
         </div>
         
@@ -46,12 +46,12 @@
       <% }) %>
       
       
-    <div class="input-row">
+    <!-- <div class="input-row">
     <input type="number" id="quantityInput" placeholder="Nhập số lượng Sizes"
      min="1" max="20" style="width: 200px;">
     <button onclick="generateInputFields()" style="background-color: rgb(146, 146, 71);padding: 2px;border-radius: 10px;"
     >Generate</button>
-    </div>
+    </div> -->
 
     
     <div id="inputFieldsContainer"></div>
@@ -73,6 +73,7 @@
         }
       }
     </script> 
+
     
     
         <div>
@@ -93,7 +94,7 @@
         <input type="text" name="description" value="<%= objPr.description  %>" />
         <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
         <div style="text-align: center;margin-top: 20px;">
-            <button  type="submit" >Add san pham</button>
+            <button  type="submit" >Update san pham</button>
         </div>
     </div>
 
@@ -148,6 +149,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+</script>
+
+<script>
+  // Sử dụng thư viện jQuery để gửi yêu cầu AJAX
+$.ajax({
+  url: "/api/listBill", // Đường dẫn tới API trên máy chủ
+  method: "GET",
+  success: function(data) {
+    // Cập nhật dữ liệu trên trang web
+    // Ví dụ: cập nhật danh sách đơn hàng
+    updateOrderList(data.listProduct);
+  },
+  error: function(error) {
+    console.log(error);
+  }
+});
+
+// Hàm cập nhật danh sách đơn hàng trên trang web
+function updateOrderList(listProduct) {
+  // Cập nhật danh sách đơn hàng trong HTML
+  // Ví dụ: sử dụng jQuery để cập nhật danh sách đơn hàng
+  $("#orderList").html(""); // Xóa danh sách đơn hàng hiện tại
+  listProduct.forEach(function(order) {
+    // Tạo HTML cho mỗi đơn hàng và thêm vào danh sách
+    var orderHtml = "<li>" + order.name + "</li>";
+    $("#orderList").append(orderHtml);
+  });
+}
+
 </script>
 
 <style>

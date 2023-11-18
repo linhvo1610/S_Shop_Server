@@ -14,6 +14,7 @@ var cartRouter = require('./routes/cart.route');
 
 var loginRouter = require('./routes/login');
 var productRouter = require('./routes/product');
+var billRouter = require('./routes/bill.route');
 
 
 var app = express();
@@ -26,6 +27,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static("uploads"));
+
 app.use(express.static("tmp"));
 app.use(session({
   secret: '2372347293sdhjfhjksddfssfsdffkjssii', //chuỗi kí tự đặc biệt để session mã hóa, tự viết
@@ -41,6 +44,7 @@ app.use('/address',addressRouter);
 app.use('/cart',cartRouter);
 
 app.use('/product',productRouter);
+app.use('/bill',billRouter);
 
 
 // catch 404 and forward to error handler

@@ -1,4 +1,5 @@
 var db = require('./db');
+
 const productSchema = new db.mongoose.Schema(
     {
       name: { type: String, required: true },
@@ -13,13 +14,27 @@ const productSchema = new db.mongoose.Schema(
       ],
       description: { type: String, required: true },
       image: { type: String, required: true },
+      status: {
+        type:Boolean, // Kiểu dữ liệu boolean cho trạng thái
+        defaultValue: true, // Giá trị mặc định
+      },
     },
     { collection: 'products' }
   );
-  
+
 const categorySchema = new db.mongoose.Schema({
     name:{type:String,required:true}
 },{collection:'category'});
+// const CommentSchema = new db.mongoose.Schema({
+//   // idproduct : {type: db.mongoose.Schema.Types.ObjectId, required: false, ref: 'productModel'},
+//   idProduct: {type: String, required:false},
+//   idUser: {type: String, required:false},
+//   comment: {type: String, required:false}
+// },{
+//   collection: 'Comment'
+// });
+
+// let CommentModel = db.mongoose.model('commentModel',CommentSchema)
 let productModel = db.mongoose.model('productModel',productSchema);
 let categoryModel=db.mongoose.model('categoryModel',categorySchema);
 module.exports={
