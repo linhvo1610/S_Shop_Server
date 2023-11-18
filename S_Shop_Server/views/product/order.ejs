@@ -56,7 +56,11 @@
           
           <% } %>
         </td>
-        <td><%= item.size %></td>
+        <td>
+          <% for (var i = 0; i < item.list.length; i++) { %>
+            <%= item.list[i].size %><br>
+          <% } %>
+        </td>
         <td>
           <% for (var i = 0; i < item.list.length; i++) { %>
             <%= item.list[i].quantity %><br>
