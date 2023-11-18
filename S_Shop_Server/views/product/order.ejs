@@ -46,20 +46,23 @@
       </tr>
     </thead>
     <tbody>
-      <% listProduct.forEach(function(item) { %>
+      <% listBill.forEach(function(item) { %>
       <tr>
-        <td><%= item.id_address.fullname %></td>
+        <td><%= item.name %></td>
 
         <td>
-          <% for (var i = 0; i < item.product.length; i++) { %>
-          <% var product = item.product[i].id_product; %>
-          <% var truncatedName = product.name.length > 40 ? product.name.substring(0, 40) + '...' : product.name; %>
-          <p><%= truncatedName %></p>
+          <% for (var i = 0; i < item.list.length; i++) { %>
+            <%= item.list[i].name_product %> <br>
+          
           <% } %>
         </td>
         <td><%= item.size %></td>
-        <td><%= item.totalQuantity %></td>
-        <td><%= item.totalPrice %></td>
+        <td>
+          <% for (var i = 0; i < item.list.length; i++) { %>
+            <%= item.list[i].quantity %><br>
+          <% } %>
+        </td>
+        <td><%= item.total %></td>
         <td><%= item.status %></td>
         <td>
           <div style="display: flex;
