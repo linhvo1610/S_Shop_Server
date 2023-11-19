@@ -28,7 +28,7 @@ exports.listBillXacNhan = async (req, res, next) => {
 
 exports.listBillsDanhan = async (req, res, next) => {
   
-  var posts = await BillMore.find({status: 4})
+  var posts = await BillMore.find({status: 3})
 
   console.log(posts);
   res.render("product/DaNhanBill", {
@@ -37,7 +37,7 @@ exports.listBillsDanhan = async (req, res, next) => {
 }
 exports.listBillsHuydon = async (req, res, next) => {
   
-  var posts = await BillMore.find({status: 5})
+  var posts = await BillMore.find({status: 4})
 
   console.log(posts);
 
@@ -55,7 +55,7 @@ exports.listBillsDagiao = async (req, res, next) => {
   const pro = await prModel.productModel.find();
   const address = await Address.find();
 
-  const filteredPosts = posts.filter(post => post.status == 3);
+  const filteredPosts = posts.filter(post => post.status == 2);
 
 
   res.render("product/DaGiaoBill", {

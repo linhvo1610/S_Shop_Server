@@ -67,7 +67,8 @@
           <% } %>
         </td>
         <td><%= item.total %></td>
-        <td><% if (item.status === 0) { %>
+        <td>
+          <% if (item.status === 0) { %>
                 Chờ xác nhận
             <% } 
             else if (item.status === 1) { %>
@@ -80,10 +81,10 @@
               Đã giao
             <% }
             else if (item.status === 4) { %>
-              Đã nhận hàng
+              Hủy đơn
             <% }
             else if (item.status === 5) { %>
-              Hủy đơn
+              Đã nhận hàng
             <% }
             else { %>
               Trạng thái: Khác
