@@ -1,4 +1,5 @@
 const Bill = require('../../models/Bill')
+const BillMore = require('../../models/BillMore');
 exports.listBill = async (req, res) => {
     let dataR = {  }
     let list = []
@@ -284,3 +285,25 @@ exports.updateStatus = async (req, res) => {
       }
       
   };
+
+  exports.listStatus = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if(typeof(req.query.id_user) !== 'undefined' && typeof(req.query.status) !== 'undefined'){
+        let id_user =req.query.id_user;
+        let status = req.query.status;
+        // dieu_kien={id_user:id_user, status: "Xác nhận", };
+        dieu_kien={id_user:id_user, status: status };
+        console.log(dieu_kien);
+    }
+    try {
+        list = await BillMore.find(dieu_kien);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+  }

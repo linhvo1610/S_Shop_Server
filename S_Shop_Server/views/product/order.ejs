@@ -50,9 +50,9 @@
       <tr>
         <td><%= item.name %></td>
 
-        <td>
+        <td style="width: 350px;">
           <% for (var i = 0; i < item.list.length; i++) { %>
-            <%= item.list[i].name_product %> <br>
+            - <%= item.list[i].name_product %> <br>
           
           <% } %>
         </td>
@@ -67,7 +67,14 @@
           <% } %>
         </td>
         <td><%= item.total %></td>
-        <td><%= item.status %></td>
+        <td><% if (item.status === 0) { %>
+                Chờ xác nhận
+            <% } else if (item.status === 1) { %>
+              Đã xác nhận
+            <% } else { %>
+              Trạng thái: Khác
+            <% } %>
+      </td>
         <td>
           <div style="display: flex;
           align-items: center;

@@ -4,6 +4,7 @@ const billController = require('../controllers/bill.controller');
 
 
 router.get('/listBills',billController.listBill);
+
 router.get('/listBillsXacnhan',billController.listBillXacNhan);
 router.get('/listBillsDanhan',billController.listBillsDanhan);
 router.get('/listBillsDagiao',billController.listBillsDagiao);

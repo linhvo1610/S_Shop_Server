@@ -75,9 +75,9 @@ router.delete('/bill/delete/:id', apiB.huydon)
 router.get('/billDagiao', apiB.listBillDaGiaohang)
 
 router.put('/bill/update/:id', apiB.updateStatus);
-
-
 router.get('/billTop', apiB.listBillTop)
+
+router.get('/billStatus', apiB.listStatus);
 
 
 // tim kiem filter'
