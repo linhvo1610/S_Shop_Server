@@ -67,13 +67,28 @@
           <% } %>
         </td>
         <td><%= item.total %></td>
-        <td><% if (item.status === 0) { %>
-                Chờ xác nhận
-            <% } else if (item.status === 1) { %>
-              Đã xác nhận
-            <% } else { %>
-              Trạng thái: Khác
-            <% } %>
+        <td>
+          <% if (item.status === 0) { %>
+            Chờ xác nhận
+        <% } 
+        else if (item.status === 1) { %>
+          Đã xác nhận
+        <% } 
+        else if (item.status === 2) { %>
+          Đang giao
+        <% }
+        else if (item.status === 3) { %>
+          Đã giao
+        <% }
+        else if (item.status === 4) { %>
+          Hủy đơn
+        <% }
+        else if (item.status === 5) { %>
+          Đã nhận hàng
+        <% }
+        else { %>
+          Trạng thái: Khác
+        <% } %>
       </td>
         <td>
           <div style="display: flex;
