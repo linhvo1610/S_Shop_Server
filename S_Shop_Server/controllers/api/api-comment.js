@@ -17,7 +17,7 @@ exports.lisetComment = async (req,res,next) =>{
 
     let list = [];
     try {
-        list = await ProModel.binhluanModel.find(dieu_kien).populate("id_product");
+        list = await ProModel.binhluanModel.find(dieu_kien).populate("id_product").populate("id_user");
         dataR.data = list;
 
     } catch (err) {
