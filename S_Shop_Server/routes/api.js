@@ -7,7 +7,21 @@ var apiC = require ('../controllers/api/api-comment');
 var apiB = require('../controllers/api/api-bill')
 
 
+var multer = require("multer");
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function name(req, file, cb) {
+        cb(null, file.fieldname + "" + Date.now() + "" + file.originalname);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    
+}).single('image');
 /* GET home page. */
 
 //get users
@@ -19,7 +33,7 @@ router.post('/login', apiU.loginUser);
 router.post('/register', apiU.registerUser);
 router.get('/register', apiU.registerUser);
 router.put('/updateUser/:id', apiU.updateUsers);
-
+router.put('/updateUserImage/:id',upload, apiU.updateUserss);
 // //update 
 
 // router.put('/users/:iduser', apiU.updateUsers);

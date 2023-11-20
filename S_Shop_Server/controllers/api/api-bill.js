@@ -313,8 +313,6 @@ exports.updateStatus = async (req, res) => {
 const year = date.getFullYear();
 const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0, nên cần cộng thêm 1
 const day = date.getDate();
-
-const formattedDate = `${day}/${month}/${year}`;
 const formattedDateVN = date.toLocaleDateString('en-GB');
   exports.updateBillMores = async (req, res) => {
     let data = {
