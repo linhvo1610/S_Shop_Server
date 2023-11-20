@@ -1,4 +1,5 @@
 const Bill = require('../../models/Bill')
+const BillMore = require('../../models/BillMore');
 exports.listBill = async (req, res) => {
     let dataR = {  }
     let list = []
@@ -113,22 +114,21 @@ exports.listBillChoxacnhan = async (req, res) => {
 exports.listBillQuantity = async (req, res) => {
     let dataR = {};
     let list = [];
-    let dieu_kien = null;
+    let dieu_kien = {};
 
     if (typeof req.query.id_product !== 'undefined') {
         const id_product = req.query.id_product;
-        const idProductCondition = { '_id': id_product }; // Assuming _id is the actual field in id_product
-        dieu_kien = dieu_kien ? { ...dieu_kien, 'product.id_product': idProductCondition } : { 'product.id_product': idProductCondition };
+        const idProductCondition = { '_id': id_product };
+        dieu_kien = { ...dieu_kien, 'list.id_product': idProductCondition };
     }
-
+    
     if (typeof req.query.status !== 'undefined') {
         const status = req.query.status;
         const statusCondition = { 'status': status };
-        dieu_kien = dieu_kien ? { ...dieu_kien, ...statusCondition } : statusCondition;
+        dieu_kien = { ...dieu_kien, ...statusCondition };
     }
-
     try {
-        list = await Bill.billModel.find(dieu_kien).populate('id_user').populate('product.id_product');
+        list = await BillMore.find(dieu_kien).populate('list.id_product');
         dataR.data = list;
     } catch (err) {
         dataR.msg = err.message;
@@ -284,3 +284,78 @@ exports.updateStatus = async (req, res) => {
       }
       
   };
+
+
+
+  exports.listStatus = async (req, res) => {
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if(typeof(req.query.id_user) !== 'undefined' && typeof(req.query.status) !== 'undefined'){
+        let id_user =req.query.id_user;
+        let status = req.query.status;
+        // dieu_kien={id_user:id_user, status: "Xác nhận", };
+        dieu_kien={id_user:id_user, status: status };
+        console.log(dieu_kien);
+    }
+    try {
+        list = await BillMore.find(dieu_kien);
+        dataR.data = list;
+    }
+    catch (err) {
+        dataR.msg = err.message;
+    }
+    res.json(dataR);
+    console.log(dataR);
+  }
+  const date = new Date();
+
+const year = date.getFullYear();
+const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0, nên cần cộng thêm 1
+const day = date.getDate();
+const formattedDateVN = date.toLocaleDateString('en-GB');
+  exports.updateBillMores = async (req, res) => {
+    let data = {
+        status: 1,
+        msg: "update",
+      };
+    if (req.method == "PUT") {
+        try {
+          await BillMore.updateOne(
+            { _id: req.params.id },
+            {
+              $set: {
+                id_user: req.body.id_user,
+                name: req.body.name,
+                phone: req.body.phone,
+                total: req.body.total,
+                date: formattedDateVN,
+                status: req.body.status,
+                list: req.body.list,
+                address: req.body.address
+              }
+            }
+          );
+          res.status(200).json(data);
+        } catch (err) {
+          res.status(400).json({ message: err.message });
+        }
+      }else {
+        res.status(400).json({ status: 0, msg: "Invalid request method" });
+      }
+  }
+  exports.huydon = async (req, res) => {
+    let dataR = {
+        status: 1,
+        msg: "Xoa thanh cong",
+      };
+      try {
+        await BillMore.findByIdAndDelete({ _id: req.params.id });
+        console.log("Xoa thanh cong");
+      } catch (err) {
+        console.log(err);
+        dataR.msg = err.message;
+      }
+      res.json(dataR);
+      console.log(dataR);
+  }

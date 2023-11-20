@@ -162,4 +162,34 @@ exports.updateUsers = async (req, res, next) => {
 res.json(dataR)
 };
 
+exports.updateUserss = async (req, res, next) => {
+  let data = {
+      status: 1,
+      msg: "Thanh cong update"
+  }
+
+  if(req.method =='PUT'){
+  try {
+    await MyModel.usersModel.updateOne({ _id: req.params.id}, 
+      { $set: {
+              image: req.file.filename,
+              username: req.body.username,
+              fullname: req.body.fullname,
+              password: req.body.password,
+              email: req.body.email,
+              phone: req.body.phone,
+              role: "User",
+              dob: req.body.dob,
+              sex: req.body.sex,
+            },
+    })
+    res.status(200).json(data);
+  }catch(err){
+      console.log(err);
+      data.msg = err.message;
+  }}else {
+    res.status(400).json({ status: 0, msg: "Invalid request method" });
+  }
+};
+
 

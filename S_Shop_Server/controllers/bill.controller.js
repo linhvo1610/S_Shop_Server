@@ -2,16 +2,13 @@ const myModel = require("../models/BillMore");
 const usModel = require("../models/model");
 const prModel = require("../models/product.model");
 const Address = require("../models/Address");
+const BillMore = require("../models/BillMore");
 
 exports.listBill = async (req, res, next) => {
   
-  var posts = await myModel.find();
+  var posts = await myModel.find({status: 0});
 
   console.log(posts);
-
-  // const filteredPosts = posts.filter(post => post.status !== "Đã nhận");
-  // const filteredPosts = posts.filter(post => post.status == "Chờ xác nhận");
-
 
   res.render("product/order", {
     listBill: posts,
@@ -19,66 +16,38 @@ exports.listBill = async (req, res, next) => {
 }
 
 exports.listBillXacNhan = async (req, res, next) => {
-  
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+
+  var posts = await BillMore.find({status: 1});
 
   console.log(posts);
 
-  const user = await usModel.usersModel.find();
-  const pro = await prModel.productModel.find();
-  const address = await Address.find();
-
-  const filteredPosts = posts.filter(post => post.status == "Xác nhận");
-
-
   res.render("product/XacNhanBill", {
-    listProduct: filteredPosts,
-    user: user,
-    pro:pro,address:address
+    listBill: posts,
 });
 };
 
 exports.listBillsDanhan = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+  var posts = await BillMore.find({status: 3})
 
   console.log(posts);
-
-  const user = await usModel.usersModel.find();
-  const pro = await prModel.productModel.find();
-  const address = await Address.find();
-
-  const filteredPosts = posts.filter(post => post.status == "Đã nhận");
-
-
-  res.render("product/XacNhanBill", {
-    listProduct: filteredPosts,
-    user: user,
-    pro:pro,address:address
+  res.render("product/DaNhanBill", {
+    listBill: posts,
 });
 }
 exports.listBillsHuydon = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+  var posts = await BillMore.find({status: 4})
 
   console.log(posts);
 
-  const user = await usModel.usersModel.find();
-  const pro = await prModel.productModel.find();
-  const address = await Address.find();
-
-  const filteredPosts = posts.filter(post => post.status == "Đã hủy");
-
-
   res.render("product/HuyDon", {
-    listProduct: filteredPosts,
-    user: user,
-    pro:pro,address:address
+    listBill: posts,
 });
 }
 exports.listBillsDagiao = async (req, res, next) => {
   
-  var posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+  var posts = await BillMore.find()
 
   console.log(posts);
 
@@ -86,11 +55,11 @@ exports.listBillsDagiao = async (req, res, next) => {
   const pro = await prModel.productModel.find();
   const address = await Address.find();
 
-  const filteredPosts = posts.filter(post => post.status == "Đã giao");
+  const filteredPosts = posts.filter(post => post.status == 2);
 
 
   res.render("product/DaGiaoBill", {
-    listProduct: filteredPosts,
+    listBill: filteredPosts,
     user: user,
     pro:pro,address:address
 });
@@ -144,33 +113,30 @@ exports.updateStatusBill1 = async (req, res, next) => {
 exports.updatebillPro = async (req, res) => {
   try {
     const idbill = req.params.idbill;
-    const bill = await myModel.billModel.findById(idbill);
+    const bill = await BillMore.findById(idbill);
 
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
 
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
-    bill.status = 'Xác nhận';
+    bill.status = 1;
     await bill.save();
 
-    // Lấy thông tin sản phẩm từ danh sách sản phẩm
-    const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
-
-    // Lấy danh sách đơn hàng sau khi cập nhật
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+    const posts = await BillMore.find()
 
     const user = await usModel.usersModel.find();
     const pro = await prModel.productModel.find();
     const address = await Address.find();
-    const filteredPosts = posts.filter(post => post.status === "Chờ xác nhận");
+    const filteredPosts = posts.filter(post => post.status === 0);
     
 
     res.render("product/order", {
-      listProduct: filteredPosts,
+      listBill: filteredPosts,
       user: user,
       pro: pro,address:address
     });
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
@@ -179,35 +145,34 @@ exports.updatebillPro = async (req, res) => {
 exports.updatebillProGiaohang = async (req, res) => {
   try {
     const idbill = req.params.idbill;
-    const bill = await myModel.billModel.findById(idbill);
+    const bill = await BillMore.findById(idbill);
 
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
 
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
-    bill.status = 'Xác nhận';
+    bill.status = 1;
     await bill.save();
     setTimeout(async function() {
-      bill.status = 'Đang giao';
+      bill.status = 2;
       await bill.save();
     
       setTimeout(async function() {
-        bill.status = 'Đã giao';
+        bill.status = 3;
         await bill.save();
   
         res.redirect("/bill/listBillsDagiao");
-        const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
-        const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");
+        const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
         const address = await Address.find();
 
-        const filteredPosts = posts.filter(post => post.status === "Xác nhận");
+        const filteredPosts = posts.filter(post => post.status === 1);
 
 
-        res.render("product/order", {
-          listProduct: filteredPosts,
+        res.render("product/DaGiaoBill", {
+          listBill: filteredPosts,
           user: user,
           pro: pro,
           address: address
@@ -222,29 +187,18 @@ exports.updatebillProGiaohang = async (req, res) => {
 exports.updatebillProHuy = async (req, res) => {
   try {
     const idbill = req.params.idbill;
-    const bill = await myModel.billModel.findById(idbill);
+    const bill = await BillMore.findById(idbill);
 
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
 
-    // Cập nhật trạng thái đơn hàng thành "Xác nhận"
-    bill.status = 'Hủy đơn';
+    bill.status = 4;
     await bill.save();
-
-    // Lấy thông tin sản phẩm từ danh sách sản phẩm
-    const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
-
-    // Lấy danh sách đơn hàng sau khi cập nhật
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");;
-
-    const user = await usModel.usersModel.find();
-    const pro = await prModel.productModel.find();
-    const address = await Address.find();
+    res.redirect("/bill/listBills");
+    const posts = await BillMore.find()
     res.render("product/order", {
-      listProduct: posts,
-      user: user,
-      pro: pro,address:address
+      listBill: posts,
     });
   } catch (err) {
     console.log(err);

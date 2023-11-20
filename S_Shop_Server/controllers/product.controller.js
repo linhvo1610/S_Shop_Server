@@ -257,4 +257,65 @@ exports.deleteCategory = async (req, res, next) => {
 
   }
 }
+exports.closeProduct = async (req, res, next) => {
+  let dieu_kien =null;
+  let dieu_kien1 = null;
+  if(typeof(req.query.id_cat)!='undefined'||typeof(req.query.sizes)!='undefined'){
+      let id_cat =req.query.id_cat;
+      let size = req.query.sizes;
+      dieu_kien={id_cat:id_cat,'sizes.size': size};
+      dieu_kien1 = {size:size};
+      console.log(dieu_kien);
+  }
+  var posts = await myModel.productModel.find(dieu_kien1).populate('id_cat'); // ten cot tham chieu
+
+  console.log(posts);
+
+  const loaiSP = await myModel.categoryModel.find();
+  const filteredPosts = posts.filter(post => post.status == false);
+
+  res.render("product/closeProduct", {
+    listProduct: filteredPosts,
+    listLoai: loaiSP,
+});
+}
+exports.filterClosedProduct = async (req, res, next) => {
+  
+  let filter = {};
+  if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined') {
+    let id_cat = req.query.id_cat;
+    let size = req.query.size;
+    console.log("id_cat:", id_cat);
+    console.log("size:", size);
+    
+   
+    if (id_cat && size) {
+      filter = { $or: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } } ] };
+    } else if (id_cat) {
+      filter = { "id_cat": id_cat };
+    } else if (size) {
+      filter = { "sizes": { $elemMatch: { "size": size } } };
+    }
+  
+    console.log("filter:", filter);
+    // Use the 'filter' object in your MongoDB query
+  }
+
+  var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
+
+  console.log(posts);
+
+  const loaiSP = await myModel.categoryModel.find();
+
+  // const selectedSize = req.query.size;
+  // const filteredProducts = posts.filter((product) => {
+  //   return product.sizes.some((size) => size.size === selectedSize);
+  // });
+
+  res.render("product/closeProduct", {
+    listProduct: posts,
+    listLoai: loaiSP,
+    // product: filteredProducts,
+});
+};
   

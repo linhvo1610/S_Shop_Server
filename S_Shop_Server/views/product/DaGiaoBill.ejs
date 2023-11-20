@@ -46,29 +46,58 @@
       </tr>
     </thead>
     <tbody>
-      <% listProduct.forEach(function(item) { %>
+      <% listBill.forEach(function(item) { %>
       <tr>
-        <td><%= item.id_address.fullname %></td>
+        <td><%= item.name %></td>
 
-        <td>
-          <% for (var i = 0; i < item.product.length; i++) { %>
-          <% var product = item.product[i].id_product; %>
-          <% var truncatedName = product.name.length > 40 ? product.name.substring(0, 40) + '...' : product.name; %>
-          <p><%= truncatedName %></p>
+        <td style="width: 350px;">
+          <% for (var i = 0; i < item.list.length; i++) { %>
+           - <%= item.list[i].name_product %> <br>
+          
           <% } %>
         </td>
-        <td><%= item.size %></td>
-        <td><%= item.totalQuantity %></td>
-        <td><%= item.totalPrice %></td>
-        <td><%= item.status %></td>
+        <td>
+          <% for (var i = 0; i < item.list.length; i++) { %>
+            <%= item.list[i].size %><br>
+          <% } %>
+        </td>
+        <td>
+          <% for (var i = 0; i < item.list.length; i++) { %>
+            <%= item.list[i].quantity %><br>
+          <% } %>
+        </td>
+        <td><%= item.total %></td>
+        <td>
+          <% if (item.status === 0) { %>
+            Chờ xác nhận
+        <% } 
+        else if (item.status === 1) { %>
+          Đã xác nhận
+        <% } 
+        else if (item.status === 2) { %>
+          Đang giao
+        <% }
+        else if (item.status === 3) { %>
+          Đã giao
+        <% }
+        else if (item.status === 4) { %>
+          Hủy đơn
+        <% }
+        else if (item.status === 5) { %>
+          Đã nhận hàng
+        <% }
+        else { %>
+          Trạng thái: Khác
+        <% } %>
+      </td>
         <!-- <td>
           <div style="display: flex;
           align-items: center;
           gap: 10px;">
           <form action="/bill/updatebillPro/<%= item._id %>" method="post">
-            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
+            <% if (item.status == 1 && item.status !== 2&& item.status !== 3 && item.status !== 4) { %>
             <button type="submit" class="btn-primary btn-sm">
-              <span>Xác nhận</span>
+              <span>Giao hàng</span>
             </button>
             <% } %>
           </form>
@@ -79,6 +108,14 @@
               <span>Hủy</span>
             </button>
             <% } %>
+          </form>
+          
+          <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
+            <% if (item.status === "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
+            <button type="submit" class="btn-primary btn-sm" id="deliveryButton">
+              <span>Giao hàng</span>
+            </button>
+            <% } %> 
           </form>
         </div>
         </td> -->
