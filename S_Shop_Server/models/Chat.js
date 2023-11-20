@@ -17,6 +17,7 @@ const chatSchema = new db.mongoose.Schema({
         type: String,
         required: true
       },
+      status:{type: String},
       timestamp: {
         type: Date,
         default: Date.now
