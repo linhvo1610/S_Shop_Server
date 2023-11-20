@@ -52,7 +52,7 @@
 
         <td style="width: 350px;">
           <% for (var i = 0; i < item.list.length; i++) { %>
-            - <%= item.list[i].name_product %> <br>
+           - <%= item.list[i].name_product %> <br>
           
           <% } %>
         </td>
@@ -103,20 +103,20 @@
           </form>
           
           <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
-            <% if (item.status !== 1 && item.status !== 2&& item.status !== 3 && item.status !== 4) { %>
+            <% if (item.status !== 1&& item.status !== 2&& item.status !== 3&& item.status !== 4) { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Hủy</span>
             </button>
             <% } %>
           </form>
           
-          <!-- <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
-            <% if (item.status === "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
+          <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
+            <% if (item.status === 1&& item.status !== 2&& item.status !== 3&& item.status !== 4) { %>
             <button type="submit" class="btn-primary btn-sm" id="deliveryButton">
               <span>Giao hàng</span>
             </button>
             <% } %> 
-          </form> -->
+          </form>
         </div>
         </td>
       </tr>

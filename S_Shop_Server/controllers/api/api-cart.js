@@ -16,20 +16,8 @@ class ApiController {
         const id_user = req.params.id_user;
         Cart.find({ id_user: id_user })
             .then(arr => {
-                const promises = arr.map(item => {
-                    return productModel.findOne({ _id: item.id_product });
-                });
-
-                return Promise.all(promises)
-                    .then(products => {
-                        products.forEach((product, index) => {
-                            arr[index].image = product.image[0];
-                            arr[index].name_product = product.name;
-                            arr[index].price_product = product.price;
-                        });
-
-                        return arr;
-                    });
+                console.log(arr);
+                return arr
             })
             .then(arr => {
                 res.json(arr);

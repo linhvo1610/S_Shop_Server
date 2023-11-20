@@ -42,7 +42,7 @@
         <th scope="col">Số lượng</th>
         <th scope="col">Tổng tiền</th>
         <th scope="col">Trạng thái</th>
-        <th scope="col"> Quản lý</th>
+        <!-- <th scope="col"> Quản lý</th> -->
       </tr>
     </thead>
     <tbody>
@@ -50,9 +50,9 @@
       <tr>
         <td><%= item.name %></td>
 
-        <td style="width: 350px;">
+        <td style="width: 270px;">
           <% for (var i = 0; i < item.list.length; i++) { %>
-            - <%= item.list[i].name_product %> <br>
+           - <%= item.list[i].name_product %> <br>
           
           <% } %>
         </td>
@@ -90,35 +90,35 @@
           Trạng thái: Khác
         <% } %>
       </td>
-        <td>
+        <!-- <td>
           <div style="display: flex;
           align-items: center;
           gap: 10px;">
           <form action="/bill/updatebillPro/<%= item._id %>" method="post">
-            <% if (item.status !== 1 && item.status !== 2&& item.status !== 3 && item.status !== 4) { %>
+            <% if (item.status == 1 && item.status !== 2&& item.status !== 3 && item.status !== 4) { %>
             <button type="submit" class="btn-primary btn-sm">
-              <span>Xác nhận</span>
+              <span>Giao hàng</span>
             </button>
             <% } %>
           </form>
           
           <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
-            <% if (item.status !== 1 && item.status !== 2&& item.status !== 3 && item.status !== 4) { %>
+            <% if (item.status !== "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
             <button type="submit" class="btn-primary btn-sm">
               <span>Hủy</span>
             </button>
             <% } %>
           </form>
           
-          <!-- <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
+          <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
             <% if (item.status === "Xác nhận"&& item.status !== "Đang giao"&& item.status !== "Đã giao"&& item.status !== "Đã nhận") { %>
             <button type="submit" class="btn-primary btn-sm" id="deliveryButton">
               <span>Giao hàng</span>
             </button>
             <% } %> 
-          </form> -->
+          </form>
         </div>
-        </td>
+        </td> -->
       </tr>
       <% }); %>
 

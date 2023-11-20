@@ -17,9 +17,10 @@ exports.list = async (req, res, next) => {
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
+  const filteredPosts = posts.filter(post => post.status == true);
 
   res.render("product/list", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
 });
 };
@@ -189,6 +190,31 @@ exports.updateProduct = async(req, res, next) => {
     listLoai: loaiSP,objPr : objPr,
   });
 }
+exports.updatestatusProduct = async(req, res, next) => {
+
+  
+  const idpro = req.params.idpro;
+
+try {
+  let objPr = await myModel.productModel.findById(idpro);
+  if (!objPr) {
+    return res.status(404).json({ message: 'Không tìm thấy hàng' });
+  } else {
+    objPr.status = !objPr.status; // Toggle the status
+    await objPr.save();
+    res.redirect('/product/list');
+
+    const filteredProducts = await myModel.productModel.find({ status: true }).populate('id_cat');;
+    const loaiSP = await myModel.categoryModel.find();
+    res.render('product/list', { products: filteredProducts,listLoai:loaiSP });
+  }
+
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật trạng thái sản phẩm' });
+}
+
+}
 exports.updateCategory = async (req, res, next) => {
   let msg = '';
   let objSp = await myModel.categoryModel.findById(req.params.idTl);
@@ -231,4 +257,65 @@ exports.deleteCategory = async (req, res, next) => {
 
   }
 }
+exports.closeProduct = async (req, res, next) => {
+  let dieu_kien =null;
+  let dieu_kien1 = null;
+  if(typeof(req.query.id_cat)!='undefined'||typeof(req.query.sizes)!='undefined'){
+      let id_cat =req.query.id_cat;
+      let size = req.query.sizes;
+      dieu_kien={id_cat:id_cat,'sizes.size': size};
+      dieu_kien1 = {size:size};
+      console.log(dieu_kien);
+  }
+  var posts = await myModel.productModel.find(dieu_kien1).populate('id_cat'); // ten cot tham chieu
+
+  console.log(posts);
+
+  const loaiSP = await myModel.categoryModel.find();
+  const filteredPosts = posts.filter(post => post.status == false);
+
+  res.render("product/closeProduct", {
+    listProduct: filteredPosts,
+    listLoai: loaiSP,
+});
+}
+exports.filterClosedProduct = async (req, res, next) => {
+  
+  let filter = {};
+  if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined') {
+    let id_cat = req.query.id_cat;
+    let size = req.query.size;
+    console.log("id_cat:", id_cat);
+    console.log("size:", size);
+    
+   
+    if (id_cat && size) {
+      filter = { $or: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } } ] };
+    } else if (id_cat) {
+      filter = { "id_cat": id_cat };
+    } else if (size) {
+      filter = { "sizes": { $elemMatch: { "size": size } } };
+    }
+  
+    console.log("filter:", filter);
+    // Use the 'filter' object in your MongoDB query
+  }
+
+  var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
+
+  console.log(posts);
+
+  const loaiSP = await myModel.categoryModel.find();
+
+  // const selectedSize = req.query.size;
+  // const filteredProducts = posts.filter((product) => {
+  //   return product.sizes.some((size) => size.size === selectedSize);
+  // });
+
+  res.render("product/closeProduct", {
+    listProduct: posts,
+    listLoai: loaiSP,
+    // product: filteredProducts,
+});
+};
   

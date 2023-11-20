@@ -3,8 +3,8 @@ exports.listProduct = async (req, res, next) => {
     let dataR = {  }
     //code xử lý lấy danh sách
     let list = []
-    let dieu_kien =null;
-    if(typeof(req.query._id)!='undefined'){
+    let dieu_kien ={status: true};
+    if(typeof(req.query._id)!='undefined' ){
         let _id =req.query._id;
         dieu_kien={_id:_id};
         console.log(dieu_kien);
@@ -22,28 +22,53 @@ exports.listProduct = async (req, res, next) => {
     console.log(dataR);
 }
 exports.filterProduct = async (req, res, next) => {
+    // let dataR = {};
+    // let list = [];
+    // let dieu_kien = null;
+  
+    // console.log(req.query);
+  
+    // if (typeof req.query.name !== 'undefined') {
+    //   const name = req.query.name;
+  
+    //   // Instead of directly using name in the condition, fetch the id_cat that matches the name
+    //   const cat = await MyModel.categoryModel.findOne({ name });
+  
+    //   if (cat) {
+    //     // Use the retrieved cat._id in the condition
+    //     const catnameCondition = { 'id_cat': cat._id };
+    //     dieu_kien = dieu_kien ? { ...dieu_kien, ...catnameCondition } : catnameCondition;
+    //   } else {
+    //     // Handle the case where the cat with the specified name is not found
+    //     return res.status(404).json({ msg: 'Category not found' });
+    //   }
+    // }
+  
+    // try {
+    //   list = await MyModel.productModel.find(dieu_kien).populate('id_cat');
+    //   dataR.data = list;
+    //   res.json(dataR);
+    // } catch (err) {
+    //   dataR.msg = err.message;
+    //   res.status(500).json(dataR);
+    // }
+
     let dataR = {};
     let list = [];
-    let dieu_kien = null;
-  
+    let dieu_kien = {};
     console.log(req.query);
-  
+    
     if (typeof req.query.name !== 'undefined') {
       const name = req.query.name;
-  
-      // Instead of directly using name in the condition, fetch the id_cat that matches the name
       const cat = await MyModel.categoryModel.findOne({ name });
-  
+      
       if (cat) {
-        // Use the retrieved cat._id in the condition
-        const catnameCondition = { 'id_cat': cat._id };
-        dieu_kien = dieu_kien ? { ...dieu_kien, ...catnameCondition } : catnameCondition;
+        dieu_kien = { id_cat: cat._id };
       } else {
-        // Handle the case where the cat with the specified name is not found
         return res.status(404).json({ msg: 'Category not found' });
       }
     }
-  
+    
     try {
       list = await MyModel.productModel.find(dieu_kien).populate('id_cat');
       dataR.data = list;
@@ -52,6 +77,7 @@ exports.filterProduct = async (req, res, next) => {
       dataR.msg = err.message;
       res.status(500).json(dataR);
     }
+
   };
   
 
@@ -123,9 +149,6 @@ exports.listCat = async (req,res,next) =>{
         catch (err) {
             dataR.msg = err.message;
         }
-    
-     
-       
      }
 exports.addCat = async(req,res,next) =>{
         try {
@@ -138,7 +161,7 @@ exports.addCat = async(req,res,next) =>{
         }
       
      }
-     exports.editCat = async(req,res,next) =>{
+exports.editCat = async(req,res,next) =>{
         try {
             let id = req.params.id;
 
@@ -151,7 +174,7 @@ exports.addCat = async(req,res,next) =>{
         }
       
      }
-     exports.deleteCatgory = async (req, res, next)=>{
+exports.deleteCatgory = async (req, res, next)=>{
         try {
            let id = req.params.id;
           
@@ -162,5 +185,27 @@ exports.addCat = async(req,res,next) =>{
            console.log(error);
            
         }
-         
-         }
+}
+
+exports.filterPrice = async (req, res) => {
+    const minPrice = req.query.minPrice;
+     const maxPrice = req.query.maxPrice;
+
+     try {
+       let products;
+
+       if (minPrice && maxPrice) {
+         products = await MyModel.productModel.find({
+           price: { $gte: minPrice, $lte: maxPrice },
+         }).sort({price: 1}).populate('id_cat');
+       } else if (minPrice) {
+         products = await MyModel.productModel.find({ price: { $gte: minPrice } }).sort({price: 1});
+       } else if (maxPrice) {
+         products = await MyModel.productModel.find({ price: { $lte: maxPrice } }).sort({price: 1});
+       }
+
+       res.json(products);
+     } catch (error) {
+       res.status(500).json({ error: error.message });
+     }
+   }
