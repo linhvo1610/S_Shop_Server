@@ -79,7 +79,9 @@ router.get('/billTop', apiB.listBillTop)
 
 router.get('/billStatus', apiB.listStatus);
 
-
+// update billMores
+router.put('/bill/updateBillMores/:id', apiB.updateBillMores);
+router.delete('/bill/delete/:id', apiB.huydon)
 // tim kiem filter'
 router.get('/filterPrice', apiP.filterPrice)
 

@@ -187,29 +187,18 @@ exports.updatebillProGiaohang = async (req, res) => {
 exports.updatebillProHuy = async (req, res) => {
   try {
     const idbill = req.params.idbill;
-    const bill = await myModel.billModel.findById(idbill);
+    const bill = await BillMore.findById(idbill);
 
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
 
-    // Cập nhật trạng thái đơn hàng thành "Xác nhận"
-    bill.status = 'Hủy đơn';
+    bill.status = 4;
     await bill.save();
-
-    // Lấy thông tin sản phẩm từ danh sách sản phẩm
-    const products = await prModel.productModel.find({ _id: { $in: bill.product.map(p => p.id_product) } });
-
-    // Lấy danh sách đơn hàng sau khi cập nhật
-    const posts = await myModel.billModel.find().populate("product.id_product").populate("id_user").populate("id_address");;
-
-    const user = await usModel.usersModel.find();
-    const pro = await prModel.productModel.find();
-    const address = await Address.find();
+    res.redirect("/bill/listBills");
+    const posts = await BillMore.find()
     res.render("product/order", {
-      listProduct: posts,
-      user: user,
-      pro: pro,address:address
+      listBill: posts,
     });
   } catch (err) {
     console.log(err);
