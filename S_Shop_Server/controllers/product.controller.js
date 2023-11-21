@@ -117,6 +117,7 @@ if (req.method == "POST") {
     objPr.price = req.body.price;
     objPr.description = req.body.description;
     objPr.image = req.file.filename;
+    objPr.gianhap=req.body.gianhap;
     objPr.sizes = req.body.sizes.map((size) => ({
       size: size.size,
       quantity: size.quantity
@@ -168,6 +169,7 @@ exports.updateProduct = async(req, res, next) => {
       objPr.id_cat = req.body.id_cat;
       objPr.trademark = req.body.trademark;
       objPr.price = req.body.price;
+      objPr.gianhap=req.body.gianhap;
       objPr.description = req.body.description;
       objPr.image = req.file.filename;
       objPr.sizes = req.body.sizes.map((size) => ({
