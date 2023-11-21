@@ -23,12 +23,12 @@ class ApiController {
     }
 
     cancelBill(req, res, next) {
-        const id_bill = req.params.id_bill;
-        BillMore.findOne({ _id: id_bill })
-            .then(bill => {
-                if (bill.status === 0) {
-                    bill.status = 4;
-                    bill.save().then(rs => res.json(1)).catch(err => res.json(err));
+        const id_billmore = req.params.id_billmore;
+        BillMore.findOne({ _id: id_billmore })
+            .then(billmore => {
+                if (billmore.status === 0) {
+                    billmore.status = 4;
+                    billmore.save().then(rs => res.json(1)).catch(err => res.json(err));
                 } else {
                     res.json(-1);
                 }
