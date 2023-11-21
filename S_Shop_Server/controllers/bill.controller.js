@@ -205,3 +205,12 @@ exports.updatebillProHuy = async (req, res) => {
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+
+exports.BillOfUser = async (req, res, next) => {
+  let objSp = await BillMore.findById(req.params.idUser).populate("id_user");
+  let list=await usModel.findOne({_id:objSp.idUser});  
+  let objBill = new myModel.billModel();
+    objBill.status=5;
+  const loaiSP = await BillMore.find();
+  res.render('users/users', { title: 'chitiet', objSp: objSp, listLoai:loaiSP })
+}
