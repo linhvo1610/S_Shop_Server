@@ -1,5 +1,6 @@
 
 const myModel=require('../models/model')
+const myModell=require('../models/model');
 
 exports.userLogin = async(req,res,next)=>{
     let msg='';
@@ -71,4 +72,37 @@ exports.UserLogout=async (req,res,next)=>{
         console.log("user logged out.")
       });
       res.redirect('/login');
+}
+exports.addUser = async (req, res, next)=>{
+    let msg = ''; // ghi câu thông báo
+
+    if(req.method =='POST'){
+      
+        let objUser = new myModell.usersModel();
+        objUser.email = req.body.email;
+        objUser.username = req.body.username;
+        objUser.password=req.body.password;
+        objUser.role = req.body.role;
+        objUser.fullname = req.body.fullname;
+        objUser.image = req.body.image;
+        objUser.sex= req.body.gender;
+        objUser.phone= req.body.phone;
+        objUser.dob = req.body.dob;
+        
+        try{
+            let new_user = await objUser.save();
+            
+            console.log(new_user);
+
+            console.log("Đã ghi thành công");
+            msg = 'Đã thêm thành công';
+        }catch(err){
+            console.log(err);
+            msg ='Lỗi '+ error.message;
+
+        }
+ 
+    }
+
+    res.render('users/adduser', {msg:msg});
 }
