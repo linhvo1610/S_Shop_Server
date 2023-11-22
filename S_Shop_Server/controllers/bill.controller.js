@@ -26,6 +26,8 @@ exports.listBillXacNhan = async (req, res, next) => {
 });
 };
 
+
+
 exports.listBillsDanhan = async (req, res, next) => {
   
   var posts = await BillMore.find({status: 3})

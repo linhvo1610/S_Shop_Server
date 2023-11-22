@@ -1,0 +1,85 @@
+<%- include('../inc/top') %>
+
+<div style="width: 1170px; margin: auto">
+    <h2 style="text-align: center;margin-top: 18px;margin-bottom: 20px;">Danh sách các sản phẩm đã mua</h2>
+    <div>
+        <div style="float: left;">
+            <h3>Người dùng: <%= objUser.fullname %></h3>
+        </div>
+        <div style="float: right;width: 110px;height: 40px;background-color: aquamarine;text-align: center;border-radius: 10px;">
+            <h3><a style="text-decoration: none;
+                color: inherit;font-weight: bold;font-size: 20px;" href="/users">Đóng</a></h3>
+        </div>
+    </div>
+  <div style="margin-top: 30px;">
+    <table id="myTable" class="table table-responsive-xl">
+        <thead class="thead-dark">
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th style="text-align: center;">Tổng tiền thanh toán</th>
+                <th style="text-align: center;">Số lượng mua</th>
+                <th style="text-align: center;">Kích cỡ sản phẩm</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% userBills.forEach(function(bill) { %>
+            <tr>
+                <td style="width: 350px;">
+                    <% for (var i = 0; i < bill.list.length; i++) { %>
+                     - <%= bill.list[i].name_product %> <br>
+                    
+                    <% } %>
+                  </td>
+                <td style="text-align: center;">
+                    <%= bill.total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+                </td>
+                <td style="text-align: center;">
+                    <% for (var i = 0; i < bill.list.length; i++) { %>
+                        <%= bill.list[i].quantity %> <br>
+                       
+                       <% } %>
+                </td>
+                <td style="text-align: center;">
+                    <% for (var i = 0; i < bill.list.length; i++) { %>
+                      <%= bill.list[i].size %><br>
+                    <% } %>
+                  </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+  </div>
+ 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkbox = document.getElementById("checkbox_checked");
+
+    checkbox.addEventListener("change", function () {
+      if (checkbox.checked) {
+      } else {
+        data.status = true;
+      }
+
+      // You can also perform other actions here based on the checkbox state.
+    });
+  });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').dataTable({ "ordering": false, "searching": false });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .dialog {
+    width: 300px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+
+<%- include('../inc/bottom') %>
