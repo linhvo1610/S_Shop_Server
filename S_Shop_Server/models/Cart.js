@@ -9,6 +9,7 @@ const Cart = new db.mongoose.Schema({
     price_product:{ type: Number},
     quantity:{ type: Number, require: true },
     size: { type: Number, require: true },
+    importPrice:{ type: Number}
 }, {
     collection: "carts"
 });
