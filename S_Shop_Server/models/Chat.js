@@ -1,6 +1,4 @@
 var db = require('./db');
-
-
 const chatSchema = new db.mongoose.Schema({
     users: [{
       type: db.mongoose.Schema.Types.ObjectId,
@@ -17,6 +15,7 @@ const chatSchema = new db.mongoose.Schema({
         type: String,
         required: true
       },
+      status:{type: String},
       timestamp: {
         type: Date,
         default: Date.now

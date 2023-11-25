@@ -5,8 +5,7 @@ var apiU=require('../controllers/api/api-user');
 var apiP = require ('../controllers/api/api-product')
 var apiC = require ('../controllers/api/api-comment');
 var apiB = require('../controllers/api/api-bill')
-
-
+var apiChat = require('../controllers/api/api-chat');
 var multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -102,6 +101,6 @@ router.delete('/bill/delete/:id', apiB.huydon)
 // tim kiem filter'
 router.get('/filterPrice', apiP.filterPrice)
 
-
+router.get('/chat',apiChat.listChat);
 
 module.exports = router;
