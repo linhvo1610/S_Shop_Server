@@ -121,9 +121,11 @@ exports.searchProduct = async (req, res, next) => {
     // Use $regex with a valid string
     const product = await myModel.productModel.find({ name: { $regex: new RegExp(searchInput, 'i') } }).populate('id_cat');
 
+    const filteredPosts = product.filter(post => post.status == true);
+
     let listTheLoai = await myModel.categoryModel.find();
   res.render('product/list', {
-    listProduct: product, 
+    listProduct: filteredPosts, 
     listLoai: listTheLoai
   });
 
@@ -168,8 +170,9 @@ res.render("product/addProduct", {
 }
 exports.category =async(req,res,next) => {
   const loaiSP = await myModel.categoryModel.find();
+  var posts = await myModel.productModel.find().populate('id_cat');
 
-  res.render("product/category", {listLoai: loaiSP,});
+  res.render("product/category", {listLoai: loaiSP,posts:posts});
 }
 exports.addCategory = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
