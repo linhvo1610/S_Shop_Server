@@ -1,6 +1,4 @@
 var db = require('./db');
-
-
 const chatSchema = new db.mongoose.Schema({
     users: [{
       type: db.mongoose.Schema.Types.ObjectId,
