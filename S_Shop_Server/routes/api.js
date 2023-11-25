@@ -48,6 +48,9 @@ router.delete('/catgory/delete/:id',apiP.deleteCatgory);
 router.get('/filterproduct',apiP.filterProduct)
 router.get('/product',apiP.listProduct);
 
+router.get('/productHot',apiP.listProductHot);
+
+
 router.post('/product',apiP.addProduct);
 router.put('/product/edit/:id',apiP.editProduct);
 router.delete('/product/delete/:id',apiP.deleteProduct);

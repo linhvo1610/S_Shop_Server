@@ -112,30 +112,25 @@ exports.listBillChoxacnhan = async (req, res) => {
 }
 
 exports.listBillQuantity = async (req, res) => {
-    let dataR = {};
-    let list = [];
-    let dieu_kien = {};
-
-    if (typeof req.query.id_product !== 'undefined') {
-        const id_product = req.query.id_product;
-        const idProductCondition = { '_id': id_product };
-        dieu_kien = { ...dieu_kien, 'list.id_product': idProductCondition };
-    }
-    
-    if (typeof req.query.status !== 'undefined') {
-        const status = req.query.status;
-        const statusCondition = { 'status': status };
-        dieu_kien = { ...dieu_kien, ...statusCondition };
+    let dataR = {  }
+    let list = []
+    let dieu_kien =null;
+    if ( typeof(req.query.id_product) !== 'undefined' && req.query.status !== 'undefined') {
+        let status = req.query.status;
+        let id_product = req.query.id_product;
+        dieu_kien = {  status: 5, "list.id_product": id_product };
+        console.log(dieu_kien);
     }
     try {
-        list = await BillMore.find(dieu_kien).populate('list.id_product');
+        list = await BillMore.find(dieu_kien);
         dataR.data = list;
-    } catch (err) {
+    }
+    catch (err) {
         dataR.msg = err.message;
     }
-
     res.json(dataR);
     console.log(dataR);
+
 };
 
 

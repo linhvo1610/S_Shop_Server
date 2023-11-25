@@ -119,10 +119,12 @@
           <th></th>
           <th>Tên sản phẩm</th>
           <th>Loại SP</th>
-          <th>Giá</th>
+          <th>Giá nhập</th>
+          <th>Giá bán</th>
           <th>Số lượng</th>
           <th>Kích cỡ</th>
           <th>Trạng thái</th>
+          <th>Thay đổi trạng thái</th>
           <th>Chỉnh sửa</th>
         </tr>
       </thead>
@@ -136,7 +138,7 @@
           data-target="#exampleModal"
         >
         <th>
-          <a href="/product/chitiet/<%=data._id%>"> Xem thông tin chi tiết</a>
+          <a href="/product/chitiet/<%=data._id%>"> Chi tiết</a>
         </th>
           <td class="d-flex align-items-center">
             <div
@@ -151,7 +153,8 @@
 
           <td><%=data.id_cat.name %></td>
 
-          <td><%=data.price %></td>
+          <td><%= data.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+          <td><%= data.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
           <td>
             <% let totalQuantity = 0; %>
             <!-- Khởi tạo biến totalQuantity -->
@@ -171,12 +174,12 @@
             <%= sizes.join(', ') %>
             <!-- Hiển thị kích cỡ với dấu phẩy -->
           </td>
-         
+         <td>Hết hàng</td>
           <td>
             <form id="updateStatusForm" action="/product/updatestatusProduct/<%=data._id%>" method="post">
               <% if(data.status==false){ %>
                 <button type="button" class="btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
-                  Mở bán 
+                  Còn hàng 
                 </button>
               <% } else { %>
                 <!-- Add the code for the inactive state here -->

@@ -5,6 +5,7 @@ const productSchema = new db.mongoose.Schema(
       name: { type: String, required: true },
       id_cat: { type: db.mongoose.Schema.Types.ObjectId, ref: 'categoryModel' },
       trademark: { type: String, required: true },
+      gianhap: { type: Number, required: true },
       price: { type: Number, required: true },
       sizes: [
         {
