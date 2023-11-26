@@ -25,25 +25,21 @@ exports.listProductHot = async (req, res, next) => {
   let dataR = { }
   let list = []
   let dieu_kien = { status: true };
-
   if (typeof(req.query._id) !== 'undefined') {
     let _id = req.query._id;
     dieu_kien = { _id: _id };
     console.log(dieu_kien);
   }
-
   try {
-    // Sắp xếp và lấy 5 sản phẩm mới nhất
-    list = await MyModel.productModel.find(dieu_kien).sort({ timestamp: -1 }).limit(5).populate('id_cat');
+    list = await MyModel.productModel.find(dieu_kien).sort({ date: -1 }).limit(6).populate('id_cat');
     dataR.data = list;
+    res.json(dataR);
+    console.log(dataR);
   }
   catch (err) {
     dataR.msg = err.message;
+    res.json(dataR);
   }
-
-  // Trả về client
-  res.json(dataR);
-  console.log(dataR);
 }
 exports.filterProduct = async (req, res, next) => {
     // let dataR = {};

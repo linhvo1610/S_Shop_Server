@@ -130,7 +130,8 @@ exports.searchProduct = async (req, res, next) => {
 }
 
 }
-
+const date = new Date();
+const formattedDateVN = date.toLocaleDateString('en-GB');
 exports.addProduct = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
 if (req.method == "POST") {
@@ -148,7 +149,7 @@ if (req.method == "POST") {
       quantity: size.quantity
     }))
     objPr.status = req.body.status || true;
-
+    objPr.date = formattedDateVN;
 
   try {
     await objPr.save();
