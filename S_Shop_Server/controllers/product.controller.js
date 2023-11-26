@@ -94,16 +94,11 @@ exports.filter = async (req, res, next) => {
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
-
-  // const selectedSize = req.query.size;
-  // const filteredProducts = posts.filter((product) => {
-  //   return product.sizes.some((size) => size.size === selectedSize);
-  // });
+  const filteredPosts = posts.filter(post => post.status == true);
 
   res.render("product/list", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
-    // product: filteredProducts,
 });
 };
 
@@ -331,7 +326,6 @@ exports.filterClosedProduct = async (req, res, next) => {
     }
   
     console.log("filter:", filter);
-    // Use the 'filter' object in your MongoDB query
   }
 
   var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
@@ -339,14 +333,10 @@ exports.filterClosedProduct = async (req, res, next) => {
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
-
-  // const selectedSize = req.query.size;
-  // const filteredProducts = posts.filter((product) => {
-  //   return product.sizes.some((size) => size.size === selectedSize);
-  // });
+  const filteredPosts = posts.filter(post => post.status == false);
 
   res.render("product/closeProduct", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
     // product: filteredProducts,
 });
