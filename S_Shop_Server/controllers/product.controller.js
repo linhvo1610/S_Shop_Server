@@ -152,9 +152,9 @@ if (req.method == "POST") {
 
   try {
     await objPr.save();
-    
     console.log(new_sp);
-    console.log("Đăng Kí Thành Công");
+    console.log("Thêm Thành Công");
+    res.redirect('/product/list');
   } catch (error) {
     msg = "Lỗi " + error.message;
   }

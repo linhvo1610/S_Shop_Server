@@ -64,18 +64,62 @@ class ApiController {
             .catch(err => res.json(null));
     }
 
-    cancelBill(req, res, next) {
+    cancelBill = async (req, res, next) => {
+        // const id_billmore = req.params.id_billmore;
+        // BillMore.findOne({ _id: id_billmore })
+        //     .then(billmore => {
+        //         if (billmore.status === 0) {
+        //             billmore.status = 4;
+        //             billmore.save().then(rs => res.json(1)).catch(err => res.json(err));
+        //         } else {
+        //             res.json(-1);
+        //         }
+        //     })
+        //     .catch(err => res.json(err));
+
+
         const id_billmore = req.params.id_billmore;
-        BillMore.findOne({ _id: id_billmore })
-            .then(billmore => {
-                if (billmore.status === 0) {
-                    billmore.status = 4;
-                    billmore.save().then(rs => res.json(1)).catch(err => res.json(err));
-                } else {
-                    res.json(-1);
-                }
-            })
-            .catch(err => res.json(err));
+  try {
+    const billmore = await BillMore.findOne({ _id: id_billmore });
+
+    if (billmore.status === 0) {
+      // Hủy đơn hàng và cộng lại số lượng sản phẩm
+      for (const product of billmore.list) {
+        const productId = product.id_product;
+        const size = product.size;
+        const quantityToRestore = product.quantity;
+
+        // Tìm sản phẩm trong kho theo ID
+        const foundProduct = await MyModel.productModel.findById(productId);
+
+        if (foundProduct) {
+          // Tìm size tương ứng trong mảng sizes của sản phẩm
+          const foundSize = foundProduct.sizes.find((s) => s.size === size);
+
+          if (foundSize) {
+            // Cộng lại số lượng của size cụ thể trong kho
+            foundSize.quantity += quantityToRestore;
+
+            // Lưu các thay đổi vào sản phẩm
+            await foundProduct.save();
+          } else {
+            return res.status(400).json({ error: 'Không tìm thấy size tương ứng.' });
+          }
+        } else {
+          return res.status(400).json({ error: 'Không tìm thấy sản phẩm trong kho.' });
+        }
+      }
+
+      // Đánh dấu đơn hàng đã hủy
+      billmore.status = 4;
+      await billmore.save();
+      res.json(1); // Trả về mã thành công
+    } else {
+      res.json(-1); // Trả về mã lỗi
+    }
+  } catch (err) {
+    res.json(err); // Xử lý lỗi
+  }
     }
 
     updateBill(req, res, next) {

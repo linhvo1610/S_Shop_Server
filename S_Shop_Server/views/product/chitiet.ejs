@@ -6,13 +6,13 @@
   </div>
       <div style="height: 500px;padding: 10px;">
         <h1 style="font-style: italic; font-weight:bold;"><%=objSp.name %></h1>
-      <h2 style="color: red;"><%=objSp.price%>vnd</h2>
+      <h2 style="color: red;"><%=objSp.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></h2>
       <% objSp.sizes.forEach((size, index) => { %>
           <div class="input-row">
             <label for="size">Kích cỡ:</label>
             <p><%= size.size %></p>
             <label for="quantity">Số lượng:</label>
-            <p><%= size.quantity %></p>
+            <p><%= size.quantity.toLocaleString() %></p>
           </div>
         <% }) %>
           <p>Loại sản phẩm: <%=objSp.id_cat.name %></p>
