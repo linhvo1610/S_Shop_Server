@@ -19,6 +19,7 @@ const productSchema = new db.mongoose.Schema(
         type:Boolean, // Kiểu dữ liệu boolean cho trạng thái
         defaultValue: true, // Giá trị mặc định
       },
+      date:{ type: String, default: true },
     },
     { collection: 'products' }
   );
