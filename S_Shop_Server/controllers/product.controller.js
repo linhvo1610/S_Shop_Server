@@ -328,6 +328,8 @@ exports.filterClosedProduct = async (req, res, next) => {
   
     console.log("filter:", filter);
   }
+  let minPrice = req.query.minPrice
+    let maxPrice = req.query.maxPrice
 
   var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
 
@@ -339,7 +341,22 @@ exports.filterClosedProduct = async (req, res, next) => {
   res.render("product/closeProduct", {
     listProduct: filteredPosts,
     listLoai: loaiSP,
-    // product: filteredProducts,
 });
+
 };
-  
+exports.searchByPriceRange = async (req,res) => {
+  try {
+    let minPrice = req.query.minPrice
+    let maxPrice = req.query.maxPrice
+    const posts = await myModel.productModel.find({ price: { $gte: minPrice, $lte: maxPrice } });
+    const loaiSP = await myModel.categoryModel.find();
+    const filteredPosts = posts.filter(post => post.status == true);
+
+  res.render("product/list", {
+    listProduct: filteredPosts,
+    listLoai: loaiSP,
+});
+  } catch (error) {
+    throw new Error('Error while searching products by price range');
+  }
+};

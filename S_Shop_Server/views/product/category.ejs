@@ -1,18 +1,16 @@
 <%- include('../inc/top') %>
 <div class="container" style="min-height: 700px;" >
-  <div class="card card-body">
-    <div style="text-align: center;">
-     <h1>Thể Loại</h1>
-    </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      
-      <a href="/product/addCategory" class="m-1 btn btn-danger me-md-2 ">Thêm Thể Loại</a>
-    </div>
-   
-    
+
+  <div style="text-align: center;">
+    <h1>Thể Loại</h1>
+   </div>
+   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+     
+     <a href="/product/addCategory" class="m-1 btn btn-danger me-md-2 ">Thêm Thể Loại</a>
+   </div>
     <div class="mt-5">
-      <table class="table">
-        <thead>
+      <table id="myTable" class="table table-responsive-xl">
+        <thead class="thead-dark">
           <tr>
             <th scope="col">id</th>
             <th scope="col">Tên Thể Loại </th>
@@ -38,10 +36,6 @@
             
         </tbody>
       </table>
-
-    </div>
-  
   </div>
-</div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <%- include('../inc/bottom') %>

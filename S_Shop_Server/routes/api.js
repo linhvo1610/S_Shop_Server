@@ -34,6 +34,8 @@ router.post('/register', apiU.registerUser);
 router.get('/register', apiU.registerUser);
 router.put('/updateUser/:id', apiU.updateUsers);
 router.put('/updateUserImage/:id',upload, apiU.updateUserss);
+
+router.put('/updatePass/:id', apiU.UpdatePass);
 // //update 
 
 // router.put('/users/:iduser', apiU.updateUsers);
