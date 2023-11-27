@@ -64,7 +64,6 @@
                   (!allSizes.includes(size.size)) { %> <%
                   allSizes.push(size.size); %> <% } %> <% }); %> <% }); %> <%
                   var initialSizes = allSizes.slice(); %>
-
                   <!-- Size Dropdown -->
                   <select class="form-control" id="size" name="size">
                     <option value="">All Sizes</option>
@@ -74,6 +73,8 @@
                   </select>
                 </div>
               </div>
+
+
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="color">Loại:</label>
@@ -87,6 +88,7 @@
                   </select>
                 </div>
               </div>
+              
               <div class="col-md-4">
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">
@@ -95,6 +97,16 @@
                 </div>
               </div>
             </div>
+          </form>
+          
+          
+          <form id="filterForm" action="/product/price/filter" method="get">
+
+            <input type="number" name="minPrice" placeholder="min price">
+            <input type="number" name="maxPrice"placeholder = "max price" >
+            <button type="submit" class="btn btn-primary">
+              supmit price
+            </button>
           </form>
         </div>
       </div>
