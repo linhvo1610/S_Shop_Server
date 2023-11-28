@@ -17,4 +17,6 @@ router.post('/updatebillPro/:idbill', billController.updatebillPro);
 router.post('/updatebillProHuy/:idbill', billController.updatebillProHuy);
 router.post('/updatebillProGiaohang/:idbill', billController.updatebillProGiaohang);
 
+router.get('/list/seachBill', billController.searchByProductName);
+
 module.exports = router;

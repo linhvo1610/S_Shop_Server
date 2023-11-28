@@ -216,3 +216,16 @@ exports.BillOfUser = async (req, res, next) => {
   const loaiSP = await BillMore.find();
   res.render('users/users', { title: 'chitiet', objSp: objSp, listLoai:loaiSP })
 }
+exports.searchByProductName = async (req, res, next) => {
+  const productName = req.query.name_product;
+
+  try {
+    const results = await BillMore.find({ 'list.name_product': { $regex: new RegExp(productName, 'i') }, status: 0 }); 
+    res.render('product/order', { 
+      listBill: results,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while processing your request' });
+  }
+};
