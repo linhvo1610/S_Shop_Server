@@ -229,3 +229,20 @@ exports.searchByProductName = async (req, res, next) => {
     res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 };
+
+exports.searchBillXacNhan = async (req, res, next) =>{
+  const searchInput = req.query.name_product;
+
+  try {
+    // // Use $regex with a valid string
+    const product = await BillMore.find({ 'list.name_product' : { $regex: new RegExp(searchInput, 'i') }, status: 1});
+
+  res.render('product/XacNhanBill', {
+    listBill: product
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+}
