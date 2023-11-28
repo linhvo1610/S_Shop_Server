@@ -246,3 +246,22 @@ exports.searchBillXacNhan = async (req, res, next) =>{
     res.status(500).json({ error: 'Internal server error' });
 }
 }
+
+exports.searchBillDaGiao = async (req, res, next) =>{
+  const searchInput = req.query.name_product;
+
+  try {
+    // // Use $regex with a valid string
+    const product = await BillMore.find({ 'list.name_product' : { $regex: new RegExp(searchInput, 'i') }, status: 2});
+
+    const filteredPosts = product.filter(post => post.status == 2);
+
+  res.render('product/DaGiaoBill', {
+    listBill: filteredPosts
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+}
