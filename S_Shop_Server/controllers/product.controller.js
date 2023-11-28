@@ -102,6 +102,36 @@ exports.filter = async (req, res, next) => {
 });
 };
 
+exports.searchCloseProduct = async (req, res, next) => {
+  // var product = await myModel.productModel.find({ name: req.body.name }).populate('id_cat');
+
+  const searchInput = req.query.name;
+
+  try {
+    // Check if searchInput is a valid string
+    if (typeof searchInput !== 'string') {
+        return res.status(400).json({ error: 'Invalid search input' });
+    }
+
+    // Use $regex with a valid string
+    const product = await myModel.productModel.find({ name: { $regex: new RegExp(searchInput, 'i') } }).populate('id_cat');
+
+    const filteredPosts = product.filter(post => post.status == false);
+
+
+    let listTheLoai = await myModel.categoryModel.find();
+  res.render('product/closeProduct', {
+    listProduct: filteredPosts, 
+    listLoai: listTheLoai
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+
+}
+
 exports.searchProduct = async (req, res, next) => {
   // var product = await myModel.productModel.find({ name: req.body.name }).populate('id_cat');
 
