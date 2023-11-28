@@ -85,3 +85,29 @@ exports.listOder = async (req, res, next) => {
   })
 
 };
+
+exports.searchUser = async (req, res, next) => {
+  const searchInput = req.query.username;
+
+  try {
+    // Check if searchInput is a valid string
+    if (typeof searchInput !== 'string') {
+        return res.status(400).json({ error: 'Invalid search input' });
+    }
+
+    // Use $regex with a valid string
+    const user = await myModel.usersModel.find({ username: { $regex: new RegExp(searchInput, 'i') } });
+
+
+  res.render('users/users', {
+    list: user
+  });
+
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+
+}
+
