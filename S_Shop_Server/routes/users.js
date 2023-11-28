@@ -15,4 +15,6 @@ router.post('/add',check_login.request_login,usercontroller.addUser);
 // router.get('/sortrole',check_login.request_login,usercontroller.sortuserrole);
 
 router.get('/listOder/:id', usercontroller.listOder);
+
+router.get('/searchUser', check_login.request_login, usercontroller.searchUser);
 module.exports = router;

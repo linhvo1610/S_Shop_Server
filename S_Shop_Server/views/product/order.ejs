@@ -5,10 +5,10 @@
       <h2 class="heading-section"><b>Đơn Hàng</b></h2>
     </div>
   </div>
-  <div style="margin-bottom: 20px;">
-    <form action="" method="GET">
+  <div style="margin-bottom: 20px;"> 
+    <form action="/bill/list/seachBill" method="GET" role="search">
       <div class="input-group rounded">
-        <input type="search" class="form-control rounded" placeholder="Search" name="order" aria-describedby="search-addon" />
+        <input type="search" class="form-control rounded" placeholder="Search" name="name_product" aria-describedby="search-addon" />
         <button type="submit" style="display: inline-block;
                         line-height: 30px;
                         padding: 0 50px;
@@ -31,6 +31,19 @@
     </form>
   </div>
 
+
+  <div class="container">
+    <button
+      class="btn btn-primary"
+      type="button"
+      data-toggle="collapse"
+      data-target="#filterCollapse"
+      aria-expanded="false"
+      aria-controls="filterCollapse"
+    >
+      Filter
+    </button>
+  </div>
   <%- include('../inc/trangthaibill') %>
   <div class="mt-3">
 
