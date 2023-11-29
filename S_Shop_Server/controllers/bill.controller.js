@@ -318,3 +318,28 @@ exports.searchBillDaNhan = async (req, res, next) =>{
     res.status(500).json({ error: 'Internal server error' });
 }
 }
+exports.thongke = async (req,res,next) =>{
+  let list = await BillMore.find();
+  const pro = await prModel.productModel.find();
+  
+  res.render("product/thongke",{listBill:list,pro:pro});
+  console.log(list);
+
+}
+exports.thongketheongay = async (req,res,next) =>{
+
+  
+  let startDate = req.query.startDate;
+  let endDate = req.query.endDate;
+  const  list = await BillMore.find({
+
+     date: {
+      $gte: startDate,  $lte: endDate,  
+     }
+    });
+    const pro = await prModel.productModel.find();
+  console.log(startDate);
+  console.log(list);
+  res.render("product/thongke",{listBill:list,pro:pro});
+
+}
