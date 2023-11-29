@@ -28,6 +28,7 @@ const upload = multer({
 router.get('/users', apiU.listUsers);
 
 router.post('/users', apiU.addUsers);
+router.post('/tokenNotify/:id_user', apiU.tokenNotify);
 
 router.post('/login', apiU.loginUser);
 router.post('/register', apiU.registerUser);

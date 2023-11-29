@@ -9,7 +9,8 @@ const userSchema = new db.mongoose.Schema(
         phone: { type: String, required: true },
         dob: { type: String, required: false },
         sex: { type: String, required: false },
-        role: {type:String,required: true}
+        role: {type:String,required: true},
+        tokenNotify: { type: String, require: false },
     },
     {collection:'users'}
 );
