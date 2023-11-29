@@ -4,7 +4,7 @@
         <div class="wrapper wrapper--w790">
           <div class="card card-5">
           <div class="card-heading">
-              <h2 class="title"> ADD Product</h2>
+              <h2 class="title"> Thêm sản phẩm</h2>
           </div>
           <div class="" style="width: 500px;">
            
@@ -15,7 +15,7 @@
                       <div>
                           <img src="https://boschbrandstore.com/wp-content/uploads/2019/01/no-image.png" id="selectedImage" alt="Selected Image">
                           <div style="width: 200px;height: 30px;margin-bottom: 20px;margin-left: 70px; margin-top: 30px;">
-                              <label for="inputFile" class="upload-button" >Choose Image</label>
+                              <label for="inputFile" class="upload-button" >Chọn ảnh</label>
                               <input type="file" id="inputFile" onchange="displayImage()" name="image" />
                           </div>
                       </div>
@@ -23,13 +23,13 @@
                   <div style="margin-left: 320px;">
                       <div>
                           <div>Sản Phẩm:</div>
-                          <input type="text" placeholder="Nhập tên sản phẩm" class="input" name="name" required />
+                          <input type="number" placeholder="Nhập tên sản phẩm" class="input" name="name" required  />
                           <div>Giá nhập:</div>
-                          <input type="number" placeholder="Nhập giá tiền" class="inputgia" name="gianhap" required />
+                            <input type="number" placeholder="Nhập giá tiền" class="inputgia" name="gianhap" required />
                           <div>Giá bán:</div>
                           <input type="number" placeholder="Nhập giá tiền" class="inputgia" name="price" required />
                       </div>
-                      <label for="quantityInput">Sizes:</label>
+                      <label for="quantityInput">Số lượng kích cỡ:</label>
                       <div class="input-row">
                           <input type="number"id="quantityInput" placeholder="Nhập số lượng Sizes" min="1" max="20" required>
                           <button onclick="generateInputFields()" class="upload-button">Thêm</button>
@@ -66,12 +66,12 @@
                       </div>
                       <div> Mô tả sản phẩm:</div>
                       <textarea id="myTextarea" class="myTextarea" onchange="trimTextarea()" name="description">
-                          Để bỏ viền thẻ input trong HTML
+                          Mô tả
                       </textarea>
-                      <div>Brand:</div>
+                      <div>Thương hiệu:</div>
                       <input type="text" name="trademark" placeholder="Nhập tên brand" class="myInput" />
                       <div style="text-align: center; margin-bottom: 10px;">
-                          <button type="submit">Add Sản Phẩm</button>
+                          <button type="submit">Thên Sản Phẩm</button>
                       </div>
                   </div>
               </div>

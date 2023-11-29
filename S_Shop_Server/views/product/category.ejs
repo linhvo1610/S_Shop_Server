@@ -1,22 +1,21 @@
 <%- include('../inc/top') %>
 <div class="container" style="min-height: 700px;" >
-  <div class="card card-body">
-    <div style="text-align: center;">
-     <h1>Category</h1>
-    </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      
-      <a href="/product/addCategory" class="m-1 btn btn-danger me-md-2 ">Add</a>
-    </div>
-   
-    
+
+  <div style="text-align: center;margin-top: 20px;">
+    <h1>Danh sách các loại sản phẩm</h1>
+   </div>
+   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+     
+     <a href="/product/addCategory" class="m-1 btn btn-danger me-md-2 ">Thêm Thể Loại</a>
+   </div>
     <div class="mt-5">
-      <table class="table">
-        <thead>
+      <table id="myTable" class="table table-responsive-xl">
+        <thead class="thead-dark">
           <tr>
             <th scope="col">id</th>
-            <th scope="col">Name</th>
-            <th scope="col"></th>
+            <th scope="col">Tên Thể Loại </th>
+            <th scope="col">Tổng số lượng </th>
+            <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -24,66 +23,22 @@
                 <tr>
                     <td><%= item._id %></td>
                     <td><%= item.name %></td>
-                    <form id="delete-category">
-              
-                    </form>
+                    
                     <td>
                       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                       <img src="/images/dl.png" width="30" height="30" class="rounded-circle m-lg-1" alt="" data-id="<%= item._id  %>" data-bs-toggle="modal" data-bs-target="#deleteModal" >
-                       <a href="/product/updateCategory/<%= item._id  %>" class="m-1"> <img src="/images/ud.png" width="30" height="30" class="rounded-circle m-lg-1 " alt=""></a>
+           
+                       <a href="/product/updateCategory/<%= item._id  %>" > <img src="/images/ud.png" width="30" height="30" class="rounded-circle " alt=""></a>
                       </div>
                     </td>
+                    <td>
+                                          
+                    </td>   
                 </tr>
             <% }); %>
+
+            
         </tbody>
       </table>
-
-    </div>
-  
   </div>
-</div>
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteModalLabel">Category Delete</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       Can you delete the category?
-      </div>
-      <div class="modal-footer">
-        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" id="btn_delete" class="btn btn-primary">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded' , function(){
-    var categoryId;
-    var deleteForm = document.forms['delete-category'];
-    var btn_deleteCategory = document.getElementById('btn_delete');
-    const exampleModal = document.getElementById('deleteModal');
-    exampleModal.addEventListener('show.bs.modal', event =>{
-      const button = event.relatedTarget
-      categoryId = button.getAttribute('data-id');
-
-    });
-    btn_deleteCategory.onclick = function(){
-      deleteForm.action = '/product/deleteCategory/' + categoryId + '?_method=DELETE';
-      deleteForm.submit();
-
-    }
-  });
-
-  
-</script>
-  
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <%- include('../inc/bottom') %>

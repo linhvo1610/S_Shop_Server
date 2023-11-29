@@ -4,7 +4,13 @@
     <h2 style="text-align: center;margin-top: 18px;margin-bottom: 20px;">Danh sách các sản phẩm đã mua</h2>
     <div>
         <div style="float: left;">
-            <h3>Người dùng: <%= objUser.fullname %></h3>
+            <h3 style="color: rgb(172, 55, 143);">Người dùng: 
+              <% if (objUser.fullname === "") { %>
+                Chưa cập nhập
+            <% } else { %>
+              <%=objUser.fullname %>
+            <% } %>
+            </h3>
         </div>
         <div style="float: right;width: 110px;height: 40px;background-color: aquamarine;text-align: center;border-radius: 10px;">
             <h3><a style="text-decoration: none;
@@ -19,6 +25,8 @@
                 <th style="text-align: center;">Tổng tiền thanh toán</th>
                 <th style="text-align: center;">Số lượng mua</th>
                 <th style="text-align: center;">Kích cỡ sản phẩm</th>
+                <th>&nbsp;</th>
+
             </tr>
         </thead>
         <tbody>
@@ -44,42 +52,15 @@
                       <%= bill.list[i].size %><br>
                     <% } %>
                   </td>
+                  <td>
+                                          
+                  </td>   
             </tr>
             <% }); %>
         </tbody>
     </table>
   </div>
- 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const checkbox = document.getElementById("checkbox_checked");
 
-    checkbox.addEventListener("change", function () {
-      if (checkbox.checked) {
-      } else {
-        data.status = true;
-      }
-
-      // You can also perform other actions here based on the checkbox state.
-    });
-  });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#myTable').dataTable({ "ordering": false, "searching": false });
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-  .dialog {
-    width: 300px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
-</style>
 
 
 <%- include('../inc/bottom') %>

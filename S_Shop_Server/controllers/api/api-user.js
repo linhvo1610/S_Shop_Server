@@ -69,14 +69,6 @@ exports.addUsers =async (req, res, next) => {
 }
 
 exports.loginUser = async (req, res, next) =>{  
-    // const { username, password } = req.body;
-    // const user = await MyModel.usersModel.findOne({ username, password });
-    // if (user) {
-    //   // Trả về thông tin người dùng 
-    //   res.json(user);
-    // } else {
-    //   res.status(401).json({ message: 'Đăng nhập không thành công' });
-    // }
     try {
       const { username, password,role } = req.body;
   
@@ -91,7 +83,7 @@ exports.loginUser = async (req, res, next) =>{
     //   const token = jwt.sign({ userId: user._id }, 'secretKey');
   
     //   res.json({ token });
-      res.status(201).json({ message: 'Đăng nhập thành công',
+      res.status(201).json({ message: 'Đăng nhập thành công',password: user.password,
       role: user.role,_id: user._id,email: user.email, username: user.username,phone: user.phone, 
       image: user.image,phone: user.phone,dob: user.dob,sex: user.sex,role: user.role,fullname: user.fullname});
     } catch (error) {
@@ -99,6 +91,39 @@ exports.loginUser = async (req, res, next) =>{
       res.status(500).json({ message: 'Đăng nhập thất bại' });
     }
 }
+exports.UpdatePass = async (req, res) => {
+  let data = {
+    status: 1,
+    msg: "Update successful"
+  }
+
+  if (req.method === 'PUT') {
+    try {
+      const user = await MyModel.usersModel.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({ status: 0, msg: "User not found" });
+      }
+      const isPasswordValid = await bcrypt.compare(req.body.currentPassword, user.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ status: 0, msg: "Current password is incorrect" });
+      }
+      if (req.body.newPassword !== req.body.confirmPassword) {
+        return res.status(400).json({ status: 0, msg: "New password and confirm password do not match" });
+      }
+      const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+      await MyModel.usersModel.updateOne({ _id: req.params.id }, {
+        $set: { password: hashedPassword }
+      });
+      res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      data.msg = err.message;
+      res.status(500).json(data);
+    }
+  } else {
+    res.status(400).json({ status: 0, msg: "Invalid request method" });
+  }
+};
 
 exports.registerUser = async (req, res, next) =>{
 

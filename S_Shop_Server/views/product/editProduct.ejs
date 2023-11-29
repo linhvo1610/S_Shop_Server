@@ -4,7 +4,7 @@
         <div class="wrapper wrapper--w790">
           <div class="card card-5">
           <div class="card-heading">
-              <h2 class="title"> ADD Product</h2>
+              <h2 class="title"> Chỉnh sửa sản phẩm</h2>
           </div>
           <div class="" style="width: 470px;">
 <form accept="" method="post" enctype="multipart/form-data">
@@ -30,12 +30,15 @@
     </div>
     <div style="margin-left: 310px;">
         <div>
-            <input type="text" placeholder="Ten san pham" class="input" name="name" value="<%= objPr.name  %>" required />
+            <input type="text" placeholder="Ten san pham" style="width: 90%;font-size: 25px;font-weight: bold;" name="name" value="<%= objPr.name  %>" required />
             <br>
-            <label for="">Giá nhập</label>
-            <input type="number" placeholder="Giá nhập" class="inputgia" name="gianhap" value="<%= objPr.gianhap  %>" required />
-            <label for="">Giá bán</label>
-            <input type="number" placeholder="Giá bán" class="inputgia" name="price" value="<%= objPr.price  %>" required />
+            <label for="">Giá nhập: <span style="color: red;"><%=objPr.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></span></label>
+            <div class="input-group">
+              <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="gianhap"  required />
+              <span id="giaTienViet"></span>
+            </div>
+            <label for="">Giá bán: <span style="color: red;"><%=objPr.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></label>
+            <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" required />
         </div>
 
 
@@ -95,10 +98,10 @@
               
         </div>
 
-        <input type="text" name="description" value="<%= objPr.description  %>" />
+        <input style="height: 500dp; width: 90%;" type="text" placeholder="Mô tả san pham" name="description" value="<%= objPr.description  %>" required />
         <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
-        <div style="text-align: center;margin-top: 20px;">
-            <button  type="submit" >Update san pham</button>
+        <div style="text-align: center;margin-top: 20px;width: 90%;">
+            <button  type="submit" style="background-color: rgb(146, 146, 71); padding: 10px; border-radius: 5px; color: white; border: none; cursor: pointer;">Lưu chỉnh sửa</button>
         </div>
     </div>
 
@@ -114,6 +117,13 @@
 </div>
 </div>
 <script>
+  document.getElementById('updateButton').addEventListener('click', function() {
+    window.history.back();
+});
+
+
+  // Lấy giá trị từ input
+
     function displayImage() {
   var input = document.getElementById("inputFile");
   var image = document.getElementById("selectedImage");
@@ -185,128 +195,103 @@ function updateOrderList(listProduct) {
 </script>
 
 <style>
-    .container{
-        width: 800px;
-        height: auto;
-        margin: auto;
-        margin-top: 40px;
-    }
-    .myTextarea {
-    border: none;
+  .container {
+    width: 800px;
+    height: auto;
+    margin: auto;
+    margin-top: 40px;
   }
+
+  .myTextarea {
+    width: 400px;
+    height: 130px;
+    padding-left: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+  }
+
   .myInput {
     word-wrap: break-word;
-    /* hoặc */
     overflow-wrap: break-word;
     width: 60%;
   }
-    .input{
-        width: 200px;
-        height: 30px;
-        border-width: 1px;
-        border-radius: 10px;
-        border-color: blue;
-        border: none;
-        outline: none;
-        font-size: 18px;
 
-    }
-    .inputgia{
-        width: 130px;
-        height: 30px;
-        padding-left: 10px;
-        border: none;
-        outline: none;
-        border-radius: 10px;
-        color: red;
-    }
-    .inputsoluong{
-        width: auto;
-        height: 30px;
-        padding-left: 40px;
-        border: none;
-        outline: none;
-        border-radius: 10px;
-        color: red;
-    }
-    .myTextarea{
-        width: 400px;
-        height: 130px;
-        padding-left: 10px;
-        border: none;
-        outline: none;
-        border-radius: 10px;
-    }
-    .size{
-        background-color: beige;
-        border-radius: 3px;
-        width: 30px;
-        height: auto;
-        float: left;
-        text-align: center;
-        color: black;
-    }
-</style>
-<style>
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      float: left;
-    }
-  
-    .checkbox-container input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-  
-    .checkbox-container input[type="checkbox"]:checked {
-      background-color: #2196F3;
-      border-color: #2196F3;
-    }
-  
-    .checkbox-container label {
-      font-size: 16px;
-      margin-right: 15px;
-    }
-    .checkbox-container1 {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-  
-    .checkbox-container1 input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-  
-    .checkbox-container1 input[type="checkbox"]:checked {
-      background-color: #2196F3;
-      border-color: #2196F3;
-    }
-  
-    .checkbox-container1 label {
-      font-size: 16px;
-    }
-    .input-row {
+  .input, .inputgia, .inputsoluong {
+    width: 200px;
+    height: 30px;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: blue;
+    border: none;
+    outline: none;
+    font-size: 18px;
+  }
+
+  .inputgia {
+    width: 130px;
+    height: 30px;
+    padding-left: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: red;
+  }
+
+  .inputsoluong {
+    width: auto;
+    height: 30px;
+    padding-left: 40px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: red;
+  }
+
+  .size {
+    background-color: beige;
+    border-radius: 3px;
+    width: 30px;
+    height: auto;
+    float: left;
+    text-align: center;
+    color: black;
+  }
+
+  .checkbox-container, .checkbox-container1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .checkbox-container input[type="checkbox"], .checkbox-container1 input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .checkbox-container input[type="checkbox"]:checked, .checkbox-container1 input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border-color: #2196F3;
+  }
+
+  .checkbox-container label, .checkbox-container1 label {
+    font-size: 16px;
+    margin-right: 15px;
+  }
+
+  .input-row {
     display: flex;
     align-items: center;
     gap: 10px;
   }
- 
-  </style>
+</style>
+
   <script>
     function trimTextarea() {
       var textarea = document.getElementById("myTextarea");

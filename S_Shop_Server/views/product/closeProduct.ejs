@@ -3,13 +3,13 @@
 <div style="width: 1170px; margin: auto">
   <div style="margin-top: 30px">
     <div style="margin-bottom: 20px">
-      <form action="" method="GET">
+      <form action="/product/searchCloseProduct" method="GET">
         <div class="input-group rounded">
           <input
             type="search"
             class="form-control rounded"
             placeholder="Search"
-            name="username"
+            name="name"
             aria-describedby="search-addon"
           />
           <button
@@ -58,16 +58,6 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="size">Size:</label>
-                  <!-- <select class="form-control" id="size" name="size">
-                          <option value="">All</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                        </select> -->
-
-                  <!-- Trong list.ejs -->
-                  <!-- Trong list.ejs -->
                   <% var allSizes = []; %> <%
                   listProduct.forEach(function(product) { %> <%
                   product.sizes.forEach(function(size) { %> <% if
@@ -119,13 +109,13 @@
           <th></th>
           <th>Tên sản phẩm</th>
           <th>Loại SP</th>
-          <th>Giá nhập</th>
-          <th>Giá bán</th>
-          <th>Số lượng</th>
-          <th>Kích cỡ</th>
-          <th>Trạng thái</th>
-          <th>Thay đổi trạng thái</th>
-          <th>Chỉnh sửa</th>
+          <th style="text-align: center;">Giá nhập</th>
+          <th style="text-align: center;">Giá bán</th>
+          <th style="text-align: center;">Số lượng</th>
+          <th style="text-align: center;">Kích cỡ</th>
+          <th style="text-align: center;">Trạng thái</th>
+          <th style="text-align: center;">Thay đổi trạng thái</th>
+          <th style="text-align: center;">Chỉnh sửa</th>
         </tr>
       </thead>
       <tbody>
@@ -153,16 +143,16 @@
 
           <td><%=data.id_cat.name %></td>
 
-          <td><%= data.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-          <td><%= data.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-          <td>
+          <td style="text-align: center;"><%= data.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+          <td style="text-align: center;"><%= data.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+          <td style="text-align: center;">
             <% let totalQuantity = 0; %>
             <!-- Khởi tạo biến totalQuantity -->
             <% data.sizes.forEach(function(size) { %> <% totalQuantity +=
             size.quantity; %>
             <!-- Tính tổng số lượng -->
             <% }); %>
-            <%= totalQuantity %>
+            <%= totalQuantity.toLocaleString() %>
             <!-- Hiển thị tổng số lượng -->
           </td>
           <td>
@@ -174,12 +164,17 @@
             <%= sizes.join(', ') %>
             <!-- Hiển thị kích cỡ với dấu phẩy -->
           </td>
-         <td>Hết hàng</td>
-          <td>
+         <td style="text-align: center;">
+          <% if(data.status==false){ %>
+          Dừng bán
+      <% } else { %>
+        <!-- Add the code for the inactive state here -->
+      <% } %></td>
+          <td style="text-align: center;">
             <form id="updateStatusForm" action="/product/updatestatusProduct/<%=data._id%>" method="post">
               <% if(data.status==false){ %>
                 <button type="button" class="btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
-                  Còn hàng 
+                  Mở bán
                 </button>
               <% } else { %>
                 <!-- Add the code for the inactive state here -->
@@ -261,7 +256,7 @@
       var selectedColor = $("#color").val();
 
       // Construct the URL with the selected filter values
-      var url = "/product/list/filter?";
+      var url = "/product/closeProduct/filter?";
 
       if (selectedSize) {
         url += "size=" + selectedSize + "&";

@@ -94,18 +94,74 @@ exports.filter = async (req, res, next) => {
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
-
-  // const selectedSize = req.query.size;
-  // const filteredProducts = posts.filter((product) => {
-  //   return product.sizes.some((size) => size.size === selectedSize);
-  // });
+  const filteredPosts = posts.filter(post => post.status == true);
 
   res.render("product/list", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
-    // product: filteredProducts,
 });
 };
+
+exports.searchCloseProduct = async (req, res, next) => {
+  // var product = await myModel.productModel.find({ name: req.body.name }).populate('id_cat');
+
+  const searchInput = req.query.name;
+
+  try {
+    // Check if searchInput is a valid string
+    if (typeof searchInput !== 'string') {
+        return res.status(400).json({ error: 'Invalid search input' });
+    }
+
+    // Use $regex with a valid string
+    const product = await myModel.productModel.find({ name: { $regex: new RegExp(searchInput, 'i') } }).populate('id_cat');
+
+    const filteredPosts = product.filter(post => post.status == false);
+
+
+    let listTheLoai = await myModel.categoryModel.find();
+  res.render('product/closeProduct', {
+    listProduct: filteredPosts, 
+    listLoai: listTheLoai
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+
+}
+
+exports.searchProduct = async (req, res, next) => {
+  // var product = await myModel.productModel.find({ name: req.body.name }).populate('id_cat');
+
+  const searchInput = req.query.name;
+
+  try {
+    // Check if searchInput is a valid string
+    if (typeof searchInput !== 'string') {
+        return res.status(400).json({ error: 'Invalid search input' });
+    }
+
+    // Use $regex with a valid string
+    const product = await myModel.productModel.find({ name: { $regex: new RegExp(searchInput, 'i') } }).populate('id_cat');
+
+    const filteredPosts = product.filter(post => post.status == true);
+
+    let listTheLoai = await myModel.categoryModel.find();
+  res.render('product/list', {
+    listProduct: filteredPosts, 
+    listLoai: listTheLoai
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+
+}
+const date = new Date();
+const formattedDateVN = date.toLocaleDateString('en-GB');
 exports.addProduct = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
 if (req.method == "POST") {
@@ -123,13 +179,13 @@ if (req.method == "POST") {
       quantity: size.quantity
     }))
     objPr.status = req.body.status || true;
-
+    objPr.date = formattedDateVN;
 
   try {
     await objPr.save();
-    
     console.log(new_sp);
-    console.log("Đăng Kí Thành Công");
+    console.log("Thêm Thành Công");
+    res.redirect('/product/list');
   } catch (error) {
     msg = "Lỗi " + error.message;
   }
@@ -140,8 +196,9 @@ res.render("product/addProduct", {
 }
 exports.category =async(req,res,next) => {
   const loaiSP = await myModel.categoryModel.find();
+  var posts = await myModel.productModel.find().populate('id_cat');
 
-  res.render("product/category", {listLoai: loaiSP,});
+  res.render("product/category", {listLoai: loaiSP,posts:posts});
 }
 exports.addCategory = async (req, res, next) => {
   const loaiSP = await myModel.categoryModel.find();
@@ -300,24 +357,36 @@ exports.filterClosedProduct = async (req, res, next) => {
     }
   
     console.log("filter:", filter);
-    // Use the 'filter' object in your MongoDB query
   }
+  let minPrice = req.query.minPrice
+    let maxPrice = req.query.maxPrice
 
   var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
 
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
-
-  // const selectedSize = req.query.size;
-  // const filteredProducts = posts.filter((product) => {
-  //   return product.sizes.some((size) => size.size === selectedSize);
-  // });
+  const filteredPosts = posts.filter(post => post.status == false);
 
   res.render("product/closeProduct", {
-    listProduct: posts,
+    listProduct: filteredPosts,
     listLoai: loaiSP,
-    // product: filteredProducts,
 });
+
 };
-  
+exports.searchByPriceRange = async (req,res) => {
+  try {
+    let minPrice = req.query.minPrice
+    let maxPrice = req.query.maxPrice
+    const posts = await myModel.productModel.find({ price: { $gte: minPrice, $lte: maxPrice } });
+    const loaiSP = await myModel.categoryModel.find();
+    const filteredPosts = posts.filter(post => post.status == true);
+
+  res.render("product/list", {
+    listProduct: filteredPosts,
+    listLoai: loaiSP,
+});
+  } catch (error) {
+    throw new Error('Error while searching products by price range');
+  }
+};

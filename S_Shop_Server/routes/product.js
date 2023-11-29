@@ -21,7 +21,8 @@ const upload = multer({
 
 router.get('/list', proCtl.list)
 router.get('/closeProduct', proCtl.closeProduct)
-router.get('/list/filter',proCtl.filter);
+router.get('/searchCloseProduct', proCtl.searchCloseProduct);
+router.get('/searchProduct', proCtl.searchProduct);
 router.post('/locPrice', proCtl.locPrice)
 router.get('/category',proCtl.category);
 router.get('/addCategory',proCtl.addCategory);
@@ -36,6 +37,10 @@ router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
 router.post('/updatestatusProduct/:idpro', proCtl.updatestatusProduct)
 router.get('/chitiet/:idsp',proCtl.chitietProduct);
 router.get('/oder',billCtl.listBill);
+
+router.get('/list/filter',proCtl.filter);
 router.get('/closeProduct/filter',proCtl.filterClosedProduct);
+router.get('/price/filter',proCtl.searchByPriceRange);
+
 
 module.exports = router;
