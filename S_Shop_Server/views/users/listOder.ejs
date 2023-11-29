@@ -25,6 +25,8 @@
                 <th style="text-align: center;">Tổng tiền thanh toán</th>
                 <th style="text-align: center;">Số lượng mua</th>
                 <th style="text-align: center;">Kích cỡ sản phẩm</th>
+                <th>&nbsp;</th>
+
             </tr>
         </thead>
         <tbody>
@@ -50,42 +52,15 @@
                       <%= bill.list[i].size %><br>
                     <% } %>
                   </td>
+                  <td>
+                                          
+                  </td>   
             </tr>
             <% }); %>
         </tbody>
     </table>
   </div>
- 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const checkbox = document.getElementById("checkbox_checked");
 
-    checkbox.addEventListener("change", function () {
-      if (checkbox.checked) {
-      } else {
-        data.status = true;
-      }
-
-      // You can also perform other actions here based on the checkbox state.
-    });
-  });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#myTable').dataTable({ "ordering": false, "searching": false });
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-  .dialog {
-    width: 300px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
-</style>
 
 
 <%- include('../inc/bottom') %>

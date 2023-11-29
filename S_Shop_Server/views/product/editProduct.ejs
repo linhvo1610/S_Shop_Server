@@ -30,7 +30,7 @@
     </div>
     <div style="margin-left: 310px;">
         <div>
-            <input type="text" placeholder="Ten san pham" class="input" name="name" value="<%= objPr.name  %>" required />
+            <input type="text" placeholder="Ten san pham" style="width: 90%;font-size: 25px;font-weight: bold;" name="name" value="<%= objPr.name  %>" required />
             <br>
             <label for="">Giá nhập: <span style="color: red;"><%=objPr.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></span></label>
             <div class="input-group">
@@ -98,9 +98,9 @@
               
         </div>
 
-        <input style="height: 500dp;" type="text" placeholder="Ten san pham" class="input" name="name" value="<%= objPr.description  %>" required />
+        <input style="height: 500dp; width: 90%;" type="text" placeholder="Mô tả san pham" name="description" value="<%= objPr.description  %>" required />
         <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
-        <div style="text-align: center;margin-top: 20px;">
+        <div style="text-align: center;margin-top: 20px;width: 90%;">
             <button  type="submit" style="background-color: rgb(146, 146, 71); padding: 10px; border-radius: 5px; color: white; border: none; cursor: pointer;">Lưu chỉnh sửa</button>
         </div>
     </div>
