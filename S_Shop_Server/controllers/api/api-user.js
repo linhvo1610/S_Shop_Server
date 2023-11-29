@@ -44,7 +44,7 @@ exports.addUsers =async (req, res, next) => {
         objUser.sex= req.body.sex;
         objUser.phone= req.body.phone;
         objUser.dob = req.body.dob;
-
+        objUser.tokenNotify = req.body.tokenNotify
         
         try{
             let dataR = await objUser.save();
@@ -127,7 +127,7 @@ exports.UpdatePass = async (req, res) => {
 
 exports.registerUser = async (req, res, next) =>{
 
-      const { username, fullname, email ,password, dob, phone} = req.body;
+      const { username, fullname, email ,password, dob, phone, tokenNotify} = req.body;
       const existingUser = await MyModel.usersModel.findOne({ username });
   
       const role = 'User';
@@ -144,7 +144,7 @@ exports.registerUser = async (req, res, next) =>{
       }
   
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newPerson = new MyModel.usersModel({ username, fullname , email, image, password: hashedPassword, dob, role, sex, phone });
+      const newPerson = new MyModel.usersModel({ username, fullname , email, image, password: hashedPassword, dob, role, sex, phone, tokenNotify });
     
       newPerson
         .save()
@@ -175,6 +175,7 @@ exports.updateUsers = async (req, res, next) => {
               role: "User",
               dob: req.body.dob,
               sex: req.body.sex,
+              
             },
     })
     console.log(dataR);
@@ -216,5 +217,15 @@ exports.updateUserss = async (req, res, next) => {
     res.status(400).json({ status: 0, msg: "Invalid request method" });
   }
 };
+
+exports.tokenNotify = (req, res, next) => {
+  const id_user = req.params.id_user;
+  const tokenNotify = req.body.tokenNotify;
+  console.log(id_user + "- " + tokenNotify)
+  MyModel.usersModel.updateOne({ _id: id_user }, { $set: { tokenNotify: tokenNotify } })
+      .then((rs) => res.json(rs.modifiedCount))
+      .catch(err => res.json(err));
+
+}
 
 
