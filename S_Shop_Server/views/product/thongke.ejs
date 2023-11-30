@@ -254,92 +254,26 @@
     </tbody>
   </table>
   <br>
-  <table id="myTable" class="table table-responsive-xl">
-    <thead class="thead-dark">
-      <tr>
-        <th></th>
-        <th>Tên sản phẩm</th>
-       
-        <th style="text-align: center;">Giá nhập</th>
-        <th style="text-align: center;">Giá</th>
-        <th style="text-align: center;">Tổng số lượng</th>
-        <th style="text-align: center;">Kích cỡ</th>
-        <th style="text-align: center;">Trạng thái</th>
-        <th style="text-align: center;">Chỉnh sửa</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (pro.length> 0) { %> <%
-      pro.reverse().forEach((data)=>{%>
-      <tr
-        class="alert"
-        role="alert"
-        data-id="<%= data.id %>"
-        data-target="#exampleModal"
-      >
-      <th>
-        <a href="/product/chitiet/<%=data._id%>"> Chi tiết</a>
-      </th>
-        <td class="d-flex align-items-center">
-          <div
-            class="img"
-            style="background-image: url(images/person_1.jpg)"
-          ></div>
-          <div class="pl-3 email">
-            <% var truncatedName = data.name.length > 40 ? data.name.substring(0, 40) + '...' : data.name; %>
-            <span> <%=truncatedName %> </span>
-          </div>
-        </td>
-        
-        
-        <% if (data.gianhap !== undefined) { %>
-          <td style="text-align: center;"><%= data.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-      <% } else { %>
-          <td>N/A</td>
-      <% } %>
-      
-      <% if (data.price !== undefined) { %>
-          <td style="text-align: center;"><%= data.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-      <% } else { %>
-          <td>N/A</td>
-      <% } %>        
-        </td>
-        <td style="text-align: center;">
-          <% let totalQuantity = 0; %>
-          <!-- Khởi tạo biến totalQuantity -->
-          <% data.sizes.forEach(function(size) { %> <% totalQuantity +=
-          size.quantity; %>
-          <!-- Tính tổng số lượng -->
-          <% }); %>
-          <%= totalQuantity.toLocaleString() %>
-          <!-- Hiển thị tổng số lượng -->
-        </td>
-        <td >
-         
-        </td>
-        <td>
-        
-        </td>
-        <td style="text-align: center;">
-          
-          
-          <!-- Modal -->
-          
-     
-        </td>
 
-     
+  <!-- thong kê theo sản phẩm -->
 
-        <td>
-         
-        </td>
-      </tr>
+  <h1>Product List</h1>
+    <ul>
+        <% productList.forEach(product => { %>
+            <li>Số lượng kho: <%= product.totalSizeQuantity %> 
+            - Số lượng bán: <%= product.totalQuantity %>
+            - Name: <%= product.productName %>
+            - Price: <%= product.price %>
+            - Giá nhập: <%= product.gianhap %>
+            - Tiền bán được: <%= product.price * product.totalQuantity %>
+            - Tiền nhập hàng: <%= product.totalSizeQuantity * product.gianhap %>
+            - Doanh thu: <%= (product.price * product.totalQuantity) - (product.totalSizeQuantity * product.gianhap) %>
+             </li>
+        <% }); %>
+    </ul>
 
-      <%} ) %> <% } else { %>
-      <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
-      <% } %>
-    </tbody>
-  </table>
+
+  
   <style>
     .menu-link:visited {
       color: red;
