@@ -85,6 +85,7 @@
       <th>Giá bán</th>
       <th>Tiền nhập hàng</th>
       <th>Tiền bán hàng</th>
+      <th>Số lượng đã bán</th>
       <th>Doanh thu</th>
       <th>Số tiền cần để hoàn vốn</th>
       <th></th>
@@ -104,8 +105,10 @@
       <% } else { %>
           <td>N/A</td>
       <% } %>
+      
           <td><%= (product.totalSizeQuantity * product.gianhap).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td><%= (product.totalQuantity * product.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td><%= product.totalQuantity %></td>
           <td><%= ((product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td><%= ((product.gianhap * product.totalSizeQuantity) - (product.price * product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td></td>
@@ -114,19 +117,6 @@
       
     </tbody>
   </table>
-    <!-- <ul>
-        <% productList.forEach(product => { %>
-            <li>Số lượng kho: <%= product.totalSizeQuantity %> 
-            - Số lượng bán: <%= product.totalQuantity %>
-            - Name: <%= product.productName %>
-            - Price: <%= product.price %>
-            - Giá nhập: <%= product.gianhap %>
-            - Tiền bán được: <%= product.price * product.totalQuantity %>
-            - Tiền nhập hàng: <%= product.totalSizeQuantity * product.gianhap %>
-            - Doanh thu: <%= (product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap) %>
-             </li>
-        <% }); %>
-    </ul> -->
 
     <br/>
     <table class="table table-responsive-xl">
@@ -167,7 +157,7 @@
                              <%  let tdb1 = 0 %>
                              <% listBill.forEach(function(item) { %>
                                    <% for (var i = 0; i < item.list.length; i++) { %>
-                                       <% if(item.status==5){ %>
+                                    <% if(item.status==3){ %>
                        
                                       <% tdb1 = tdb1 + item.list[i].quantity %>
                                   
@@ -189,7 +179,7 @@
                   
                       
                       <% for (var i = 0; i < item.list.length; i++) { %>
-                          <% if(item.status==5){ %>
+                        <% if(item.status==5 || item.status==3){ %>
           
                          <% tdb = tdb + item.list[i].quantity %>
                      
