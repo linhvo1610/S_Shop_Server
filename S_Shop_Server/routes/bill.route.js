@@ -20,6 +20,7 @@ router.get('/listBillsHuydon',billController.listBillsHuydon);
 router.post('/updatebillPro/:idbill', billController.updatebillPro);
 router.post('/updatebillProHuy/:idbill', billController.updatebillProHuy);
 router.post('/updatebillProGiaohang/:idbill', billController.updatebillProGiaohang);
+router.post('/updatebillHoantat/:idbill', billController.updatebillHoantat);
 
 router.get('/seachBill', billController.searchByProductName);
 router.get('/searchBillXacNhan', billController.searchBillXacNhan);

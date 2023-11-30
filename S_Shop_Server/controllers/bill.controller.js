@@ -192,11 +192,11 @@ exports.updatebillProGiaohang = async (req, res) => {
       bill.status = 2;
       await bill.save();
 
-      setTimeout(async function () {
-        bill.status = 3;
-        await bill.save();
-        const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
+      // setTimeout(async function () {
+      //   bill.status = 3;
+      //   await bill.save();
+      //   const userToken = await usModel.usersModel.findById(bill.id_user);
+      //   sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
@@ -213,7 +213,51 @@ exports.updatebillProGiaohang = async (req, res) => {
           pro: pro,
           address: address
         });
-      }, 3000);
+      // }, 3000);
+    }, 1000);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Lỗi ' + err.message });
+  }
+};
+exports.updatebillHoantat = async (req, res) => {
+  try {
+    const idbill = req.params.idbill;
+    const bill = await BillMore.findById(idbill);
+
+    if (!bill) {
+      return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
+    }
+
+    // Cập nhật trạng thái đơn hàng thành "Xác nhận"
+    bill.status = 2;
+    await bill.save();
+    setTimeout(async function () {
+      bill.status = 3;
+      await bill.save();
+
+      // setTimeout(async function () {
+      //   bill.status = 3;
+      //   await bill.save();
+        const userToken = await usModel.usersModel.findById(bill.id_user);
+        sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
+
+        res.redirect("/bill/listBillsDagiao");
+        const posts = await BillMore.find()
+        const user = await usModel.usersModel.find();
+        const pro = await prModel.productModel.find();
+        const address = await Address.find();
+
+        const filteredPosts = posts.filter(post => post.status === 2);
+
+
+        res.render("product/DaNhanBill", {
+          listBill: filteredPosts,
+          user: user,
+          pro: pro,
+          address: address
+        });
+      // }, 3000);
     }, 2000);
   } catch (err) {
     console.log(err);
