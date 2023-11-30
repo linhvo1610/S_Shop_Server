@@ -324,7 +324,7 @@ exports.thongke = async (req,res,next) =>{
     let list = await BillMore.find();
     const pro = await prModel.productModel.find();
     const totalSoldProducts = await BillMore.aggregate([
-      { $match: { status: 5 } }, // Lọc theo status 5
+      { $match: { status: { $in: [3, 5] } } }, // Lọc theo status 3,5
       { $unwind: "$list" }, // Unwind mảng list
       { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } } } // Nhóm theo id sản phẩm và tính tổng số lượng
     ]);
