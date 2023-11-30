@@ -12,6 +12,7 @@ class ApiController {
 
     addBill = async (req, res, next) => {
         try {
+            const billmore = req.body;
             const productList = billmore.list;
 
             // Iterate through each product in the bill
@@ -42,7 +43,6 @@ class ApiController {
                     return res.status(400).json({ error: 'Product not found in inventory.' });
                 }
             }
-        const billmore = req.body;
         const idArray = billmore.list.map(item => item._id);
         const token = req.params.token;
         BillMore.create(billmore).then(billmore => {
@@ -102,19 +102,6 @@ class ApiController {
     }
 
     cancelBill = async (req, res, next) => {
-        // const id_billmore = req.params.id_billmore;
-        // BillMore.findOne({ _id: id_billmore })
-        //     .then(billmore => {
-        //         if (billmore.status === 0) {
-        //             billmore.status = 4;
-        //             billmore.save().then(rs => res.json(1)).catch(err => res.json(err));
-        //         } else {
-        //             res.json(-1);
-        //         }
-        //     })
-        //     .catch(err => res.json(err));
-
-
         const id_billmore = req.params.id_billmore;
   try {
     const billmore = await BillMore.findOne({ _id: id_billmore });
