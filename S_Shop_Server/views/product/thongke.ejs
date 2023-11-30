@@ -1,8 +1,8 @@
 <%- include('../inc/top') %>
-<div class="container" style="min-height: 700px;" >
+<div  style="min-height: 700px;width: 1400px;margin: auto;" >
   <div class="row justify-content-center" style="margin-top: 10px;">
     <div class="col-md-6 text-center mb-5">
-      <h2 class="heading-section"><b>Thống kê</b></h2>
+      <h2 class="heading-section"><b>Thống kê doanh thu</b></h2>
     </div>
   </div>
   <div style="margin-bottom: 20px;"> 
@@ -30,21 +30,6 @@
       </div>
     </form>
   </div>
-
-  <!-- <form action="http://192.168.11.126:3000/bill/thongketheongay"  method="Get" >
-    
-    <div class="container_swap">
-
-        <div class="div_left"><label for="exampleInputPassword1" class="form-label">Ngày bắt đầu</label>
-            <input type="date" class="form-control" id="startDate" name="startDate" value="data.date"></div>
-   
-        <div class="div_right"><label for="exampleInputPassword1" class="form-label">Ngày kết thúc</label>
-            <input type="date" class="form-control" id="endDate" name="endDate" > </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-   
-   </div>
-    
-   </form> -->
    <style>
 
     .container_swap{
@@ -75,26 +60,24 @@
     
     </style>
   <!-- thong kê theo sản phẩm -->
-
-  <h1>Product List</h1>
   <table id="myTable" class="table table-responsive-xl">
     <thead class="thead-dark">
-      <th>Tên sản phẩm</th>
-      <th>Số lượng kho</th>
-      <th>Giá nhập</th>
-      <th>Giá bán</th>
-      <th>Tiền nhập hàng</th>
-      <th>Tiền bán hàng</th>
-      <th>Số lượng đã bán</th>
-      <th>Doanh thu</th>
-      <th>Số tiền cần để hoàn vốn</th>
+      <th style="text-align: center;">Tên sản phẩm</th>
+      <th style="text-align: center;">Số lượng kho</th>
+      <th style="text-align: center;">Giá nhập</th>
+      <th style="text-align: center;">Giá bán</th>
+      <th style="text-align: center;">Tổng tiền nhập hàng</th>
+      <th style="text-align: center;">Tổng tiền bán hàng</th>
+      <th style="text-align: center;">Số lượng đã bán</th>
+      <th style="text-align: center;">Số tiền lãi</th>
+      <th style="text-align: center;">Số tiền cần để hoàn vốn</th>
       <th></th>
     </thead>
     <tbody>
       <% productList.forEach(product => { %>
         <tr>
-          <td><%= product.productName %></td>
-          <td><%= product.totalSizeQuantity %></td>
+          <td style="width: 330px;"><%= product.productName %></td>
+          <td><%= product.totalSizeQuantity.toLocaleString() %></td>
           <% if (product.gianhap !== undefined) { %>
             <td style="text-align: center;"><%= product.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
         <% } else { %>
@@ -105,11 +88,11 @@
       <% } else { %>
           <td>N/A</td>
       <% } %>
-          <td><%= (product.totalSizeQuantity * product.gianhap).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-          <td><%= (product.totalQuantity * product.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-          <td><%= product.totalQuantity %></td>
-          <td><%= ((product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-          <td><%= ((product.gianhap * product.totalSizeQuantity) - (product.price * product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td style="text-align: center;"><%= (product.totalSizeQuantity * product.gianhap).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td style="text-align: center;"><%= (product.totalQuantity * product.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td style="text-align: center;"><%= product.totalQuantity.toLocaleString() %></td>
+          <td style="text-align: center;"><%= ((product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td style="text-align: center;"><%= ((product.gianhap * product.totalSizeQuantity) - (product.price * product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td></td>
         </tr>
       <% }); %>

@@ -42,5 +42,7 @@ router.get('/list/filter',proCtl.filter);
 router.get('/closeProduct/filter',proCtl.filterClosedProduct);
 router.get('/price/filter',proCtl.searchByPriceRange);
 
+router.get('/searchCategory', proCtl.filterCategory);
+
 
 module.exports = router;
