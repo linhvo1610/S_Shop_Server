@@ -8,6 +8,7 @@ exports.list = async (req, res, next) => {
   if(typeof(req.query.id_cat)!='undefined'||typeof(req.query.sizes)!='undefined'){
       let id_cat =req.query.id_cat;
       let size = req.query.sizes;
+      
       dieu_kien={id_cat:id_cat,'sizes.size': size};
       dieu_kien1 = {size:size};
       console.log(dieu_kien);
@@ -68,22 +69,47 @@ exports.locPrice = async (req, res, next) => {
 });
 }
 exports.filter = async (req, res, next) => {
-  
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
   let filter = {};
-  if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined') {
+  if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined' || typeof req.query.minPrice !== 'undefined'  || typeof req.query.maxPrice !== 'undefined' ) {
     let id_cat = req.query.id_cat;
     let size = req.query.size;
+
     console.log("id_cat:", id_cat);
     console.log("size:", size);
-    
+   
+
    
     if (id_cat && size) {
-      filter = { $or: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } } ] };
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        filter = { $and: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } }, {"price": { $gte: minPrice, $lte: maxPrice }} ] };
+      } else {
+        // Handle the case when either minPrice or maxPrice is not provided
+        filter = { $and: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } } ] };
+      }
     } else if (id_cat) {
-      filter = { "id_cat": id_cat };
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        filter = {
+          "id_cat": id_cat,
+          "price": { $gte: minPrice, $lte: maxPrice }
+        };
+      } else {
+        // Handle the case when either minPrice or maxPrice is not provided
+        filter = { "id_cat": id_cat };
+      }
     } else if (size) {
-      filter = { "sizes": { $elemMatch: { "size": size } } };
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        filter = {
+          "sizes": { $elemMatch: { "size": size } },
+          "price": { $gte: minPrice, $lte: maxPrice }
+        };
+      } else {
+        // Handle the case when either minPrice or maxPrice is not provided
+        filter = { "sizes": { $elemMatch: { "size": size } } };
+      }
     }
+    
   
     console.log("filter:", filter);
     // Use the 'filter' object in your MongoDB query
