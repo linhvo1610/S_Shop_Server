@@ -85,6 +85,7 @@
       <th>Giá bán</th>
       <th>Tiền nhập hàng</th>
       <th>Tiền bán hàng</th>
+      <th>Số lượng đã bán</th>
       <th>Doanh thu</th>
       <th>Số tiền cần để hoàn vốn</th>
       <th></th>
@@ -106,6 +107,7 @@
       <% } %>
           <td><%= (product.totalSizeQuantity * product.gianhap).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td><%= (product.totalQuantity * product.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td><%= product.totalQuantity %></td>
           <td><%= ((product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td><%= ((product.gianhap * product.totalSizeQuantity) - (product.price * product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td></td>
@@ -189,7 +191,7 @@
                   
                       
                       <% for (var i = 0; i < item.list.length; i++) { %>
-                          <% if(item.status==5){ %>
+                        <% if(item.status==5 || item.status==3){ %>
           
                          <% tdb = tdb + item.list[i].quantity %>
                      
