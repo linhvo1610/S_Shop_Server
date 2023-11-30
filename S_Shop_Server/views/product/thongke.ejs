@@ -77,7 +77,44 @@
   <!-- thong kê theo sản phẩm -->
 
   <h1>Product List</h1>
-    <ul>
+  <table id="myTable" class="table table-responsive-xl">
+    <thead class="thead-dark">
+      <th>Tên sản phẩm</th>
+      <th>Số lượng kho</th>
+      <th>Giá nhập</th>
+      <th>Giá bán</th>
+      <th>Tiền nhập hàng</th>
+      <th>Tiền bán hàng</th>
+      <th>Doanh thu</th>
+      <th>Số tiền cần để hoàn vốn</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% productList.forEach(product => { %>
+        <tr>
+          <td><%= product.productName %></td>
+          <td><%= product.totalSizeQuantity %></td>
+          <% if (product.gianhap !== undefined) { %>
+            <td style="text-align: center;"><%= product.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+        <% } else { %>
+            <td>N/A</td>
+        <% } %>
+        <% if (product.price !== undefined) { %>
+          <td style="text-align: center;"><%= product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+      <% } else { %>
+          <td>N/A</td>
+      <% } %>
+          <td><%= (product.totalSizeQuantity * product.gianhap).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td><%= (product.totalQuantity * product.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td><%= ((product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td><%= ((product.gianhap * product.totalSizeQuantity) - (product.price * product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td></td>
+        </tr>
+      <% }); %>
+      
+    </tbody>
+  </table>
+    <!-- <ul>
         <% productList.forEach(product => { %>
             <li>Số lượng kho: <%= product.totalSizeQuantity %> 
             - Số lượng bán: <%= product.totalQuantity %>
@@ -86,10 +123,10 @@
             - Giá nhập: <%= product.gianhap %>
             - Tiền bán được: <%= product.price * product.totalQuantity %>
             - Tiền nhập hàng: <%= product.totalSizeQuantity * product.gianhap %>
-            - Doanh thu: <%= (product.price * product.totalQuantity) - (product.totalSizeQuantity * product.gianhap) %>
+            - Doanh thu: <%= (product.price * product.totalQuantity) - (product.totalQuantity * product.gianhap) %>
              </li>
         <% }); %>
-    </ul>
+    </ul> -->
 
     <br/>
     <table class="table table-responsive-xl">
@@ -100,7 +137,7 @@
             <th scope="col" style="text-align: center;">Số sản phẩm còn lại</th>
             <th scope="col"style="text-align: center;">Tổng số tiền nhập vào</th>
             <th scope="col"style="text-align: center;">Tổng số tiền bán ra</th>
-            <th scope="col"style="text-align: center;">Số số doanh thu</th>
+            <th scope="col"style="text-align: center;">Số doanh thu</th>
            
           </tr>
         </thead>
