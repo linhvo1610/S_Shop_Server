@@ -23,7 +23,31 @@
                 <tr>
                     <td><%= item._id %></td>
                     <td><%= item.name %></td>
+                    <td>
+                      
+                      <% if (posts.length > 0) { %>
+                        <% let totalQuantity = 0; %>
+                        <% let tong = 0 %>
+                        <% posts.reverse().forEach((data) => { %>
+                              
+                            <!-- Khởi tạo biến totalQuantity -->
+                            <% if ( item._id.toLocaleString()  === data.id_cat._id.toLocaleString()) { %>
+                              <% data.sizes.forEach(function(size) { %>
+                                <% totalQuantity += size.quantity; %>
+                            <% }); %> 
+                              
+                                <!-- Tính tổng số lượng -->
+                            <% }  else { %> 
+                              
+                              <% } %>
+                            <!-- Hiển thị tổng số lượng -->
+                        <% }); %>
+                        <%= totalQuantity %>
+                    <% } else { %>
+                        <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
+                    <% } %>
                     
+                    </td>
                     <td>
                       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
            
