@@ -27,5 +27,4 @@ router.get('/searchBillXacNhan', billController.searchBillXacNhan);
 router.get('/searchBillDaGiao', billController.searchBillDaGiao);
 router.get('/searchBillDaNhan', billController.searchBillDaNhan);
 
-
 module.exports = router;
