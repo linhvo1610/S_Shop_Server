@@ -300,7 +300,14 @@ exports.searchByProductName = async (req, res, next) => {
   const productName = req.query.name_product;
 
   try {
-    const results = await BillMore.find({ 'list.name_product': { $regex: new RegExp(productName, 'i') }, status: 0 }); 
+    const results = await BillMore.find({ 
+      $or: [
+        { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
+        { 'name' : { $regex: new RegExp(productName, 'i') } }
+      ],
+      status: 0
+    });
+      
     res.render('product/order', { 
       listBill: results,
     });
@@ -311,11 +318,16 @@ exports.searchByProductName = async (req, res, next) => {
 };
 
 exports.searchBillXacNhan = async (req, res, next) =>{
-  const searchInput = req.query.name_product;
+  const productName = req.query.name_product;
 
   try {
-    // // Use $regex with a valid string
-    const product = await BillMore.find({ 'list.name_product' : { $regex: new RegExp(searchInput, 'i') }, status: 1});
+  const product = await BillMore.find({ 
+    $or: [
+      { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
+      { 'name' : { $regex: new RegExp(productName, 'i') } }
+    ],
+    status: 1
+  });
 
   res.render('product/XacNhanBill', {
     listBill: product
@@ -328,11 +340,17 @@ exports.searchBillXacNhan = async (req, res, next) =>{
 }
 
 exports.searchBillDaGiao = async (req, res, next) =>{
-  const searchInput = req.query.name_product;
+  const productName = req.query.name_product;
 
   try {
     // // Use $regex with a valid string
-    const product = await BillMore.find({ 'list.name_product' : { $regex: new RegExp(searchInput, 'i') }, status: 2});
+    const product = await BillMore.find({ 
+      $or: [
+        { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
+        { 'name' : { $regex: new RegExp(productName, 'i') } }
+      ],
+      status: 2
+    });
 
     const filteredPosts = product.filter(post => post.status == 2);
 
@@ -347,11 +365,17 @@ exports.searchBillDaGiao = async (req, res, next) =>{
 }
 
 exports.searchBillDaNhan = async (req, res, next) =>{
-  const searchInput = req.query.name_product;
+  const productName = req.query.name_product;
 
   try {
     // // Use $regex with a valid string
-    const product = await BillMore.find({ 'list.name_product' : { $regex: new RegExp(searchInput, 'i') }, status: 3});
+    const product = await BillMore.find({ 
+      $or: [
+        { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
+        { 'name' : { $regex: new RegExp(productName, 'i') } }
+      ],
+      status: 3
+    });
 
   res.render('product/DaNhanBill', {
     listBill: product
