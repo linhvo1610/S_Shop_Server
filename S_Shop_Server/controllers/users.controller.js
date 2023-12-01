@@ -89,7 +89,13 @@ exports.searchUser = async (req, res, next) => {
     if (typeof searchInput !== 'string') {
         return res.status(400).json({ error: 'Invalid search input' });
     }
-    const user = await myModel.usersModel.find({ username: { $regex: new RegExp(searchInput, 'i') } });
+    const user = await myModel.usersModel.find({ 
+      $or: [
+        { username: { $regex: new RegExp(searchInput, 'i') } },
+        { 'phone': { $regex: new RegExp(searchInput, 'i') } },
+        { 'email': { $regex: new RegExp(searchInput, 'i') } }
+      ]
+    });
   res.render('users/users', {
     list: user
   });
