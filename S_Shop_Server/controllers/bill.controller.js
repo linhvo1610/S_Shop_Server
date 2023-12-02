@@ -408,7 +408,7 @@ exports.thongke = async (req,res,next) =>{
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
 
-      const totalProductMoney = totalSizeQuantity * matchedProduct.price;
+      const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap;
       totalMoney += totalProductMoney;
 
       result.push({
@@ -422,9 +422,6 @@ exports.thongke = async (req,res,next) =>{
         totalProductMoney: totalProductMoney
       });
     }
-
-    // const totalRevenue = list.reduce((acc, bill) => acc + bill.total, 0);
-
     const totalMoneyFromStatus3And5 = await BillMore.aggregate([
       { $match: { status: { $in: [3, 5] } } },
       { $group: { _id: null, total: { $sum: "$total" } } }
@@ -435,9 +432,7 @@ exports.thongke = async (req,res,next) =>{
       productList: result,
       listBill:list,pro:pro,
       totalMoney: totalMoney,
-      // totalRevenue: totalRevenue
       totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0
-
     });
   } catch (err) {
     console.error(err);
