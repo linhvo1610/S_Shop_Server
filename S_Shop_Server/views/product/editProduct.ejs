@@ -34,11 +34,11 @@
             <br>
             <label for="">Giá nhập: <span style="color: red;"><%=objPr.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></span></label>
             <div class="input-group">
-              <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="gianhap"  required />
+              <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="gianhap" value="<%= objPr.gianhap  %> required />
               <span id="giaTienViet"></span>
             </div>
             <label for="">Giá bán: <span style="color: red;"><%=objPr.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></label>
-            <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" required />
+            <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" value="<%= objPr.price  %> required />
         </div>
 
 
