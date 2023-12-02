@@ -142,6 +142,10 @@ exports.registerUser = async (req, res, next) =>{
       if (existingEmail) {
         return res.status(409).json({ message: 'Email người dùng đã tồn tại' });
       }
+      const existingPhone = await MyModel.usersModel.findOne({ phone });
+      if (existingPhone) {
+        return res.status(409).json({ message: 'Phone người dùng đã tồn tại' });
+      }
   
       const hashedPassword = await bcrypt.hash(password, 10);
       const newPerson = new MyModel.usersModel({ username, fullname , email, image, password: hashedPassword, dob, role, sex, phone, tokenNotify });
