@@ -160,6 +160,19 @@ class ApiController {
             .catch(err => res.json(err));
     }
 
+    updateBillHuy(req, res, next) {
+        const id_billmore = req.params.id_billmore;
+        BillMore.findOne({ _id: id_billmore })
+            .then(billmore => {
+                if (billmore.status === 4) {
+                    billmore.status = 0;
+                    billmore.save().then(rs => res.json(1)).catch(err => res.json(err));
+                } else {
+                    res.json(-1);
+                }
+            })
+            .catch(err => res.json(err));
+    }
 }
 
 
