@@ -118,7 +118,7 @@ exports.listBillQuantity = async (req, res) => {
     if ( typeof(req.query.id_product) !== 'undefined' && req.query.status !== 'undefined') {
         let status = req.query.status;
         let id_product = req.query.id_product;
-        dieu_kien = {  status: 5, "list.id_product": id_product };
+        dieu_kien = {  status: { $in: [3, 5] }, "list.id_product": id_product };
         console.log(dieu_kien);
     }
     try {
