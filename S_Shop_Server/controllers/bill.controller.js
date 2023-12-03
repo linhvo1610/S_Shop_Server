@@ -387,7 +387,6 @@ exports.searchBillDaNhan = async (req, res, next) =>{
 }
 }
 exports.thongke = async (req,res,next) =>{
-  
   try {
     let list = await BillMore.find();
     const pro = await prModel.productModel.find();
@@ -396,21 +395,19 @@ exports.thongke = async (req,res,next) =>{
       { $unwind: "$list" }, // Unwind mảng list
       { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } } } // Nhóm theo id sản phẩm và tính tổng số lượng
     ]);
-    
-
     const productIds = totalSoldProducts.map(product => product._id);
-
     const productList = await prModel.productModel.find({ _id: { $in: productIds } }, 'name price gianhap sizes ');
-
     const result = [];
     let totalMoney = 0;
+
+    const totalQuantityAllProducts = totalSoldProducts.reduce((acc, product) => acc + product.totalQuantity, 0);
+
+
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
-
       const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap;
       totalMoney += totalProductMoney;
-
       result.push({
         productId: product._id,
         totalQuantity: product.totalQuantity,
@@ -418,21 +415,19 @@ exports.thongke = async (req,res,next) =>{
         price: matchedProduct.price,
         gianhap: matchedProduct.gianhap,
         totalSizeQuantity: totalSizeQuantity,
-
-        totalProductMoney: totalProductMoney
+        totalProductMoney: totalProductMoney,
       });
     }
     const totalMoneyFromStatus3And5 = await BillMore.aggregate([
       { $match: { status: { $in: [3, 5] } } },
       { $group: { _id: null, total: { $sum: "$total" } } }
     ]);
-
-
     res.render("product/thongke", {
       productList: result,
       listBill:list,pro:pro,
       totalMoney: totalMoney,
-      totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0
+      totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0,
+      totalQuantityAllProducts: totalQuantityAllProducts
     });
   } catch (err) {
     console.error(err);
