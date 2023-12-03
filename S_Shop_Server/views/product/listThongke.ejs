@@ -54,64 +54,6 @@
         "
       >
         <img
-          src="/images/financial-statement.png"
-          style="width: 50px; margin-top: 20px; float: left"
-        />
-        <div style="float: left; height: 50px; position: relative; top: 22px">
-          <p style="margin-left: 7px">Doanh thu</p>
-          <p
-            style="
-              margin-left: 10px;
-              color: rgb(19, 149, 149);
-              font-weight: bold;
-            "
-          >
-            <% let totalAllProductProfit = 0; productList.forEach(product => {
-            totalAllProductProfit += product.totalProductProfit; }); %> <%=
-            totalAllProductProfit.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        style="
-          width: auto;
-          background-color: rgb(207, 210, 210);
-          float: left;
-          margin-right: 10px;
-          padding: 10px;
-        "
-      >
-        <img
-          src="/images//checklist.png"
-          style="width: 50px; margin-top: 20px; float: left"
-        />
-        <div style="float: left; height: 50px; position: relative; top: 22px">
-          <p style="margin-left: 7px">Số đơn đã bán</p>
-          <p
-            style="
-              margin-left: 10px;
-              color: rgb(19, 149, 149);
-              font-weight: bold;
-            "
-          >
-            <%= totalQuantityAllProducts.toLocaleString() %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        style="
-          width: auto;
-          background-color: rgb(207, 210, 210);
-          float: left;
-          margin-right: 10px;
-          padding: 10px;
-        "
-      >
-        <img
           src="/images//product.png"
           style="width: 50px; margin-top: 20px; float: left"
         />
@@ -155,15 +97,110 @@
           float: left;
           margin-right: 10px;
           padding: 10px;
-          border: none;"
+        "
       >
         <img
-          src="/images//top.png"
+          src="/images//checklist.png"
           style="width: 50px; margin-top: 20px; float: left"
         />
-        <a href="http://192.168.11.126:3000/bill/listBillTK">
+        <div style="float: left; height: 50px; position: relative; top: 22px">
+          <p style="margin-left: 7px">Số đơn đã bán</p>
+          <p
+            style="
+              margin-left: 10px;
+              color: rgb(19, 149, 149);
+              font-weight: bold;
+            "
+          >
+            <%= totalQuantityAllProducts.toLocaleString() %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        style="
+          width: auto;
+          background-color: rgb(207, 210, 210);
+          float: left;
+          margin-right: 10px;
+          padding: 10px;
+        "
+      >
+        <img
+          src="/images/financial-statement.png"
+          style="width: 50px; margin-top: 20px; float: left"
+        />
+        <div style="float: left; height: 50px; position: relative; top: 22px">
+          <p style="margin-left: 7px">Doanh thu</p>
+          <p
+            style="
+              margin-left: 10px;
+              color: rgb(19, 149, 149);
+              font-weight: bold;
+            "
+          >
+          <% let thdt = 0 %>
+          <% productList.forEach(product => { %>
+                     <% thdt += product.totalQuantity * product.price %>
+            <% }); %>
+            <%= thdt.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div>
+      <div
+        style="
+          width: auto;
+          background-color: rgb(207, 210, 210);
+          float: left;
+          margin-right: 10px;
+          padding: 10px;min-width: 170px;
+        "
+      >
+        <img
+          src="/images//product.png"
+          style="width: 50px; margin-top: 20px; float: left"
+        />
+        <div style="float: left; height: 50px; position: relative; top: 22px">
+          <p style="margin-left: 7px">Tiền vốn</p>
+          <p
+            style="
+              margin-left: 10px;
+              color: rgb(19, 149, 149);
+              font-weight: bold;
+            "
+          >
+          <% let thnh = 0 %>
+          <% productList.forEach(product => { %>
+                     <% thnh += product.totalQuantity * product.gianhap  %>
+            <% }); %>
+            <%= thnh.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div
+        style="
+          width: auto;
+          background-color: rgb(207, 210, 210);
+          float: left;
+          margin-right: 10px;
+          padding: 10px;
+          min-width: 170px;
+        "
+      >
+        <img
+          src="/images//money.png"
+          style="width: 50px; margin-top: 20px; float: left"
+        />
           <div style="float: left; height: 50px; position: relative; top: 22px">
-            <p style="margin-left: 7px;">Sản phầm bán chạy</p>
+            <p style="margin-left: 7px">Tiền lời</p>
             <p
               style="
                 margin-left: 7px;
@@ -171,12 +208,16 @@
                 font-weight: bold;
               "
             >
-              Top 10
+            <% let thtl = 0 %>
+            <% productList.forEach(product => { %>
+                       <% thtl += product.totalQuantity * product.price - product.totalQuantity * product.gianhap %>
+              <% }); %>
+              <%= thtl.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
             </p>
           </div>
-        </a>
       </div>
     </div>
+
   </div>
 
   <!-- thong kê theo sản phẩm -->
