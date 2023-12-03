@@ -399,9 +399,7 @@ exports.thongke = async (req,res,next) =>{
     const productList = await prModel.productModel.find({ _id: { $in: productIds } }, 'name price gianhap sizes ');
     const result = [];
     let totalMoney = 0;
-
     const totalQuantityAllProducts = totalSoldProducts.reduce((acc, product) => acc + product.totalQuantity, 0);
-
 
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
@@ -453,32 +451,58 @@ exports.thongketheongay = async (req,res,next) =>{
 }
 exports.listThongke = async (req, res, next) => {
   try {
+    let list = await BillMore.find();
+    const pro = await prModel.productModel.find();
     const totalSoldProducts = await BillMore.aggregate([
-      { $match: { status: 5 } }, // Lọc theo status 5
+      { $match: { status: { $in: [3, 5] } } }, // Lọc theo status 3,5
       { $unwind: "$list" }, // Unwind mảng list
       { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } } } // Nhóm theo id sản phẩm và tính tổng số lượng
     ]);
-
     const productIds = totalSoldProducts.map(product => product._id);
-
     const productList = await prModel.productModel.find({ _id: { $in: productIds } }, 'name price gianhap sizes ');
-
     const result = [];
+    let totalMoney = 0;
+    let totalProfit = 0;
+
+    totalSoldProducts.sort((a, b) => b.totalQuantity - a.totalQuantity); // Sắp xếp theo totalQuantity từ lớn đến nhỏ
+    const totalQuantityAllProducts = totalSoldProducts.slice(0, 10).reduce((acc, product) => acc + product.totalQuantity, 0);
+
+
+    
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
+      const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap;
+
+      const totalProductProfit = (matchedProduct.price * product.totalQuantity) - (product.totalQuantity * matchedProduct.gianhap); // Tính tổng tiền lãi của sản phẩm
+
+
+      totalMoney += totalProductMoney;
+      totalProfit += totalProductProfit;
+
       result.push({
         productId: product._id,
         totalQuantity: product.totalQuantity,
         productName: matchedProduct.name,
         price: matchedProduct.price,
         gianhap: matchedProduct.gianhap,
-        totalSizeQuantity: totalSizeQuantity
+        totalSizeQuantity: totalSizeQuantity,
+        totalProductMoney: totalProductMoney,
 
+        totalProductProfit: totalProductProfit,
       });
     }
+
+    const totalMoneyFromStatus3And5 = await BillMore.aggregate([
+      { $match: { status: { $in: [3, 5] } } },
+      { $group: { _id: null, total: { $sum: "$total" } } }
+    ]);
     res.render("product/listThongke", {
-      productList: result,
+      productList: result.slice(0, 10),
+      listBill:list,pro:pro,
+      totalMoney: totalMoney,
+      totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0,
+      totalQuantityAllProducts: totalQuantityAllProducts,
     });
   } catch (err) {
     console.error(err);
