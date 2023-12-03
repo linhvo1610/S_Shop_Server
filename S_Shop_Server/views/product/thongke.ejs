@@ -51,7 +51,7 @@
               <p style="margin-left: 7px;">Doanh thu</p>
               <p style="margin-left: 10px;color: rgb(19, 149, 149);font-weight: bold;"
               >
-              <%= (totalMoneyFromStatus3And5 - totalMoney).toLocaleString('vi-VN', {
+              <%= (totalMoneyFromStatus3And5 ).toLocaleString('vi-VN', {
                 style: 'currency', currency: 'VND' }) %>
             </p>
           </div>
@@ -80,7 +80,25 @@
               >Số sản phầm còn lại</p>
               <p style="margin-left: 10px;color: rgb(19, 149, 149);font-weight: bold;"
               >
-              Chưa lấy được
+              <% let shcl = 0 %>
+                <% if (pro.length> 0) { %> <%
+                    pro.reverse().forEach((data)=>{%>
+                        
+                            <% let totalQuantity = 0; %>
+                            <!-- Khởi tạo biến totalQuantity -->
+                            <% data.sizes.forEach(function(size) { %> <% totalQuantity +=
+                            size.quantity; %>
+                            <!-- Tính tổng số lượng -->
+                            <% }); %>
+                            <% totalQuantity.toLocaleString() %>
+                            <!-- Hiển thị tổng số lượng -->
+                            <% shcl +=  totalQuantity %>
+                        
+                        <%} ) %>
+                        <%=  shcl.toLocaleString() %>
+                         <% } else { %>
+                            <p style="font-size: 18px">Không tìm thấy sản phẩm phù hợp.</p>
+                            <% } %>
             </p>
           </div>
       </div>
@@ -89,7 +107,7 @@
     <div style="width: auto;background-color: rgb(207, 210, 210);float: left;margin-right: 10px;padding: 10px">
         <img src="/images//top.png"
         style="width: 50px;margin-top: 20px;float: left;" />
-        <a href="http://192.168.1.9:3000/bill/listBillTK" >
+        <a href="http://192.168.11.126:3000/bill/listBillTK" >
         <div style="float: left;height: 50px;position: relative;top:22px;" >
             <p style="margin-left: 7px;"
             >Sản phầm bán chạy</p>
@@ -113,8 +131,8 @@
       <th style="text-align: center">Giá nhập</th>
       <th style="text-align: center">Giá bán</th>
       <th style="text-align: center">Tổng tiền nhập hàng</th>
-      <th style="text-align: center">Tổng tiền bán hàng</th>
-      <th style="text-align: center">Số tiền lãi</th>
+      <th style="text-align: center">Doanh thu</th>
+      <th style="text-align: center">Số tiền hồi vốn</th>
       <!-- <th style="text-align: center">Số tiền lãi / hoàn vốn</th> -->
       <th></th>
     </thead>
@@ -143,7 +161,7 @@
         <% } %>
         <td style="text-align: center">
           <%= (product.totalSizeQuantity *
-          product.gianhap).toLocaleString('vi-VN', { style: 'currency',
+          product.gianhap + product.totalQuantity*product.gianhap).toLocaleString('vi-VN', { style: 'currency',
           currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
@@ -151,8 +169,8 @@
           style: 'currency', currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
-          <%= ((product.price * product.totalQuantity) - (product.totalQuantity
-          * product.gianhap)).toLocaleString('vi-VN', { style: 'currency',
+          <%= ((product.price * product.totalQuantity) - (product.totalSizeQuantity
+          * product.gianhap  + product.totalQuantity*product.gianhap)).toLocaleString('vi-VN', { style: 'currency',
           currency: 'VND' }) %>
         </td>
         <!-- <td style="text-align: center">
@@ -188,8 +206,8 @@
         <th scope="col" style="text-align: center">Số sản phẩm bán ra</th>
         <th scope="col" style="text-align: center">Số sản phẩm còn lại</th>
         <th scope="col" style="text-align: center">Tổng số tiền nhập vào</th>
-        <th scope="col" style="text-align: center">Tổng số tiền bán ra</th>
-        <th scope="col" style="text-align: center">Số doanh thu</th>
+        <th scope="col" style="text-align: center">Doanh thu</th>
+        <th scope="col" style="text-align: center">Số tiền hồi vốn</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -242,7 +260,7 @@
           'currency', currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
-          <%= (totalMoneyFromStatus3And5 - totalMoney).toLocaleString('vi-VN', {
+          <%= (totalMoneyFromStatus3And5 - totalMoney - totalProductMoney).toLocaleString('vi-VN', {
           style: 'currency', currency: 'VND' }) %>
         </td>
       </tr>

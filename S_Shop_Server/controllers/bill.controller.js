@@ -435,18 +435,93 @@ exports.thongke = async (req,res,next) =>{
 exports.thongketheongay = async (req,res,next) =>{
 
   
-  let startDate = req.query.startDate;
-  let endDate = req.query.endDate;
-  const  list = await BillMore.find({
+  let list = await BillMore.find();
+  
 
-     date: {
-      $gte: startDate,  $lte: endDate,  
-     }
-    });
+  try {
+    let startDate = req.query.startDate;
+    let endDate = req.query.endDate;
+    let totalSoldProducts = [];
+    if (!startDate || !endDate) {
+     totalSoldProducts = await BillMore.aggregate([
+        { $match: { status: { $in: [3, 5] } } }, // Lọc theo status 3,5
+        { $unwind: "$list" }, // Unwind mảng list
+        { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } } } // Nhóm theo id sản phẩm và tính tổng số lượng
+      ]);
+    
+    } else {
+      totalSoldProducts = await BillMore.aggregate([
+        {
+          $match: {
+            date: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+            status: { $in: [3, 5] }
+          }
+        },
+        { $unwind: "$list" },
+        { $group: { 
+            _id: "$list.id_product", 
+            totalQuantity: { $sum: "$list.quantity" },
+            list: { $push: "$list" } // Đưa toàn bộ thông tin của list vào mảng list
+          } 
+        }
+      ]);
+    }
+   
     const pro = await prModel.productModel.find();
-  console.log(startDate);
-  console.log(list);
-  res.render("product/thongke",{listBill:list,pro:pro});
+     
+        
+      
+    
+
+    const productIds = totalSoldProducts.map(product => product._id);
+
+    const productList = await prModel.productModel.find({ _id: { $in: productIds } }, 'name price gianhap sizes ');
+
+    const result = [];
+    let totalMoney = 0;
+    for (const product of totalSoldProducts) {
+      const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
+      const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
+
+      const totalProductMoney = totalSizeQuantity * matchedProduct.price ;
+      totalMoney += totalProductMoney;
+
+      result.push({
+        productId: product._id,
+        totalQuantity: product.totalQuantity,
+        productName: matchedProduct.name,
+        price: matchedProduct.price,
+        gianhap: matchedProduct.gianhap,
+        totalSizeQuantity: totalSizeQuantity,
+
+        totalProductMoney: totalProductMoney
+      });
+    }
+
+    // const totalRevenue = list.reduce((acc, bill) => acc + bill.total, 0);
+
+    const totalMoneyFromStatus3And5 = await BillMore.aggregate([
+      { $match: { status: { $in: [3, 5] } } },
+      { $group: { _id: null, total: { $sum: "$total" } } }
+    ]);
+
+
+    res.render("product/thongketheongay", {
+      productList: result,
+      listBill:list,
+      pro:pro,
+      totalMoney: totalMoney,
+      // totalRevenue: totalRevenue
+      totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0
+
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Đã xảy ra lỗi khi xử lý yêu cầu của bạn");
+  }
 
 }
 exports.listThongke = async (req, res, next) => {
@@ -472,7 +547,7 @@ exports.listThongke = async (req, res, next) => {
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
-      const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap;
+      const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap ;
 
       const totalProductProfit = (matchedProduct.price * product.totalQuantity) - (product.totalQuantity * matchedProduct.gianhap); // Tính tổng tiền lãi của sản phẩm
 
