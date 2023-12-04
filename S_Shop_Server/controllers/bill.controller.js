@@ -151,31 +151,61 @@ exports.updatebillPro = async (req, res) => {
 
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
     bill.status = 1;
-    await bill.save().then(async () => {
-      const posts = await BillMore.find()
+    await bill.save();
 
-      const user = await usModel.usersModel.find();
-      const pro = await prModel.productModel.find();
-      const address = await Address.find();
-      const userToken = await usModel.usersModel.findById(bill.id_user);
-      const filteredPosts = posts.filter(post => post.status === 0);
+    // Lấy danh sách sản phẩm từ đơn hàng
+    const productList = bill.list;
 
-      sendNotification(bill.status, bill, 'đã được xác nhận', userToken.tokenNotify)
-      res.redirect("/bill/listBills");
-      res.render("product/order", {
-        listBill: filteredPosts,
-        user: user,
-        pro: pro, address: address
-      });
+    // Iterate through each product in the bill
+    for (const product of productList) {
+      const productId = product.id_product;
+      const size = product.size;
+      const quantityToReduce = product.quantity;
+
+      // Tìm sản phẩm trong kho theo ID
+      const foundProduct = await prModel.productModel.findById(productId);
+
+      if (foundProduct) {
+        // Tìm kích thước trong mảng kích thước của sản phẩm
+        const foundSize = foundProduct.sizes.find((s) => s.size === size);
+
+        if (foundSize && foundSize.quantity >= quantityToReduce) {
+          // Cập nhật số lượng của kích thước cụ thể trong kho
+          foundSize.quantity -= quantityToReduce;
+
+          // Lưu các thay đổi vào sản phẩm
+          await foundProduct.save();
+        } else {
+          // Xử lý trường hợp kích thước cụ thể không có đủ số lượng
+          return res.status(400).json({ error: 'Số lượng không đủ cho kích thước cụ thể.' });
+        }
+      } else {
+        // Xử lý trường hợp không tìm thấy ID sản phẩm trong kho
+        return res.status(400).json({ error: 'Sản phẩm không tìm thấy trong kho.' });
+      }
+    }
+
+    // Gửi thông báo và chuyển hướng sau khi cập nhật thành công
+    const posts = await BillMore.find();
+    const user = await usModel.usersModel.find();
+    const pro = await prModel.productModel.find();
+    const address = await Address.find();
+    const userToken = await usModel.usersModel.findById(bill.id_user);
+    const filteredPosts = posts.filter(post => post.status === 0);
+
+    sendNotification(bill.status, bill, 'đã được xác nhận', userToken.tokenNotify);
+    res.redirect("/bill/listBills");
+    res.render("product/order", {
+      listBill: filteredPosts,
+      user: user,
+      pro: pro,
+      address: address
     });
-
-
-
   } catch (err) {
-    // console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+
 exports.updatebillProGiaohang = async (req, res) => {
   try {
     const idbill = req.params.idbill;
@@ -191,13 +221,6 @@ exports.updatebillProGiaohang = async (req, res) => {
     setTimeout(async function () {
       bill.status = 2;
       await bill.save();
-
-      // setTimeout(async function () {
-      //   bill.status = 3;
-      //   await bill.save();
-      //   const userToken = await usModel.usersModel.findById(bill.id_user);
-      //   sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
-
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();

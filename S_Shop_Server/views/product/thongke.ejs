@@ -6,7 +6,7 @@
     </div>
   </div>
   <div style="margin-bottom: 20px">
-    <form action="/bill/seachBill" method="GET" role="search">
+    <!-- <form action="/bill/seachBill" method="GET" role="search">
       <div class="input-group rounded">
         <input
           type="search"
@@ -39,7 +39,7 @@
           <i class="fa fa-search"></i>
         </button>
       </div>
-    </form>
+    </form> -->
   </div>
 
   <!-- thong kê theo sản phẩm -->
@@ -95,7 +95,7 @@
           var totalSales = product.totalQuantity * product.price;
           var totalCost = product.totalSizeQuantity * product.gianhap + product.totalQuantity * product.gianhap;
           if (totalSales > totalCost) { %>
-            <p style="color: rgb(28, 168, 30);font-weight: bold;" >Đã hoàn vốn</p>
+            <p style="color: rgb(59, 215, 61);font-weight: bold;" >Đã hoàn vốn</p>
           <% } else { %>
             <%= ( totalSales - totalCost).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
           <% } %>
