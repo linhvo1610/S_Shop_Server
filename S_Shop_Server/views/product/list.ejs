@@ -88,6 +88,19 @@
                   </select>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label for="minPrice">Min Price:</label>
+                    <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Min Price">
+                  </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="maxPrice">Max Price:</label>
+                    <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max Price">
+                  </div>
+            </div>
               
               <div class="col-md-4">
                 <div class="form-group">
@@ -100,17 +113,12 @@
           </form>
           
           
-          <form id="filterForm" action="/product/price/filter" method="get">
-
-            <input type="number" name="minPrice" placeholder="min price">
-            <input type="number" name="maxPrice"placeholder = "max price" >
-            <button type="submit" class="btn btn-primary">
-              supmit price
-            </button>
-          </form>
+          
         </div>
       </div>
     </div>
+    <script>console.log("minPrice:", document.getElementById("minPrice").value);
+      console.log("maxPrice:", document.getElementById("maxPrice").value);</script>
 
     <div class="d-flex flex-row-reverse" style="margin-bottom: 5px">
       <button
@@ -128,7 +136,7 @@
           <th>Tên sản phẩm</th>
           <th style="text-align: center;">Loại SP</th>
           <th style="text-align: center;">Giá nhập</th>
-          <th style="text-align: center;">Giá</th>
+          <th style="text-align: center;">Giá bán</th>
           <th style="text-align: center;">Tổng số lượng</th>
           <th style="text-align: center;">Kích cỡ</th>
           <th style="text-align: center;">Trạng thái</th>
@@ -191,9 +199,12 @@
             <%= sizes.join(', ') %>
             <!-- Hiển thị kích cỡ với dấu phẩy -->
           </td>
-          <td>
+          <td >
             <% if(data.status==true){ %>
+              <p style="border-radius: 10px;background-color: rgb(27, 169, 93);border: 1px;height: 30px;padding-left: 6px;
+              padding-right: 6px;width: 70px;text-align: center;padding-top: 3px; color: #fff;">
               Đang bán
+            </p>
             <% } else { %>
               <!-- Add the code for the inactive state here -->
             <% } %>
@@ -275,34 +286,44 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function () {
-    $("#filterForm").submit(function (event) {
-      event.preventDefault(); // Prevent the form from submitting normally
+ $(document).ready(function () {
+  $("#filterForm").submit(function (event) {
+    event.preventDefault(); // Prevent the form from submitting normally
 
-      // Get the selected filter values
-      var selectedSize = $("#size").val();
-      var selectedColor = $("#color").val();
+    // Get the selected filter values
+    var selectedSize = $("#size").val();
+    var selectedColor = $("#color").val();
+    var minPrice = $("#minPrice").val();
+    var maxPrice = $("#maxPrice").val();
 
-      // Construct the URL with the selected filter values
-      var url = "/product/list/filter?";
+    // Construct the URL with the selected filter values
+    var url = "/product/list/filter?";
 
-      if (selectedSize) {
-        url += "size=" + selectedSize + "&";
-      }
+    if (selectedSize) {
+      url += "size=" + selectedSize + "&";
+    }
 
-      if (selectedColor) {
-        url += "id_cat=" + selectedColor;
-      }
+    if (selectedColor) {
+      url += "id_cat=" + selectedColor + "&";
+    }
 
-      // Remove the trailing '&' if both values are selected
-      if (url.endsWith("&")) {
-        url = url.slice(0, -1);
-      }
+    if (minPrice) {
+      url += "minPrice=" + minPrice + "&";
+    }
 
-      // Redirect to the filtered page
-      window.location.href = url;
-    });
+    if (maxPrice) {
+      url += "maxPrice=" + maxPrice + "&";
+    }
+
+    // Remove the trailing '&' if present
+    if (url.endsWith("&")) {
+      url = url.slice(0, -1);
+    }
+
+    // Redirect to the filtered page
+    window.location.href = url;
   });
+});
 </script>
 <style>
   .dialog {

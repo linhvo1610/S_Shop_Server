@@ -1,5 +1,6 @@
 const MyModel = require('../../models/model')
 const bcrypt = require('bcrypt');
+const nodemailer = require("nodemailer");
 exports.listUsers = async (req, res, next) => {
     let dataR = {
 
@@ -142,6 +143,10 @@ exports.registerUser = async (req, res, next) =>{
       if (existingEmail) {
         return res.status(409).json({ message: 'Email người dùng đã tồn tại' });
       }
+      const existingPhone = await MyModel.usersModel.findOne({ phone });
+      if (existingPhone) {
+        return res.status(409).json({ message: 'Phone người dùng đã tồn tại' });
+      }
   
       const hashedPassword = await bcrypt.hash(password, 10);
       const newPerson = new MyModel.usersModel({ username, fullname , email, image, password: hashedPassword, dob, role, sex, phone, tokenNotify });
@@ -228,4 +233,32 @@ exports.tokenNotify = (req, res, next) => {
 
 }
 
+exports.senOTP = async (req, res, next) => {
+  const { email } = req.body;
+  const transporter = nodemailer.createTransport({
+    service :"gmail",
+    auth: {
+      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+      user: "haikevill125@gmail.com",
+      pass: "hai1252003",
+    },
+  });
 
+  await transporter.sendMail({
+    from: "haikevill125@gmail.com", // sender address
+    to: `${email}`, // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>", // html body
+  },(err)=>{
+    if (err) {
+      return res.json({
+        message: "Loi",
+        err
+      })
+    }
+    return res.json({
+      message: " Da gui email: `${email}`",
+    })
+  });
+}
