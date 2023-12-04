@@ -4,6 +4,7 @@ const prModel = require("../models/product.model");
 const Address = require("../models/Address");
 const BillMore = require("../models/BillMore");
 const axios = require('axios');
+const Notify = require("../models/Notify");
 
 exports.listBill = async (req, res, next) => {
 
@@ -113,12 +114,12 @@ exports.updateStatusBill1 = async (req, res, next) => {
   // Redirect the user back to the list of bills
 };
 
-const sendNotification = async (status, bill, body, token) => {
+const sendNotification = async (status, content, token) => {
   console.log(token);
   const data = {
     "data": {
       "title": "Có thông báo mới",
-      "body": "Đơn hàng có mã " + bill.id + body,
+      "body": content,
       "status": status
     },
     "to": token
@@ -159,8 +160,8 @@ exports.updatebillPro = async (req, res) => {
       const address = await Address.find();
       const userToken = await usModel.usersModel.findById(bill.id_user);
       const filteredPosts = posts.filter(post => post.status === 0);
-
-      sendNotification(bill.status, bill, 'đã được xác nhận', userToken.tokenNotify)
+      
+      sendNotification(bill.status, "Đơn hàng có mã " + idbill + " đã được xác nhận", userToken.tokenNotify)
       res.redirect("/bill/listBills");
       res.render("product/order", {
         listBill: filteredPosts,
@@ -196,7 +197,7 @@ exports.updatebillProGiaohang = async (req, res) => {
         bill.status = 3;
         await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
+        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
@@ -232,7 +233,7 @@ exports.updatebillProHuy = async (req, res) => {
     bill.status = 4;
     await bill.save();
     const userToken = await usModel.usersModel.findById(bill.id_user);
-    sendNotification(bill.status, bill, 'đã bị hủy', userToken.tokenNotify)
+    sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đã bị hủy', userToken.tokenNotify)
     res.redirect("/bill/listBills");
     const posts = await BillMore.find()
     res.render("product/order", {

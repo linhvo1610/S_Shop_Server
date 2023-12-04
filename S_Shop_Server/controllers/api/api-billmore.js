@@ -12,6 +12,7 @@ class ApiController {
 
     addBill = async (req, res, next) => {
         try {
+            const billmore = req.body;
             const productList = billmore.list;
 
             // Iterate through each product in the bill
@@ -42,14 +43,12 @@ class ApiController {
                     return res.status(400).json({ error: 'Product not found in inventory.' });
                 }
             }
-        const billmore = req.body;
         const idArray = billmore.list.map(item => item._id);
         const token = req.params.token;
         BillMore.create(billmore).then(billmore => {
             Cart.deleteMany({ _id: { $in: idArray } })
                 .then(() => {
-                    Notify.create({ id_billmore: billmore.id, id_user: billmore.id_user, status: 0 }).then(
-                        () => {
+                    
                             const data = {
                                 "data": {
                                     "title": "Có thông báo mới",
@@ -68,15 +67,10 @@ class ApiController {
                                     console.log('gửi thông báo đến thiết bị thành công', data)
                                 })
                                 .catch(function (error) {
-                                    console.log('gửi thông báo đến thiết bị thất bại')
+                                    console.log('gửi thông báo đến thiết bị thất bại', error)
                                 });
                             res.json(billmore);
-
-
-                        }
-                    ).catch(err => { 
-                        console.log(err);
-                        res.json(err) });
+                    
                 })
                 .catch(err => { 
                     console.log(err);

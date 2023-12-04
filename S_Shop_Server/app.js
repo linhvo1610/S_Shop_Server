@@ -12,6 +12,7 @@ var addressRouter = require('./routes/address.route');
 var cartRouter = require('./routes/cart.route');
 var billMoreRouter = require('./routes/billmore.route');
 var notifyRouter = require('./routes/notify.route');
+var notifyControllerRouter = require('./routes/notify.controller.router');
 
 
 var loginRouter = require('./routes/login');
@@ -47,6 +48,7 @@ app.use('/address',addressRouter);
 app.use('/cart',cartRouter);
 app.use('/billmore',billMoreRouter);
 app.use('/notify', notifyRouter);
+app.use('/sendNotify', notifyControllerRouter);
 
 app.use('/product',productRouter);
 app.use('/bill',billRouter);
