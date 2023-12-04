@@ -224,14 +224,14 @@ exports.updatebillProGiaohang = async (req, res) => {
       bill.status = 2;
       await bill.save();
 
-      setTimeout(async function () {
-        bill.status = 3;
-        await bill.save();
-        const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
+      // setTimeout(async function () {
+      //   bill.status = 3;
+      //   await bill.save();
+      //   const userToken = await usModel.usersModel.findById(bill.id_user);
+      //   sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
 
 
-        res.redirect("/bill/listBillsDagiao");
+        res.redirect("/bill/listBillsXacnhan");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
@@ -246,7 +246,7 @@ exports.updatebillProGiaohang = async (req, res) => {
           pro: pro,
           address: address
         });
-      }, 3000);
+      // }, 3000);
     }, 1000);
   } catch (err) {
     console.log(err);
@@ -274,7 +274,9 @@ exports.updatebillHoantat = async (req, res) => {
       //   bill.status = 3;
       //   await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
+        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
+
+
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
@@ -292,7 +294,7 @@ exports.updatebillHoantat = async (req, res) => {
           address: address
         });
       // }, 3000);
-    }, 2000);
+    }, 1000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
