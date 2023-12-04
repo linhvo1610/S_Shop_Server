@@ -4,6 +4,7 @@ const prModel = require("../models/product.model");
 const Address = require("../models/Address");
 const BillMore = require("../models/BillMore");
 const axios = require('axios');
+const Notify = require("../models/Notify");
 
 exports.listBill = async (req, res, next) => {
 
@@ -113,12 +114,12 @@ exports.updateStatusBill1 = async (req, res, next) => {
   // Redirect the user back to the list of bills
 };
 
-const sendNotification = async (status, bill, body, token) => {
+const sendNotification = async (status, content, token) => {
   console.log(token);
   const data = {
     "data": {
       "title": "Có thông báo mới",
-      "body": "Đơn hàng có mã " + bill.id + body,
+      "body": content,
       "status": status
     },
     "to": token
@@ -152,6 +153,7 @@ exports.updatebillPro = async (req, res) => {
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
     bill.status = 1;
     await bill.save();
+
 
     // Lấy danh sách sản phẩm từ đơn hàng
     const productList = bill.list;
@@ -193,7 +195,7 @@ exports.updatebillPro = async (req, res) => {
     const userToken = await usModel.usersModel.findById(bill.id_user);
     const filteredPosts = posts.filter(post => post.status === 0);
 
-    sendNotification(bill.status, bill, 'đã được xác nhận', userToken.tokenNotify);
+    sendNotification(bill.status, "Đơn hàng có mã " + idbill + " đã được xác nhận", userToken.tokenNotify)
     res.redirect("/bill/listBills");
     res.render("product/order", {
       listBill: filteredPosts,
@@ -221,6 +223,14 @@ exports.updatebillProGiaohang = async (req, res) => {
     setTimeout(async function () {
       bill.status = 2;
       await bill.save();
+
+      setTimeout(async function () {
+        bill.status = 3;
+        await bill.save();
+        const userToken = await usModel.usersModel.findById(bill.id_user);
+        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
+
+
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
@@ -236,13 +246,14 @@ exports.updatebillProGiaohang = async (req, res) => {
           pro: pro,
           address: address
         });
-      // }, 3000);
+      }, 3000);
     }, 1000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+
 exports.updatebillHoantat = async (req, res) => {
   try {
     const idbill = req.params.idbill;
@@ -299,7 +310,7 @@ exports.updatebillProHuy = async (req, res) => {
     bill.status = 4;
     await bill.save();
     const userToken = await usModel.usersModel.findById(bill.id_user);
-    sendNotification(bill.status, bill, 'đã bị hủy', userToken.tokenNotify)
+    sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đã bị hủy', userToken.tokenNotify)
     res.redirect("/bill/listBills");
     const posts = await BillMore.find()
     res.render("product/order", {

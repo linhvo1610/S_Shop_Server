@@ -16,8 +16,16 @@ class ApiController {
             .catch(err => res.json(null));
     }
 
-
-
+    addNew = async(req, res, next)=>{
+        const notify = req.body;
+        try {
+            Notify.create(notify);
+            res.json(notify);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error.' });
+        }
+    }
 }
 
 

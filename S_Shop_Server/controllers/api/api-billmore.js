@@ -48,8 +48,7 @@ class ApiController {
         BillMore.create(billmore).then(billmore => {
             Cart.deleteMany({ _id: { $in: idArray } })
                 .then(() => {
-                    Notify.create({ id_billmore: billmore.id, id_user: billmore.id_user, status: 0 }).then(
-                        () => {
+                    
                             const data = {
                                 "data": {
                                     "title": "Có thông báo mới",
@@ -66,9 +65,10 @@ class ApiController {
                                     console.log('gửi thông báo đến thiết bị thành công', data)
                                 })
                                 .catch(function (error) {
-                                    console.log('gửi thông báo đến thiết bị thất bại')
+                                    console.log('gửi thông báo đến thiết bị thất bại', error)
                                 });
                             res.json(billmore);
+
                         }
                     ).catch(err => { 
                         console.log(err);
@@ -77,9 +77,6 @@ class ApiController {
                 .catch(err => { 
                     console.log(err);
                     res.json(err) })
-        }).catch(err => {
-            console.log(err); 
-            res.json(err) });
         } catch (error) {
             // Handle any errors that occur during the process
             console.error(error);

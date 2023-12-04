@@ -3,7 +3,7 @@ var db = require('./db');
 
 const Notify = new db.mongoose.Schema({
     id_user: { type: String, require: true },
-    id_billmore: { type: String, require: true },
+    content: { type: String, require: true },
     time: { type: Date, default: Date.now },
     status:{ type: Number, require: true },
 
