@@ -142,11 +142,11 @@
   <table id="myTable" class="table table-responsive-xl">
     <thead class="thead-dark">
       <th style="text-align: center">Tên sản phẩm</th>
-      <th style="text-align: center">Số lượng kho</th>
+      <!-- <th style="text-align: center">Số lượng trong kho</th> -->
       <th style="text-align: center">Số lượng đã bán</th>
       <th style="text-align: center">Giá nhập</th>
       <th style="text-align: center">Giá bán</th>
-      <th style="text-align: center">Tổng tiền nhập hàng</th>
+      <th style="text-align: center">Tiền hàng</th>
       <th style="text-align: center">Doanh thu</th>
       <th style="text-align: center">Số tiền hồi vốn</th>
       <!-- <th style="text-align: center">Số tiền lãi / hoàn vốn</th> -->
@@ -156,7 +156,7 @@
       <% productList.forEach(product => { %>
       <tr>
         <td style="width: 330px"><%= product.productName %></td>
-        <td style="text-align: center"><%= product.totalSizeQuantity %></td>
+        <!-- <td style="text-align: center"><%= product.totalSizeQuantity %></td> -->
         <td style="text-align: center">
           <%= product.totalQuantity.toLocaleString() %>
         </td>
@@ -176,8 +176,8 @@
         <td>N/A</td>
         <% } %>
         <td style="text-align: center">
-          <%= (product.totalSizeQuantity *
-          product.gianhap + product.totalQuantity*product.gianhap).toLocaleString('vi-VN', { style: 'currency',
+          <%= (product.totalQuantity *
+          product.gianhap).toLocaleString('vi-VN', { style: 'currency',
           currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
