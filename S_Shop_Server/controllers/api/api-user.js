@@ -1,5 +1,6 @@
 const MyModel = require('../../models/model')
 const bcrypt = require('bcrypt');
+const nodemailer = require("nodemailer");
 exports.listUsers = async (req, res, next) => {
     let dataR = {
 
@@ -232,4 +233,32 @@ exports.tokenNotify = (req, res, next) => {
 
 }
 
+exports.senOTP = async (req, res, next) => {
+  const { email } = req.body;
+  const transporter = nodemailer.createTransport({
+    service :"gmail",
+    auth: {
+      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+      user: "haikevill125@gmail.com",
+      pass: "hai1252003",
+    },
+  });
 
+  await transporter.sendMail({
+    from: "haikevill125@gmail.com", // sender address
+    to: `${email}`, // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>", // html body
+  },(err)=>{
+    if (err) {
+      return res.json({
+        message: "Loi",
+        err
+      })
+    }
+    return res.json({
+      message: " Da gui email: `${email}`",
+    })
+  });
+}
