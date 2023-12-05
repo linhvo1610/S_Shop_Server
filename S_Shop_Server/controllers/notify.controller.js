@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const serviceAccount = require('../sshop-701ec-firebase-adminsdk-qfizk-5fab1e9e3b.json');
+const Noitify = require('../models/Notify')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -42,3 +43,18 @@ const sendNotify = async (topic, content, status) => {
     throw error;
   }
 };
+
+exports.listNotify = async (req, res, next) => {
+  let list = await Noitify.find({ status: 10  });
+
+  res.render('notify/listNotify', {list:list})
+}
+exports.filterNotify = async(req, res, next) => {
+  const searchInput = req.query.content;
+  if (typeof searchInput !== 'string') {
+    return res.status(400).json({ error: 'Invalid search input' });
+}
+  const list = await Noitify.find({ content: { $regex: new RegExp(searchInput, 'i') }, status: 10 });
+
+  res.render("notify/listNotify", {list: list});
+}
