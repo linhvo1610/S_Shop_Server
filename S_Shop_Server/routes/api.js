@@ -106,5 +106,8 @@ router.delete('/bill/delete/:id', apiB.huydon)
 router.get('/filterPrice', apiP.filterPrice)
 
 
+router.post('/sendOTP', apiU.senOTP)
+
+
 
 module.exports = router;

@@ -136,7 +136,7 @@
           <th>Tên sản phẩm</th>
           <th style="text-align: center;">Loại SP</th>
           <th style="text-align: center;">Giá nhập</th>
-          <th style="text-align: center;">Giá</th>
+          <th style="text-align: center;">Giá bán</th>
           <th style="text-align: center;">Tổng số lượng</th>
           <th style="text-align: center;">Kích cỡ</th>
           <th style="text-align: center;">Trạng thái</th>
@@ -199,9 +199,12 @@
             <%= sizes.join(', ') %>
             <!-- Hiển thị kích cỡ với dấu phẩy -->
           </td>
-          <td>
+          <td >
             <% if(data.status==true){ %>
+              <p style="border-radius: 10px;background-color: rgb(27, 169, 93);border: 1px;height: 30px;padding-left: 6px;
+              padding-right: 6px;width: 70px;text-align: center;padding-top: 3px; color: #fff;">
               Đang bán
+            </p>
             <% } else { %>
               <!-- Add the code for the inactive state here -->
             <% } %>

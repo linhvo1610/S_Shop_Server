@@ -11797,8 +11797,10 @@ h5,
 }
 
 .heading-section {
-    font-size: 28px;
+    font-size: 30px;
     color: #000;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 .img {

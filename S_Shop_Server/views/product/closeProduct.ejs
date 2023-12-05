@@ -64,7 +64,6 @@
                   (!allSizes.includes(size.size)) { %> <%
                   allSizes.push(size.size); %> <% } %> <% }); %> <% }); %> <%
                   var initialSizes = allSizes.slice(); %>
-
                   <!-- Size Dropdown -->
                   <select class="form-control" id="size" name="size">
                     <option value="">All Sizes</option>
@@ -74,6 +73,8 @@
                   </select>
                 </div>
               </div>
+
+
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="color">Loại:</label>
@@ -87,6 +88,20 @@
                   </select>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label for="minPrice">Min Price:</label>
+                    <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Min Price">
+                  </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="maxPrice">Max Price:</label>
+                    <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max Price">
+                  </div>
+            </div>
+              
               <div class="col-md-4">
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">
@@ -166,7 +181,10 @@
           </td>
          <td style="text-align: center;">
           <% if(data.status==false){ %>
-          Dừng bán
+            <p style="border-radius: 10px;background-color: rgb(185, 71, 90);border: 1px;height: 30px;padding-left: 6px;
+              padding-right: 6px;width: 70px;text-align: center;padding-top: 3px; color: #fff;">
+              Dừng bán
+            </p>
       <% } else { %>
         <!-- Add the code for the inactive state here -->
       <% } %></td>
@@ -248,34 +266,44 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function () {
-    $("#filterForm").submit(function (event) {
-      event.preventDefault(); // Prevent the form from submitting normally
-
-      // Get the selected filter values
-      var selectedSize = $("#size").val();
-      var selectedColor = $("#color").val();
-
-      // Construct the URL with the selected filter values
-      var url = "/product/closeProduct/filter?";
-
-      if (selectedSize) {
-        url += "size=" + selectedSize + "&";
-      }
-
-      if (selectedColor) {
-        url += "id_cat=" + selectedColor;
-      }
-
-      // Remove the trailing '&' if both values are selected
-      if (url.endsWith("&")) {
-        url = url.slice(0, -1);
-      }
-
-      // Redirect to the filtered page
-      window.location.href = url;
-    });
-  });
-</script>
+   $("#filterForm").submit(function (event) {
+     event.preventDefault(); // Prevent the form from submitting normally
+ 
+     // Get the selected filter values
+     var selectedSize = $("#size").val();
+     var selectedColor = $("#color").val();
+     var minPrice = $("#minPrice").val();
+     var maxPrice = $("#maxPrice").val();
+ 
+     // Construct the URL with the selected filter values
+     var url = "/product/list/filter?";
+ 
+     if (selectedSize) {
+       url += "size=" + selectedSize + "&";
+     }
+ 
+     if (selectedColor) {
+       url += "id_cat=" + selectedColor + "&";
+     }
+ 
+     if (minPrice) {
+       url += "minPrice=" + minPrice + "&";
+     }
+ 
+     if (maxPrice) {
+       url += "maxPrice=" + maxPrice + "&";
+     }
+ 
+     // Remove the trailing '&' if present
+     if (url.endsWith("&")) {
+       url = url.slice(0, -1);
+     }
+ 
+     // Redirect to the filtered page
+     window.location.href = url;
+   });
+ });
+ </script>
 <style>
   .dialog {
     width: 300px;
