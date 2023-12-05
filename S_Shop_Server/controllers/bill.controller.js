@@ -39,6 +39,44 @@ exports.listBillsDanhan = async (req, res, next) => {
     listBill: posts,
   });
 }
+exports.filter = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let filter = {};
+  if (typeof req.query.size !== 'undefined' || typeof req.query.minPrice !== 'undefined'  || typeof req.query.maxPrice !== 'undefined' ) {
+    let size = req.query.size;
+
+    console.log("size:", size);
+   
+
+   
+    if (size) {
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        filter = { $and: [ { "sizes": { $elemMatch: { "size": size } } }, {"total": { $gte: minPrice, $lte: maxPrice }} ] };
+      } else {
+        filter = { "sizes": { $elemMatch: { "size": size } }}
+      }
+    } else if(minPrice && maxPrice){
+      filter = {
+        "total": { $gte: minPrice, $lte: maxPrice },
+        status:3
+      };
+    }
+    
+  
+    console.log("filter:", filter);
+    // Use the 'filter' object in your MongoDB query
+  }
+
+  var posts = await BillMore.find(filter);
+
+  console.log(posts);
+
+
+  res.render("product/DaNhanBill", {
+    listBill: post
+});
+};
 exports.listBillsHuydon = async (req, res, next) => {
 
   var posts = await BillMore.find({ status: 4 })
