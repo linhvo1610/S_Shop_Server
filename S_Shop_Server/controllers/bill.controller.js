@@ -269,31 +269,23 @@ exports.updatebillHoantat = async (req, res) => {
     setTimeout(async function () {
       bill.status = 3;
       await bill.save();
-
-      // setTimeout(async function () {
-      //   bill.status = 3;
-      //   await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
-
-
+        if (userToken && userToken.tokenNotify) {
+          sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + ' đang được vận chuyển', userToken.tokenNotify);
+        }
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
         const address = await Address.find();
-
         const filteredPosts = posts.filter(post => post.status === 2);
-
-
         res.render("product/DaNhanBill", {
           listBill: filteredPosts,
           user: user,
           pro: pro,
           address: address
         });
-      // }, 3000);
     }, 1000);
   } catch (err) {
     console.log(err);
