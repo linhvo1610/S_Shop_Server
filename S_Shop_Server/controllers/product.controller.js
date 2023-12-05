@@ -108,6 +108,10 @@ exports.filter = async (req, res, next) => {
         // Handle the case when either minPrice or maxPrice is not provided
         filter = { "sizes": { $elemMatch: { "size": size } } };
       }
+    }else if(minPrice && maxPrice){
+      filter = {
+        "price": { $gte: minPrice, $lte: maxPrice }
+      };
     }
     
   
