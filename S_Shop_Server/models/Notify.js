@@ -1,6 +1,5 @@
 var db = require('./db');
 
-
 const Notify = new db.mongoose.Schema({
     id_user: { type: String, require: true },
     content: { type: String, require: true },
