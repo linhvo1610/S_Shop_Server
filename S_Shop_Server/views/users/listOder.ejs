@@ -27,6 +27,7 @@
                 <th style="text-align: center;">Tổng tiền thanh toán</th>
                 <th style="text-align: center;">Số lượng mua</th>
                 <th style="text-align: center;">Kích cỡ sản phẩm</th>
+                <th style="text-align: center;">Ngày mua</th>
                 <th>&nbsp;</th>
 
             </tr>
@@ -53,6 +54,9 @@
                     <% for (var i = 0; i < bill.list.length; i++) { %>
                       <%= bill.list[i].size %><br>
                     <% } %>
+                  </td>
+                  <td style="text-align: center;">
+                    <%= bill.date %>
                   </td>
                   <td>
                                           
