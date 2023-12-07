@@ -24,33 +24,6 @@ const binhluanSchema = new db.mongoose.Schema({
     collection: 'binhluan'
 });
 
-
-
-// const categorySchema = new db.mongoose.Schema(
-//     {   name: { type: String, required: true },
-//         image:{type: String}   
-//     },
-//     {collection:'category'}
-// );
-
-// const balanceSchema = new db.mongoose.Schema({
-//     id_user:{type: db.mongoose.Schema.Types.ObjectId,ref:'usersModel'},
-//     balance:{type:Number,required:true}
-// },{collection:'balance'});
-
-// const recordSchema = new db.mongoose.Schema({
-//     id_balance:{type: db.mongoose.Schema.Types.ObjectId,ref:'balanceModel'},
-//     id_user:{type: db.mongoose.Schema.Types.ObjectId,ref:'usersModel'},
-//     id_cat:{type: db.mongoose.Schema.Types.ObjectId,ref:'categoryModel'},
-//     title:{type:String,required:true},
-//     price:{type:Number,required:true},
-//     description:{type: String},
-//     is_expense: { type: Boolean, default: true },
-//     date:{type:Date,required:true}
-// },{collection:'record'});
-
-
-
 let usersModel = db.mongoose.model('usersModel',userSchema);
 let binhluanModel = db.mongoose.model('binhluanModel', binhluanSchema);
 

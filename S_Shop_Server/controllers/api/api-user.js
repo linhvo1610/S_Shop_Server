@@ -130,7 +130,8 @@ exports.registerUser = async (req, res, next) =>{
 
       const { username, fullname, email ,password, dob, phone, tokenNotify} = req.body;
       const existingUser = await MyModel.usersModel.findOne({ username });
-  
+      const existingEmail = await MyModel.usersModel.findOne({ email });
+      const existingPhone = await MyModel.usersModel.findOne({ phone });
       const role = 'User';
       const image = 'https://i.pinimg.com/564x/16/3e/39/163e39beaa36d1f9a061b0f0c5669750.jpg'
       const sex = 'Khác'
@@ -138,14 +139,11 @@ exports.registerUser = async (req, res, next) =>{
       if (existingUser) {
         return res.status(409).json({ message: 'Tên người dùng đã tồn tại' });
       }
-  
-      const existingEmail = await MyModel.usersModel.findOne({ email });
       if (existingEmail) {
-        return res.status(409).json({ message: 'Email người dùng đã tồn tại' });
+        return res.status(401).json({ message: 'Email người dùng đã tồn tại' });
       }
-      const existingPhone = await MyModel.usersModel.findOne({ phone });
       if (existingPhone) {
-        return res.status(409).json({ message: 'Phone người dùng đã tồn tại' });
+        return res.status(403).json({ message: 'Phone người dùng đã tồn tại' });
       }
   
       const hashedPassword = await bcrypt.hash(password, 10);
