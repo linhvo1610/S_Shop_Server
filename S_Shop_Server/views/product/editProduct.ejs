@@ -43,11 +43,12 @@
 
     <label for="quantityInput">Số lượng kích cỡ:</label>
     <div class="input-row">
-        <input type="number"id="quantityInput" placeholder="Nhập số lượng Sizes" min="1" max="20" required>
+        <input type="number"id="quantityInput" style="width: 30%;"
+        placeholder="Nhập số lượng Sizes" min="1" max="20" required>
        
-    </div>
+   
     <button onclick="generateInputFields()" class="upload-button">Thêm</button>
-
+  </div>
     <div id="inputFieldsContainer"></div>
 
     <script>
@@ -67,14 +68,16 @@
             }
         }
     </script>
-    <!-- <% objPr.sizes.forEach((size, index) => { %>
+    <% objPr.sizes.forEach((size, index) => { %>
         <div class="input-row">
-          <label for="size">Size:</label>
-          <input type="text" name="sizes[<%= index %>][size]" value="<%= size.size %>">
-          <label for="quantity">Quantity:</label>
-          <input type="text" name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
+          <label for="size">Kích cỡ:</label>
+          <input type="text" style="width: 25%;"
+          name="sizes[<%= index %>][size]" value="<%= size.size %>">
+          <label for="quantity">Số lượng:</label>
+          <input type="text" style="width: 25%;"
+          name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
         </div>
-      <% }) %> -->
+      <% }) %>
       
       
     <!-- <div class="input-row">
@@ -125,7 +128,8 @@
         <input style="height: 500dp; width: 90%;" type="text" placeholder="Mô tả san pham" name="description" value="<%= objPr.description  %>" required />
         <input type="text" name="trademark" placeholder="thuong hieu" value="<%= objPr.trademark %>" class="myInput" />
         <div style="text-align: center;margin-top: 20px;width: 90%;">
-            <button  type="submit" style="background-color: rgb(146, 146, 71); padding: 10px; border-radius: 5px; color: white; border: none; cursor: pointer;">Lưu chỉnh sửa</button>
+            <button  type="submit" style="background-color: rgb(146, 146, 71); padding: 10px; border-radius: 5px; color: white; border: none; cursor: pointer;margin-bottom: 10px;"
+            >Lưu chỉnh sửa</button>
         </div>
     </div>
 
@@ -266,7 +270,7 @@ function updateOrderList(listProduct) {
   }
 
   .inputgia {
-    width: 130px;
+    width: auto;
     height: 30px;
     padding-left: 10px;
     border: none;
