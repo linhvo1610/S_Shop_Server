@@ -11,6 +11,8 @@ const userSchema = new db.mongoose.Schema(
         sex: { type: String, required: false },
         role: {type:String,required: true},
         tokenNotify: { type: String, require: false },
+        resetToken: { type: String, require: false },
+        resetTokenExpiration: { type: Date, require: false },
     },
     {collection:'users'}
 );

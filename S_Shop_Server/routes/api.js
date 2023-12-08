@@ -106,7 +106,9 @@ router.delete('/bill/delete/:id', apiB.huydon)
 router.get('/filterPrice', apiP.filterPrice)
 
 
-router.post('/sendOTP', apiU.senOTP)
+router.post('/sendOTP', apiU.sendOTP);
+router.post('/verifyOTP', apiU.verifyOTP);
+router.post('/resetPass', apiU.resetPassword);
 
 
 

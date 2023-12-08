@@ -48,7 +48,6 @@ class ApiController {
         BillMore.create(billmore).then(billmore => {
             Cart.deleteMany({ _id: { $in: idArray } })
                 .then(() => {
-                    
                             const data = {
                                 "data": {
                                     "title": "Có thông báo mới",
