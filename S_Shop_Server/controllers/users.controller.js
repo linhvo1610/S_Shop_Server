@@ -74,7 +74,7 @@ exports.listOder = async (req, res, next) => {
 
   let id = req.params.id;
   let objUser = await myModel.usersModel.findById(id); 
-  let userBills = await BillMore.find({ id_user: id, status:5 });
+  let userBills = await BillMore.find({ id_user: id, status:{ $in: [3, 5] } });
 
   res.render("users/listOder",{
     objUser:objUser, userBills:userBills

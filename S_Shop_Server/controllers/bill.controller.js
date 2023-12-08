@@ -39,6 +39,44 @@ exports.listBillsDanhan = async (req, res, next) => {
     listBill: posts,
   });
 }
+exports.filter = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let filter = {};
+  if (typeof req.query.size !== 'undefined' || typeof req.query.minPrice !== 'undefined'  || typeof req.query.maxPrice !== 'undefined' ) {
+    let size = req.query.size;
+
+    console.log("size:", size);
+   
+
+   
+    if (size) {
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        filter = { $and: [ { "sizes": { $elemMatch: { "size": size } } }, {"total": { $gte: minPrice, $lte: maxPrice }} ] };
+      } else {
+        filter = { "sizes": { $elemMatch: { "size": size } }}
+      }
+    } else if(minPrice && maxPrice){
+      filter = {
+        "total": { $gte: minPrice, $lte: maxPrice },
+        status:3
+      };
+    }
+    
+  
+    console.log("filter:", filter);
+    // Use the 'filter' object in your MongoDB query
+  }
+
+  var posts = await BillMore.find(filter);
+
+  console.log(posts);
+
+
+  res.render("product/DaNhanBill", {
+    listBill: post
+});
+};
 exports.listBillsHuydon = async (req, res, next) => {
 
   var posts = await BillMore.find({ status: 4 })
@@ -224,14 +262,14 @@ exports.updatebillProGiaohang = async (req, res) => {
       bill.status = 2;
       await bill.save();
 
-      setTimeout(async function () {
-        bill.status = 3;
-        await bill.save();
-        const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
+      // setTimeout(async function () {
+      //   bill.status = 3;
+      //   await bill.save();
+      //   const userToken = await usModel.usersModel.findById(bill.id_user);
+      //   sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đang được vận chuyển', userToken.tokenNotify)
 
 
-        res.redirect("/bill/listBillsDagiao");
+        res.redirect("/bill/listBillsXacnhan");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
@@ -246,7 +284,7 @@ exports.updatebillProGiaohang = async (req, res) => {
           pro: pro,
           address: address
         });
-      }, 3000);
+      // }, 3000);
     }, 1000);
   } catch (err) {
     console.log(err);
@@ -269,30 +307,24 @@ exports.updatebillHoantat = async (req, res) => {
     setTimeout(async function () {
       bill.status = 3;
       await bill.save();
-
-      // setTimeout(async function () {
-      //   bill.status = 3;
-      //   await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
-        sendNotification(bill.status, bill, 'đang được vận chuyển', userToken.tokenNotify)
+        if (userToken && userToken.tokenNotify) {
+          sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + ' đang được vận chuyển', userToken.tokenNotify);
+        }
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()
         const user = await usModel.usersModel.find();
         const pro = await prModel.productModel.find();
         const address = await Address.find();
-
         const filteredPosts = posts.filter(post => post.status === 2);
-
-
         res.render("product/DaNhanBill", {
           listBill: filteredPosts,
           user: user,
           pro: pro,
           address: address
         });
-      // }, 3000);
-    }, 2000);
+    }, 1000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });

@@ -32,25 +32,49 @@
         <div>
             <input type="text" placeholder="Ten san pham" style="width: 90%;font-size: 25px;font-weight: bold;" name="name" value="<%= objPr.name  %>" required />
             <br>
-            <label for="">Giá nhập: <span style="color: red;"><%=objPr.gianhap.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></span></label>
+            <label for="">Giá nhập: </label>
             <div class="input-group">
-              <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="gianhap" value="<%= objPr.gianhap  %> required />
+              <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="gianhap" value="<%=objPr.gianhap%>" required />
               <span id="giaTienViet"></span>
             </div>
-            <label for="">Giá bán: <span style="color: red;"><%=objPr.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></label>
-            <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" value="<%= objPr.price  %> required />
+            <label for="">Giá bán:</label>
+            <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" value="<%=objPr.price%>" required />
         </div>
 
+    <label for="quantityInput">Số lượng kích cỡ:</label>
+    <div class="input-row">
+        <input type="number"id="quantityInput" placeholder="Nhập số lượng Sizes" min="1" max="20" required>
+       
+    </div>
+    <button onclick="generateInputFields()" class="upload-button">Thêm</button>
 
-    <label for="sizes">Sizes:</label>
-    <% objPr.sizes.forEach((size, index) => { %>
+    <div id="inputFieldsContainer"></div>
+
+    <script>
+        function generateInputFields() {
+            var quantity = document.getElementById("quantityInput").value;
+            var inputFieldsContainer = document.getElementById("inputFieldsContainer");
+            inputFieldsContainer.innerHTML = "";
+
+            for (var i = 0; i < quantity; i++) {
+                var inputFields = `
+                <div class="input-row">
+                    <input type="number" name="sizes[${i}][size]" placeholder="Size" ${i === 0 ? 'required' : ''}>
+                    <input type="number" name="sizes[${i}][quantity]" placeholder="Quantity" ${i === 0 ? 'required' : ''}><br>
+                </div>
+                `;
+                inputFieldsContainer.innerHTML += inputFields;
+            }
+        }
+    </script>
+    <!-- <% objPr.sizes.forEach((size, index) => { %>
         <div class="input-row">
           <label for="size">Size:</label>
           <input type="text" name="sizes[<%= index %>][size]" value="<%= size.size %>">
           <label for="quantity">Quantity:</label>
           <input type="text" name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
         </div>
-      <% }) %>
+      <% }) %> -->
       
       
     <!-- <div class="input-row">
@@ -210,6 +234,19 @@ function updateOrderList(listProduct) {
     outline: none;
     border-radius: 10px;
   }
+  .upload-button {
+  background-color: #4CAF50; /* Màu nền */
+  color: white; /* Màu chữ */
+  padding: 5dp;
+  text-align: center; /* Căn giữa nội dung */
+  text-decoration: none; /* Bỏ gạch chân */
+  display: inline-block; /* Hiển thị dạng block */
+  font-size: 16px; /* Kích thước chữ */
+  margin: 4px 2px; /* Khoảng cách */
+  cursor: pointer; /* Con trỏ khi di chuột */
+  border-radius: 5px; /* Bo tròn góc */
+  border: none; /* Bỏ viền */
+}
 
   .myInput {
     word-wrap: break-word;
