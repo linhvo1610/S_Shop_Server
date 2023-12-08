@@ -231,32 +231,89 @@ exports.tokenNotify = (req, res, next) => {
 
 }
 
-exports.senOTP = async (req, res, next) => {
-  const { email } = req.body;
-  const transporter = nodemailer.createTransport({
-    service :"gmail",
-    auth: {
-      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-      user: "haikevill125@gmail.com",
-      pass: "hai1252003",
-    },
-  });
+exports.sendOTP = async (req, res, next) => {
+  const { username } = req.body;
+  const resetToken  = Math.random().toString(36).slice(-8);
 
-  await transporter.sendMail({
-    from: "haikevill125@gmail.com", // sender address
-    to: `${email}`, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  },(err)=>{
-    if (err) {
-      return res.json({
-        message: "Loi",
-        err
-      })
-    }
-    return res.json({
-      message: " Da gui email: `${email}`",
-    })
-  });
-}
+  try {
+      await MyModel.usersModel.updateOne(
+          { username },
+          { $set: { resetToken, resetTokenExpiration: Date.now() + 3600000 } }
+      );
+      const user1 = await MyModel.usersModel.findOne({username});
+
+      const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+              user: 'tuyentvph25898@fpt.edu.vn',
+              pass: 'hvtnrpwffbcztgsc',
+          },
+      });
+
+      const mailOptions = {
+          from: 'tuyentvph25898@fpt.edu.vn',
+          to: user1.email,
+          subject: 'Password Reset',
+          text: `Your reset token is ${resetToken}`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+              console.error('Error sending email:', error);
+              res.status(500).send('Error sending email');
+          } else {
+              console.log('Email sent:', info.response);
+              res.status(200).send('Email sent successfully');
+          }
+      });
+  } catch (error) {
+      console.error('Error saving reset token to the database:', error);
+      res.status(500).send('Error saving reset token to the database');
+  }
+};
+
+exports.verifyOTP = async (req, res) => {
+  const { otp } = req.body;
+
+  try {
+      const user = await MyModel.usersModel.findOne({
+          resetToken: otp,
+          resetTokenExpiration: { $gt: Date.now() },
+      });
+
+      if (!user) {
+          return res.status(400).json({ message: 'Invalid or expired OTP' });
+      }
+
+      return res.status(200).json({ message: 'OTP verification successful' });
+  } catch (error) {
+      console.error('Error verifying OTP:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const { username, newPassword } = req.body;
+
+  try {
+      // Lấy thông tin người dùng từ email
+      const user = await MyModel.usersModel.findOne({ username });
+
+      if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+      }
+
+      // Đặt lại mật khẩu mới
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      user.resetToken = undefined;
+      user.resetTokenExpiration = undefined;
+
+      await user.save();
+
+      return res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+      console.error('Error resetting password:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
