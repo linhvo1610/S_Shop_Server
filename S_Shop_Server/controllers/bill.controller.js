@@ -39,36 +39,6 @@ exports.listBillsDanhan = async (req, res, next) => {
     listBill: posts,
   });
 }
-exports.filter = async (req, res, next) => {
-  let minPrice = req.query.minPrice;
-  let maxPrice = req.query.maxPrice;
-  let size = req.query.size;
-
-  let filter = { status: 3 };
-
-  if (size !== undefined && !isNaN(Number(size))) {
-    filter["list.size"] = Number(size);
-  }
-
-  if (minPrice !== undefined && maxPrice !== undefined) {
-    filter["total"] = { $gte: minPrice, $lte: maxPrice };
-  }
-
-  console.log("filter:", filter);
-
-  try {
-    var posts = await BillMore.find(filter);
-    console.log(posts);
-
-    res.render("product/DaNhanBill", {
-      listBill: posts
-    });
-  } catch (error) {
-    console.error("Error in filter:", error);
-    // Handle the error appropriately
-    next(error);
-  }
-};
 exports.listBillsHuydon = async (req, res, next) => {
 
   var posts = await BillMore.find({ status: 4 })
@@ -644,3 +614,126 @@ exports.listThongke = async (req, res, next) => {
 };
 
 
+exports.filter = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let size = req.query.size;
+
+  let filter = { status: 3 };
+
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  console.log("filter:", filter);
+
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
+
+    res.render("product/DaNhanBill", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
+};
+// cho xac nhan
+exports.filterXacnhan = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let size = req.query.size;
+
+  let filter = { status: 0 };
+
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  console.log("filter:", filter);
+
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
+
+    res.render("product/order", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
+};
+// da xac nhan
+exports.filterDaXacnhan = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let size = req.query.size;
+
+  let filter = { status: 1 };
+
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  console.log("filter:", filter);
+
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
+
+    res.render("product/XacNhanBill", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
+};
+// ddang giao
+exports.filterDanggiao = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let size = req.query.size;
+
+  let filter = { status: 2 };
+
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  console.log("filter:", filter);
+
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
+
+    res.render("product/DaGiaoBill", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
+};
