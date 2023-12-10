@@ -42,40 +42,32 @@ exports.listBillsDanhan = async (req, res, next) => {
 exports.filter = async (req, res, next) => {
   let minPrice = req.query.minPrice;
   let maxPrice = req.query.maxPrice;
-  let filter = {};
-  if (typeof req.query.size !== 'undefined' || typeof req.query.minPrice !== 'undefined'  || typeof req.query.maxPrice !== 'undefined' ) {
-    let size = req.query.size;
+  let size = req.query.size;
 
-    console.log("size:", size);
-   
+  let filter = { status: 3 };
 
-   
-    if (size) {
-      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
-        filter = { $and: [ { "sizes": { $elemMatch: { "size": size } } }, {"total": { $gte: minPrice, $lte: maxPrice }} ] };
-      } else {
-        filter = { "sizes": { $elemMatch: { "size": size } }}
-      }
-    } else if(minPrice && maxPrice){
-      filter = {
-        "total": { $gte: minPrice, $lte: maxPrice },
-        status:3
-      };
-    }
-    
-  
-    console.log("filter:", filter);
-    // Use the 'filter' object in your MongoDB query
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
   }
 
-  var posts = await BillMore.find(filter);
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
 
-  console.log(posts);
+  console.log("filter:", filter);
 
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
 
-  res.render("product/DaNhanBill", {
-    listBill: post
-});
+    res.render("product/DaNhanBill", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
 };
 exports.listBillsHuydon = async (req, res, next) => {
 
