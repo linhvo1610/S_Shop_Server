@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     
-}).single('image');
+}).array('image');
 
 router.get('/list',check_login.request_login , proCtl.list)
 router.get('/closeProduct',check_login.request_login , proCtl.closeProduct)
