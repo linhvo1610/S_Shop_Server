@@ -431,6 +431,7 @@ exports.thongke = async (req,res,next) =>{
 
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
+      if (matchedProduct && matchedProduct.sizes) {
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
       const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap;
       totalMoney += totalProductMoney;
@@ -443,6 +444,7 @@ exports.thongke = async (req,res,next) =>{
         totalSizeQuantity: totalSizeQuantity,
         totalProductMoney: totalProductMoney,
       });
+    }
     }
     const totalMoneyFromStatus3And5 = await BillMore.aggregate([
       { $match: { status: { $in: [3, 5] } } },
@@ -512,6 +514,7 @@ exports.thongketheongay = async (req,res,next) =>{
     let totalMoney = 0;
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
+      if (matchedProduct && matchedProduct.sizes) {
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
 
       const totalProductMoney = totalSizeQuantity * matchedProduct.price ;
@@ -527,6 +530,7 @@ exports.thongketheongay = async (req,res,next) =>{
 
         totalProductMoney: totalProductMoney
       });
+    }
     }
 
     // const totalRevenue = list.reduce((acc, bill) => acc + bill.total, 0);
@@ -574,6 +578,7 @@ exports.listThongke = async (req, res, next) => {
     
     for (const product of totalSoldProducts) {
       const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
+      if (matchedProduct && matchedProduct.sizes) {
       const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
       const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap ;
 
@@ -594,6 +599,7 @@ exports.listThongke = async (req, res, next) => {
 
         totalProductProfit: totalProductProfit,
       });
+    }
     }
 
     const totalMoneyFromStatus3And5 = await BillMore.aggregate([

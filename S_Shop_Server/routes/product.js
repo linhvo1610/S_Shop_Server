@@ -32,9 +32,9 @@ router.get('/updateCategory/:idTl',check_login.request_login ,proCtl.updateCateg
 router.post('/updateCategory/:idTl',check_login.request_login ,proCtl.updateCategory);
 router.get('/deleteCategory/:id', check_login.request_login ,proCtl.deleteCategory);
 router.get('/addProduct', check_login.request_login ,proCtl.addProduct)
-router.post('/addProduct',upload, proCtl.addProduct)
+router.post('/addProduct',check_login.request_login,upload, proCtl.addProduct)
 router.get('/updateProduct/:idsp', check_login.request_login ,proCtl.updateProduct)
-router.post('/updateProduct/:idsp', upload ,proCtl.updateProduct)
+router.post('/updateProduct/:idsp',check_login.request_login, upload ,proCtl.updateProduct)
 router.post('/updatestatusProduct/:idpro', check_login.request_login ,proCtl.updatestatusProduct)
 router.get('/chitiet/:idsp',check_login.request_login ,proCtl.chitietProduct);
 router.get('/oder',check_login.request_login ,billCtl.listBill);
