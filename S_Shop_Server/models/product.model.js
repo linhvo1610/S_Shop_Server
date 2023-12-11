@@ -14,7 +14,11 @@ const productSchema = new db.mongoose.Schema(
         },
       ],
       description: { type: String, required: true },
-      image: { type: String, required: true },
+      images: [
+        {
+          image: { type: String, require: true },
+        },
+      ],
       status: {
         type:Boolean, // Kiểu dữ liệu boolean cho trạng thái
         defaultValue: true, // Giá trị mặc định

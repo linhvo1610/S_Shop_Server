@@ -202,7 +202,7 @@ if (req.method == "POST") {
     objPr.trademark = req.body.trademark;
     objPr.price = req.body.price;
     objPr.description = req.body.description;
-    objPr.image = req.file.filename;
+    objPr.images = req.files.map(file => ({ image: file.filename }));
     objPr.gianhap=req.body.gianhap;
     objPr.sizes = req.body.sizes.map((size) => ({
       size: size.size,
