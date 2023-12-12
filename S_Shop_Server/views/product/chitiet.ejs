@@ -1,8 +1,11 @@
 <%- include('../inc/top') %>
 <div style="padding: 20px;width: 1300px;margin: auto;">
   <div class="image-container">
-    <img id="selectedImage" src="/<%= objSp.image %>" class="rounded-circle" 
-    width="300px" height="300px" style="position: relative;top: 50px;"/> 
+    <ul class="image-list">
+      <% objSp.images.forEach(image => { %>
+        <li class="swiper-slide"><img src="/<%= image.image %>" alt="Ảnh" class="thumbnail" width="100px" height="100px"></li>
+      <% }); %>
+    </ul>
   </div>
       <div style="height: 500px;padding: 10px;">
         <h1 style="font-style: italic; font-weight:bold;"><%=objSp.name %></h1>

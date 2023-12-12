@@ -270,7 +270,7 @@ exports.updateProduct = async(req, res, next) => {
       objPr.price = req.body.price;
       objPr.gianhap=req.body.gianhap;
       objPr.description = req.body.description;
-      objPr.image = req.file.filename;
+      objPr.images = req.files.map(file => ({ image: file.filename }));
       objPr.sizes = req.body.sizes.map((size) => ({
         size: size.size,
         quantity: size.quantity,
