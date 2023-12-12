@@ -145,19 +145,14 @@ exports.updatebillPro = async (req, res) => {
   try {
     const idbill = req.params.idbill;
     const bill = await BillMore.findById(idbill);
-
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
 
-    // Cập nhật trạng thái đơn hàng thành "Xác nhận"
-    bill.status = 1;
-    await bill.save();
-
+    let allProductsAvailable = true; // Flag to track product availability
 
     // Lấy danh sách sản phẩm từ đơn hàng
     const productList = bill.list;
-
     // Iterate through each product in the bill
     for (const product of productList) {
       const productId = product.id_product;
@@ -179,6 +174,7 @@ exports.updatebillPro = async (req, res) => {
           await foundProduct.save();
         } else {
           // Xử lý trường hợp kích thước cụ thể không có đủ số lượng
+          allProductsAvailable = false; // Set the flag if any product is not available
           return res.status(400).json({ error: 'Số lượng không đủ cho kích thước cụ thể.' });
         }
       } else {
@@ -186,27 +182,33 @@ exports.updatebillPro = async (req, res) => {
         return res.status(400).json({ error: 'Sản phẩm không tìm thấy trong kho.' });
       }
     }
+    if (allProductsAvailable) {
+      // Cập nhật trạng thái đơn hàng thành "Xác nhận" only if all products are available
+      bill.status = 1;
+      await bill.save();
+      // ... (rest of the code for sending notification and rendering)
 
-    // Gửi thông báo và chuyển hướng sau khi cập nhật thành công
-    const posts = await BillMore.find();
-    const user = await usModel.usersModel.find();
-    const pro = await prModel.productModel.find();
-    const address = await Address.find();
-    const userToken = await usModel.usersModel.findById(bill.id_user);
-    const filteredPosts = posts.filter(post => post.status === 0);
-
-    sendNotification(bill.status, "Đơn hàng có mã " + idbill + " đã được xác nhận", userToken.tokenNotify)
-    res.redirect("/bill/listBills");
-    res.render("product/order", {
-      listBill: filteredPosts,
-      user: user,
-      pro: pro,
-      address: address
-    });
+      const posts = await BillMore.find();
+      const user = await usModel.usersModel.find();
+      const pro = await prModel.productModel.find();
+      const address = await Address.find();
+      const userToken = await usModel.usersModel.findById(bill.id_user);
+      const filteredPosts = posts.filter(post => post.status === 0);
+  
+      sendNotification(bill.status, "Đơn hàng có mã " + idbill + " đã được xác nhận", userToken.tokenNotify)
+      res.redirect("/bill/listBills");
+      res.render("product/order", {
+        listBill: filteredPosts,
+        user: user,
+        pro: pro,
+        address: address
+      });
+    }
   } catch (err) {
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+
 
 exports.updatebillProGiaohang = async (req, res) => {
   try {

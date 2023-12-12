@@ -43,13 +43,16 @@
             <input type="number" placeholder="Nhập để thay đổi giá" class="inputgia" name="price" value="<%=objPr.price%>" required />
         </div>
 
-    <label for="quantityInput">Số lượng kích cỡ:</label>
+    <!-- <label for="quantityInput">Số lượng kích cỡ:</label>
     <div class="input-row">
         <input type="number"id="quantityInput" style="width: 30%;"
         placeholder="Nhập số lượng Sizes" min="1" max="20" required>
        
    
-    <button onclick="generateInputFields()" class="upload-button">Thêm</button>
+    <button onclick="generateInputFields()" class="upload-button">Thêm</button> -->
+
+
+
   </div>
     <div id="inputFieldsContainer"></div>
 
@@ -70,16 +73,18 @@
             }
         }
     </script>
-    <!-- <% objPr.sizes.forEach((size, index) => { %>
-        <div class="input-row">
-          <label for="size">Kích cỡ:</label>
-          <input type="text" style="width: 25%;"
-          name="sizes[<%= index %>][size]" value="<%= size.size %>">
-          <label for="quantity">Số lượng:</label>
-          <input type="text" style="width: 25%;"
-          name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
+    <% objPr.sizes.forEach((size, index) => { %>
+        <div style="margin-left: 310px;">
+          <div class="input-row">
+            <label for="size">Kích cỡ:</label>
+            <input type="text" style="width: 25%;"
+            name="sizes[<%= index %>][size]" value="<%= size.size %>">
+            <label for="quantity">Số lượng:</label>
+            <input type="text" style="width: 25%;"
+            name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
+          </div>
         </div>
-      <% }) %> -->
+      <% }) %>
       
       
     <!-- <div class="input-row">
