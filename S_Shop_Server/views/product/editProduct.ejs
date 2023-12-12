@@ -20,9 +20,11 @@
             </div>
         </div> -->
         <div>
-            <img id="selectedImage" src="/<%= objPr.image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/> 
+          <% if (objPr.images && objPr.images.length > 0) { %>
+            <img id="selectedImage" src="/<%= objPr.images[0].image %>" class="rounded-circle" width="300px" height="300px" style="margin-top: 0px;"/>
+          <% } %> 
             <div style="width: 200px;height: 30px;margin-bottom: 20px;">
-                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image"/>
+                <input type="file" id="inputFile" onchange="displayImage()" style="margin-left: 80px;margin-top: 6px;" value="<%= objPr.image %>" name="image" multiple/>
             </div>
         </div>
         
@@ -68,7 +70,7 @@
             }
         }
     </script>
-    <% objPr.sizes.forEach((size, index) => { %>
+    <!-- <% objPr.sizes.forEach((size, index) => { %>
         <div class="input-row">
           <label for="size">Kích cỡ:</label>
           <input type="text" style="width: 25%;"
@@ -77,7 +79,7 @@
           <input type="text" style="width: 25%;"
           name="sizes[<%= index %>][quantity]" value="<%= size.quantity %>">
         </div>
-      <% }) %>
+      <% }) %> -->
       
       
     <!-- <div class="input-row">
