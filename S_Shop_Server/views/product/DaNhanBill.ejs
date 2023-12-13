@@ -32,18 +32,25 @@
       </form>
     </div>
     <div class="container">
-      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filterCollapse"
-        aria-expanded="false" aria-controls="filterCollapse">
-        Filter
-      </button>
+      <img
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterCollapse"
+          aria-expanded="false"
+          aria-controls="filterCollapse"
+          src="/images/filter.png"
+          width="50px"
+        >
+          
+        </img>
       <div class="collapse" id="filterCollapse">
         <div class="card card-body">
-          <h4>Filter Options</h4>
+          <h4>Tùy chọn bộ lọc</h4>
           <form id="filterForm" action="/product/list/filter" method="get">
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="size">Size:</label>
+                  <label for="size">Kích cỡ:</label>
                   <% var allSizes=[]; %>
                     <% listBill.forEach(function(product) { %>
                       <% if (product.list) { %>
@@ -66,33 +73,33 @@
                                         </select>
                 </div>
               </div>
-
+  
               <div class="col-md-2">
                 <div class="form-group">
-                  <label for="minPrice">Min Price:</label>
-                  <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Min Price">
+                  <label for="minPrice">Giá tối thiểu:</label>
+                  <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Giá tối thiểu">
                 </div>
               </div>
-
+  
               <div class="col-md-2">
                 <div class="form-group">
-                  <label for="maxPrice">Max Price:</label>
-                  <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max Price">
+                  <label for="maxPrice">Giá tối đa:</label>
+                  <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Giá tối đa">
                 </div>
               </div>
-
-              <div class="col-md-4">
+  
+              <div class="col-md-4" style="margin-top: 20px;">
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">
-                    Apply Filter
+                    Lọc
                   </button>
                 </div>
               </div>
             </div>
           </form>
-
-
-
+  
+  
+  
         </div>
       </div>
     </div>
