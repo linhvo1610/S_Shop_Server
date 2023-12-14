@@ -475,7 +475,7 @@ exports.searchBillHoanhang = async (req, res, next) =>{
         { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
         { 'name' : { $regex: new RegExp(productName, 'i') } }
       ],
-      status: 3
+      status: 6
     });
 
   res.render('product/Hoanhang', {
