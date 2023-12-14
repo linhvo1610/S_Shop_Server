@@ -49,6 +49,18 @@ exports.listBillsHuydon = async (req, res, next) => {
     listBill: posts,
   });
 }
+
+exports.listBillsHoanHang = async (req, res, next) => {
+
+  var posts = await BillMore.find({ status: 6 })
+
+  console.log(posts);
+
+  res.render("product/Hoanhang", {
+    listBill: posts,
+  });
+}
+
 exports.listBillsDagiao = async (req, res, next) => {
 
   var posts = await BillMore.find()
@@ -218,7 +230,6 @@ exports.updatebillProGiaohang = async (req, res) => {
     if (!bill) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
-
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
     bill.status = 1;
     await bill.save();
@@ -268,7 +279,7 @@ exports.updatebillHoantat = async (req, res) => {
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
     bill.status = 2;
     await bill.save();
-    setTimeout(async function () {
+    // setTimeout(async function () {
       bill.status = 3;
       await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
@@ -288,12 +299,50 @@ exports.updatebillHoantat = async (req, res) => {
           pro: pro,
           address: address
         });
-    }, 1000);
+    // }, 1000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
   }
 };
+
+
+exports.updatebillHoanhang = async (req, res) => {
+  try {
+    const idbill = req.params.idbill;
+    const bill = await BillMore.findById(idbill);
+
+    if (!bill) {
+      return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
+    }
+    bill.status = 2;
+    await bill.save();
+      bill.status = 6;
+      await bill.save();
+        const userToken = await usModel.usersModel.findById(bill.id_user);
+        if (userToken && userToken.tokenNotify) {
+          sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + ' đang được vận chuyển', userToken.tokenNotify);
+        }
+
+        res.redirect("/bill/listBillsDagiao");
+        const posts = await BillMore.find()
+        const user = await usModel.usersModel.find();
+        const pro = await prModel.productModel.find();
+        const address = await Address.find();
+        const filteredPosts = posts.filter(post => post.status === 2);
+        res.render("product/DaNhanBill", {
+          listBill: filteredPosts,
+          user: user,
+          pro: pro,
+          address: address
+        });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Lỗi ' + err.message });
+  }
+};
+
+
 exports.updatebillProHuy = async (req, res) => {
   try {
     const idbill = req.params.idbill;
