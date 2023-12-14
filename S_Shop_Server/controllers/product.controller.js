@@ -72,15 +72,19 @@ exports.filter = async (req, res, next) => {
   let minPrice = req.query.minPrice;
   let maxPrice = req.query.maxPrice;
   let filter = {};
+  let allSizes = [];
+  try {
+
+    if (!Array.isArray(allSizes)) {
+      allSizes = [];
+    }
+
   if (typeof req.query.id_cat !== 'undefined' || typeof req.query.size !== 'undefined' || typeof req.query.minPrice !== 'undefined'  || typeof req.query.maxPrice !== 'undefined' ) {
     let id_cat = req.query.id_cat;
     let size = req.query.size;
 
     console.log("id_cat:", id_cat);
-    console.log("size:", size);
-   
-
-   
+    console.log("size:", size); 
     if (id_cat && size) {
       if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
         filter = { $and: [ { "id_cat": id_cat }, { "sizes": { $elemMatch: { "size": size } } }, {"price": { $gte: minPrice, $lte: maxPrice }} ] };
@@ -113,23 +117,35 @@ exports.filter = async (req, res, next) => {
         "price": { $gte: minPrice, $lte: maxPrice }
       };
     }
-    
-  
     console.log("filter:", filter);
     // Use the 'filter' object in your MongoDB query
   }
 
-  var posts = await myModel.productModel.find(filter).populate("id_cat"); // ten cot tham chieu
+  // var posts = await myModel.productModel.find(filter).populate("id_cat");
+  const posts = await myModel.productModel.find(filter).populate("id_cat");
+      posts.forEach(post => {
+        post.sizes.forEach(size => {
+          if (!allSizes.includes(size.size)) {
+            allSizes.push(size.size);
+          }
+        });
+      });
 
   console.log(posts);
 
   const loaiSP = await myModel.categoryModel.find();
   const filteredPosts = posts.filter(post => post.status == true);
+  console.log("allSizes:", allSizes);
 
   res.render("product/list", {
     listProduct: filteredPosts,
     listLoai: loaiSP,
+    allSizes: allSizes,
 });
+} catch (err) {
+  console.error(err);
+  res.status(500).send("Đã xảy ra lỗi khi xử lý yêu cầu của bạn");
+}
 };
 
 exports.searchCloseProduct = async (req, res, next) => {

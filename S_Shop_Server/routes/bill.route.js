@@ -22,6 +22,9 @@ router.get('/listBillsXacnhan',check_login.request_login ,billController.listBil
 router.get('/listBillsDanhan',check_login.request_login ,billController.listBillsDanhan);
 router.get('/listBillsDagiao',check_login.request_login ,billController.listBillsDagiao);
 router.get('/listBillsHuydon',check_login.request_login ,billController.listBillsHuydon);
+
+router.get('/listBillsHoanhang',check_login.request_login ,billController.listBillsHoanHang);
+
 // router.post('/updateStatusBill/:idbill', billController.updateStatusBill);
 // router.post('/updateStatusBill1/:idbill', billController.updateStatusBill1);
 
@@ -30,6 +33,8 @@ router.post('/updatebillPro/:idbill', check_login.request_login ,billController.
 router.post('/updatebillProHuy/:idbill', check_login.request_login ,billController.updatebillProHuy);
 router.post('/updatebillProGiaohang/:idbill', check_login.request_login ,billController.updatebillProGiaohang);
 router.post('/updatebillHoantat/:idbill', check_login.request_login ,billController.updatebillHoantat);
+router.post('/updatebillHoanhang/:idbill', check_login.request_login ,billController.updatebillHoanhang);
+
 
 router.get('/seachBill', check_login.request_login ,billController.searchByProductName);
 router.get('/searchBillXacNhan', check_login.request_login ,billController.searchBillXacNhan);
