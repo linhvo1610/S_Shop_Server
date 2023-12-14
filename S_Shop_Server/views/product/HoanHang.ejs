@@ -6,7 +6,7 @@
     </div>
   </div>
   <div style="margin-bottom: 20px;">
-    <form action="/bill/searchBillDaGiao" method="GET" role="search">
+    <form action="/bill/searchBillHoanhang" method="GET" role="search">
       <div class="input-group rounded">
         <input type="search" class="form-control rounded" placeholder="Search" name="name_product" aria-describedby="search-addon" />
         <button type="submit" style="display: inline-block;
@@ -273,7 +273,7 @@
       var maxPrice = $("#maxPrice").val();
 
       // Construct the URL with the selected filter values
-      var url = "/bill/listBillsDanggiao/filter?";
+      var url = "/bill/listBillsHoanhang/filter?";
 
       //  if (selectedSize) {
       //    url += "size=" + selectedSize + "&";

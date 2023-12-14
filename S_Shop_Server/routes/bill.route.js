@@ -14,6 +14,7 @@ router.get('/listBillsDanhan/filter',check_login.request_login ,billController.f
 router.get('/listBillsXacnhan/filter',check_login.request_login ,billController.filterXacnhan);
 router.get('/listBillsDaxacnhan/filter',check_login.request_login ,billController.filterDaXacnhan);
 router.get('/listBillsDanggiao/filter',check_login.request_login ,billController.filterDanggiao);
+router.get('/listBillsHoanhang/filter',check_login.request_login ,billController.filterHoanhang);
 
 // ----
 router.get('/thongketheongay',check_login.request_login ,billController.thongketheongay);
@@ -40,5 +41,6 @@ router.get('/seachBill', check_login.request_login ,billController.searchByProdu
 router.get('/searchBillXacNhan', check_login.request_login ,billController.searchBillXacNhan);
 router.get('/searchBillDaGiao', check_login.request_login ,billController.searchBillDaGiao);
 router.get('/searchBillDaNhan', check_login.request_login ,billController.searchBillDaNhan);
+router.get('/searchBillHoanhang', check_login.request_login ,billController.searchBillHoanhang);
 
 module.exports = router;
