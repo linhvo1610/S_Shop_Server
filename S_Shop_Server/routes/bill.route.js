@@ -7,6 +7,7 @@ var check_login = require('../middleware/check_login')
 router.get('/listBills',check_login.request_login ,billController.listBill);
 
 router.get('/listBillTK',check_login.request_login ,billController.listThongke);
+router.get('/listBillTKTop10Kb',check_login.request_login ,billController.listThongke10SPBancham);
 
 // loc tim kiem don hang
 router.get('/listBillsDanhan/filter',check_login.request_login ,billController.filter);
