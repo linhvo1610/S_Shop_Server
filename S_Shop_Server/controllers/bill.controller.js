@@ -465,6 +465,28 @@ exports.searchBillDaNhan = async (req, res, next) =>{
     res.status(500).json({ error: 'Internal server error' });
 }
 }
+exports.searchBillHoanhang = async (req, res, next) =>{
+  const productName = req.query.name_product;
+
+  try {
+    // // Use $regex with a valid string
+    const product = await BillMore.find({ 
+      $or: [
+        { 'list.name_product' : { $regex: new RegExp(productName, 'i') } },
+        { 'name' : { $regex: new RegExp(productName, 'i') } }
+      ],
+      status: 3
+    });
+
+  res.render('product/Hoanhang', {
+    listBill: product
+  });
+
+} catch (error) {
+    console.error('Error fetching items:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
+}
 exports.thongke = async (req,res,next) =>{
   try {
     let list = await BillMore.find();
@@ -501,7 +523,7 @@ exports.thongke = async (req,res,next) =>{
       { $match: { status: { $in: [3, 5] } } },
       { $group: { _id: null, total: { $sum: "$total" } } }
     ]);
-    res.render("product/thongke", {
+    res.render("product/Hoanhang", {
       productList: result,
       listBill:list,pro:pro,
       totalMoney: totalMoney,
@@ -838,6 +860,36 @@ exports.filterDanggiao = async (req, res, next) => {
     console.log(posts);
 
     res.render("product/DaGiaoBill", {
+      listBill: posts
+    });
+  } catch (error) {
+    console.error("Error in filter:", error);
+    // Handle the error appropriately
+    next(error);
+  }
+};
+exports.filterHoanhang = async (req, res, next) => {
+  let minPrice = req.query.minPrice;
+  let maxPrice = req.query.maxPrice;
+  let size = req.query.size;
+
+  let filter = { status: 6 };
+
+  if (size !== undefined && !isNaN(Number(size))) {
+    filter["list.size"] = Number(size);
+  }
+
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filter["total"] = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  console.log("filter:", filter);
+
+  try {
+    var posts = await BillMore.find(filter);
+    console.log(posts);
+
+    res.render("product/Hoanhang", {
       listBill: posts
     });
   } catch (error) {
