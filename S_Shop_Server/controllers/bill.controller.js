@@ -523,7 +523,7 @@ exports.thongke = async (req,res,next) =>{
       { $match: { status: { $in: [3, 5] } } },
       { $group: { _id: null, total: { $sum: "$total" } } }
     ]);
-    res.render("product/Hoanhang", {
+    res.render("product/thongke", {
       productList: result,
       listBill:list,pro:pro,
       totalMoney: totalMoney,

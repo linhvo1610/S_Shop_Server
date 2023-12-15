@@ -19,6 +19,8 @@ router.get('/listBillsHoanhang/filter',check_login.request_login ,billController
 // ----
 router.get('/thongketheongay',check_login.request_login ,billController.thongketheongay);
 router.get('/thongke',check_login.request_login ,billController.thongke);
+
+
 router.get('/listBillsXacnhan',check_login.request_login ,billController.listBillXacNhan);
 router.get('/listBillsDanhan',check_login.request_login ,billController.listBillsDanhan);
 router.get('/listBillsDagiao',check_login.request_login ,billController.listBillsDagiao);
