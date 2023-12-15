@@ -143,7 +143,7 @@
           <td><%= item.total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
           <td>
             <% if (item.status === 0) { %>
-              <p style="color: #007bff;font-weight: bold;text-align: center;">Chờ xác nhận</p>
+              <h6 style="color: #007bff;font-weight: bold;text-align: center; margin-top: 5px;">Chờ xác nhận</h6> 
           <% } 
           else if (item.status === 1) { %>
             Đã xác nhận
