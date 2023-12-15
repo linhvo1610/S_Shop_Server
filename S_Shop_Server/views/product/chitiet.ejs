@@ -1,10 +1,35 @@
 <%- include('../inc/top') %>
+
 <div style="padding: 20px;width: 1300px;margin: auto;">
+  <h1 style="text-align: center;margin-bottom: 40px;">Chi tiết sản phẩm</h1>
   <div class="image-container">
     <ul class="image-list">
-      <% objSp.images.forEach(image => { %>
+      <!-- <% objSp.images.forEach(image => { %>
         <li class="swiper-slide"><img src="/<%= image.image %>" alt="Ảnh" class="thumbnail" width="100px" height="100px"></li>
-      <% }); %>
+      <% }); %> -->
+
+      <div style="position: relative;">
+        <img id="userImage" src="/<%= objSp.images[0].image %>" alt="User Image" class="user-image" width="300px" height="370px">
+        <img src="/images/left-arrow.png" width="30px" height="30px"
+         onclick="prevImage()" style="position: absolute; top: 50%; left: 7px; transform: translateY(-50%);"></img>
+        <img src="/images/right-arrow.png" width="30px" height="30px"
+         onclick="nextImage()" style="position: absolute; top: 50%; right: 7px; transform: translateY(-50%);"></img>
+      </div>
+      
+    
+      <script>
+        let currentImageIndex = 0;
+        const images = [<% objSp.images.forEach((image) => { %>'<%= image.image %>',<% }) %>];
+    
+        function nextImage() {
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+          document.getElementById('userImage').src = '/' + images[currentImageIndex];
+        }
+        function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    document.getElementById('userImage').src = '/' + images[currentImageIndex];
+  }
+      </script>
     </ul>
   </div>
       <div style="height: 500px;padding: 10px;">
