@@ -1,9 +1,9 @@
 <%- include('../inc/top') %>
   <div class="container">
     <div class="row justify-content-center" style="margin-top: 10px;">
-      <div class="col-md-6 text-center mb-5">
-        <h2 class="heading-section"><b>Danh Sách Đơn Hàng</b></h2>
-      </div>
+      <div style="text-align: center;margin-top: 20px; margin-bottom: 20px;">
+        <h1>Danh sách đơn hàng</h1>
+       </div>
     </div>
     <div style="margin-bottom: 20px;">
       <form action="/bill/searchBillDaNhan" method="GET" role="search">
@@ -151,8 +151,7 @@
                     <% } else if (item.status===2) { %>
                       Đang giao
                       <% } else if (item.status===3) { %>
-                        <p style="color: #dc3545; font-weight: bold; text-align: center;">
-                        Đã giao</p>
+                        <h6 style="color: #dc3545;font-weight: bold;text-align: center; margin-top: 5px;">Đã giao</h6>
                         <% } else if (item.status===4) { %>
                           Hủy đơn
                           <% } else if (item.status===5) { %>

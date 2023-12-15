@@ -1,9 +1,9 @@
 <%- include('../inc/top') %>
 <div class="container">
   <div class="row justify-content-center" style="margin-top: 10px;">
-    <div class="col-md-6 text-center mb-5">
-      <h2 class="heading-section"><b>Danh Sách Đơn Hàng</b></h2>
-    </div>
+    <div style="text-align: center;margin-top: 20px; margin-bottom: 20px;">
+      <h1>Danh sách đơn hàng</h1>
+     </div>
   </div>
   <div style="margin-bottom: 20px;">
     <form action="/bill/searchBillHoanhang" method="GET" role="search">
@@ -153,8 +153,9 @@
           Đã xác nhận
         <% } 
         else if (item.status === 2) { %>
-          <p style="color: #ff7b00; font-weight: bold; text-align: center;">
-          Đang giao</p>
+          <div style="text-align: center;">
+            <h1>Đang giao</h1>
+           </div>
         <% }
         else if (item.status === 3) { %>
           
@@ -167,9 +168,7 @@
           Đã nhận hàng
         <% }
         else if (item.status === 6) { %>
-          <p style="color: #a12074; font-weight: bold; text-align: center;">
-          Đang hoàn về
-        </p>
+          <h6 style="color: #a12074;font-weight: bold;text-align: center; margin-top: 5px;">Đang hoàn về</h6>
         <% }
         else { %>
           Trạng thái: Khác
