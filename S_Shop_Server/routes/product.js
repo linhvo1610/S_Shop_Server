@@ -35,7 +35,11 @@ router.get('/addProduct', check_login.request_login ,proCtl.addProduct)
 router.post('/addProduct',check_login.request_login,upload, proCtl.addProduct)
 router.get('/updateProduct/:idsp', check_login.request_login ,proCtl.updateProduct)
 router.post('/updateProduct/:idsp',check_login.request_login, upload ,proCtl.updateProduct)
-router.post('/updatestatusProduct/:idpro', check_login.request_login ,proCtl.updatestatusProduct)
+
+router.post('/updatestatusProduct/:id', check_login.request_login ,proCtl.updatestatusProduct)
+router.post('/updatestatusProductHethang/:id', check_login.request_login ,proCtl.updatestatusProductHethang)
+
+
 router.get('/chitiet/:idsp',check_login.request_login ,proCtl.chitietProduct);
 router.get('/oder',check_login.request_login ,billCtl.listBill);
 

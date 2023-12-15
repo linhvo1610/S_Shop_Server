@@ -308,10 +308,7 @@ exports.updateProduct = async(req, res, next) => {
   });
 }
 exports.updatestatusProduct = async(req, res, next) => {
-
-  
-  const idpro = req.params.idpro;
-
+  const idpro = req.params.id;
 try {
   let objPr = await myModel.productModel.findById(idpro);
   if (!objPr) {
@@ -332,6 +329,30 @@ try {
 }
 
 }
+
+exports.updatestatusProductHethang = async(req, res, next) => {
+  const idpro = req.params.id;
+try {
+  let objPr = await myModel.productModel.findById(idpro);
+  if (!objPr) {
+    return res.status(404).json({ message: 'Không tìm thấy hàng' });
+  } else {
+    objPr.status = !objPr.status; // Toggle the status
+    await objPr.save();
+    res.redirect('/product/closeProduct');
+
+    const filteredProducts = await myModel.productModel.find({ status: false }).populate('id_cat');;
+    const loaiSP = await myModel.categoryModel.find();
+    res.render('product/closeProduct', { products: filteredProducts,listLoai:loaiSP });
+  }
+
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật trạng thái sản phẩm' });
+}
+
+}
+
 exports.updateCategory = async (req, res, next) => {
   let msg = '';
   let objSp = await myModel.categoryModel.findById(req.params.idTl);
