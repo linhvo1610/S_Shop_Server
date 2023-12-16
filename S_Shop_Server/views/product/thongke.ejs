@@ -52,7 +52,7 @@
       <th style="text-align: center">Giá bán</th>
       <th style="text-align: center">Tổng tiền nhập hàng</th>
       <th style="text-align: center">Doanh thu</th>
-      <th style="text-align: center">Số tiền hồi vốn</th>
+      <th style="text-align: center">Số tiền lãi</th>
       <!-- <th style="text-align: center">Số tiền lãi / hoàn vốn</th> -->
       <th></th>
     </thead>
@@ -94,11 +94,11 @@
           <% 
           var totalSales = product.totalQuantity * product.price;
           var totalCost = product.totalSizeQuantity * product.gianhap + product.totalQuantity * product.gianhap;
-          if (totalSales > totalCost) { %>
-            <p style="color: rgb(59, 215, 61);font-weight: bold;" >Đã hoàn vốn</p>
-          <% } else { %>
+          %>
+           
+         
             <%= ( totalSales - totalCost).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-          <% } %>
+         
         
         </td>
         <!-- <td style="text-align: center">
@@ -134,7 +134,7 @@
         <th scope="col" style="text-align: center">Số sản phẩm còn lại</th>
         <th scope="col" style="text-align: center">Tổng số tiền nhập vào</th>
         <th scope="col" style="text-align: center">Doanh thu</th>
-        <th scope="col" style="text-align: center">Số tiền hồi vốn</th>
+        <th scope="col" style="text-align: center">Số tiền lãi</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
