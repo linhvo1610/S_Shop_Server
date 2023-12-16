@@ -320,9 +320,7 @@ exports.updatebillHoanhang = async (req, res) => {
       bill.status = 6;
       await bill.save();
         const userToken = await usModel.usersModel.findById(bill.id_user);
-        if (userToken && userToken.tokenNotify) {
-          sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + ' đang được vận chuyển', userToken.tokenNotify);
-        }
+
 
         res.redirect("/bill/listBillsDagiao");
         const posts = await BillMore.find()

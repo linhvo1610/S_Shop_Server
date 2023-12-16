@@ -297,6 +297,7 @@ exports.updateProduct = async(req, res, next) => {
     try {
       // await objPr.save();
       await myModel.productModel.findByIdAndUpdate({ _id: req.params.idsp }, objPr)
+      res.redirect('/product/list');
       console.log(new_sp);
     
     } catch (error) {
