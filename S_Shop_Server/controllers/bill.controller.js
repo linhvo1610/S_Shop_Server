@@ -187,7 +187,7 @@ exports.updatebillPro = async (req, res) => {
         } else {
           // Xử lý trường hợp kích thước cụ thể không có đủ số lượng
           allProductsAvailable = false; // Set the flag if any product is not available
-          return res.status(400).json({ error: 'Số lượng không đủ cho kích thước cụ thể.' });
+          return res.redirect('/bill/listBills?error=quantity_error');
         }
       } else {
         // Xử lý trường hợp không tìm thấy ID sản phẩm trong kho
