@@ -31,7 +31,7 @@ exports.listProductHot = async (req, res, next) => {
     console.log(dieu_kien);
   }
   try {
-    list = await MyModel.productModel.find(dieu_kien).sort({ date: -1 }).limit(6).populate('id_cat');
+    list = await MyModel.productModel.find(dieu_kien).sort({ _id: -1 }).limit(6).populate('id_cat');
     dataR.data = list;
     res.json(dataR);
     console.log(dataR);

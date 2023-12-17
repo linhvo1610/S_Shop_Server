@@ -40,7 +40,11 @@
             <label for="size">Kích cỡ:</label>
             <p><%= size.size %></p>
             <label for="quantity">Số lượng:</label>
-            <p><%= size.quantity.toLocaleString() %></p>
+            <% if (size.quantity !== null && size.quantity !== undefined) { %>
+              <p><%= size.quantity.toLocaleString() %></p>
+            <% } else { %>
+              <p>Quantity not available</p>
+            <% } %>
           </div>
         <% }) %>
           <p>Loại sản phẩm: <%=objSp.id_cat.name %></p>
