@@ -233,7 +233,7 @@ exports.updatebillProGiaohang = async (req, res) => {
     // Cập nhật trạng thái đơn hàng thành "Xác nhận"
     bill.status = 1;
     await bill.save();
-    setTimeout(async function () {
+    // setTimeout(async function () {
       bill.status = 2;
       await bill.save();
 
@@ -260,7 +260,7 @@ exports.updatebillProGiaohang = async (req, res) => {
           address: address
         });
       // }, 3000);
-    }, 1000);
+    // }, 1000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Lỗi ' + err.message });
@@ -687,55 +687,68 @@ exports.listThongke = async (req, res, next) => {
 
 exports.listThongke10SPBancham = async (req, res, next) => {
   try {
-    let list = await BillMore.find();
-    const pro = await prModel.productModel.find();
+    const list = await BillMore.find();
     const totalSoldProducts = await BillMore.aggregate([
-      { $match: { status: { $in: [3, 5] } } }, // Lọc theo status 3,5
-      { $unwind: "$list" }, // Unwind mảng list
-      { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } } } // Nhóm theo id sản phẩm và tính tổng số lượng
+      { $match: { status: { $in: [3, 5] } } },
+      { $unwind: "$list" },
+      { $group: { _id: "$list.id_product", totalQuantity: { $sum: "$list.quantity" } }}
     ]);
     const productIds = totalSoldProducts.map(product => product._id);
-    const productList = await prModel.productModel.find({ _id: { $in: productIds } }, 'name price gianhap sizes ');
+    const productList = await prModel.productModel.find({}, 'name price gianhap sizes');
+
     const result = [];
     let totalMoney = 0;
     let totalProfit = 0;
-    totalSoldProducts.sort((a, b) => b.totalQuantity - a.totalQuantity); // Sắp xếp theo totalQuantity từ lớn đến nhỏ
-    const totalQuantityAllProducts = totalSoldProducts.slice(0, 10).reduce((acc, product) => acc + product.totalQuantity, 0);
-    for (const product of totalSoldProducts.slice(0, 10)) {
-      const matchedProduct = productList.find(p => p._id.toString() === product._id.toString());
-      if (matchedProduct && matchedProduct.sizes) {
-      const totalSizeQuantity = matchedProduct.sizes.reduce((acc, size) => acc + size.quantity, 0);
-      const totalProductMoney = totalSizeQuantity * matchedProduct.gianhap ;
 
-      const totalProductProfit = (matchedProduct.price * product.totalQuantity) - (product.totalQuantity * matchedProduct.gianhap); // Tính tổng tiền lãi của sản phẩm
+    for (const product of productList) {
+      const matchedSoldProduct = totalSoldProducts.find(p => p._id.toString() === product._id.toString());
+      if (matchedSoldProduct) {
+        const totalSizeQuantity = product.sizes.reduce((acc, size) => acc + size.quantity, 0);
+        const totalProductMoney = totalSizeQuantity * product.gianhap;
+        const totalProductProfit = (product.price * matchedSoldProduct.totalQuantity) - (matchedSoldProduct.totalQuantity * product.gianhap);
 
+        totalMoney += totalProductMoney;
+        totalProfit += totalProductProfit;
 
-      totalMoney += totalProductMoney;
-      totalProfit += totalProductProfit;
-
-      result.push({
-        productId: product._id,
-        totalQuantity: product.totalQuantity,
-        productName: matchedProduct.name,
-        price: matchedProduct.price,
-        gianhap: matchedProduct.gianhap,
-        totalSizeQuantity: totalSizeQuantity,
-        totalProductMoney: totalProductMoney,
-
-        totalProductProfit: totalProductProfit,
-      });
+        result.push({
+          productId: product._id,
+          totalQuantity: matchedSoldProduct.totalQuantity,
+          productName: product.name,
+          price: product.price,
+          gianhap: product.gianhap,
+          totalSizeQuantity: totalSizeQuantity,
+          totalProductMoney: totalProductMoney,
+          totalProductProfit: totalProductProfit,
+        });
+      } else {
+        result.push({
+          productId: product._id,
+          totalQuantity: 0,
+          productName: product.name,
+          price: product.price,
+          gianhap: product.gianhap,
+          totalSizeQuantity: 0,
+          totalProductMoney: 0,
+          totalProductProfit: 0,
+        });
+      }
     }
-    }
+
+    result.sort((a, b) => a.totalQuantity - b.totalQuantity); // Sắp xếp theo totalQuantity từ nhỏ đến lớn
+    const top10LeastSoldProducts = result.slice(0, 10);
+
     const totalMoneyFromStatus3And5 = await BillMore.aggregate([
       { $match: { status: { $in: [3, 5] } } },
-      { $group: { _id: null, total: { $sum: "$total" } } }
+      { $group: { _id: null, total: { $sum: "$total" } }}
     ]);
+
     res.render("product/listTop10KOB", {
-      productList: result,
-      listBill:list,pro:pro,
+      productList: top10LeastSoldProducts,
+      listBill: list,
+      pro: productList,
       totalMoney: totalMoney,
       totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0,
-      totalQuantityAllProducts: totalQuantityAllProducts,
+      totalQuantityAllProducts: totalSoldProducts.reduce((acc, product) => acc + product.totalQuantity, 0),
     });
   } catch (err) {
     console.error(err);
