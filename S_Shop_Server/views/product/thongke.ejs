@@ -1,9 +1,9 @@
 <%- include('../inc/top') %>
 <div style="min-height: 700px; width: 1400px; margin: auto">
   <div class="row justify-content-center" style="margin-top: 10px">
-    <div style="text-align: center;margin-top: 20px;">
-      <h1>Thống kê doanh thu  </h1>
-     </div>
+    <div style="text-align: center; margin-top: 20px">
+      <h1>Thống kê doanh thu</h1>
+    </div>
   </div>
   <div style="margin-bottom: 20px">
     <!-- <form action="/bill/seachBill" method="GET" role="search">
@@ -52,7 +52,7 @@
       <th style="text-align: center">Giá bán</th>
       <th style="text-align: center">Tổng tiền nhập hàng</th>
       <th style="text-align: center">Doanh thu</th>
-      <th style="text-align: center">Số tiền lãi</th>
+      <th style="text-align: center">Số tiền hoàn vốn / lãi</th>
       <!-- <th style="text-align: center">Số tiền lãi / hoàn vốn</th> -->
       <th></th>
     </thead>
@@ -91,21 +91,24 @@
           style: 'currency', currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
-          <% 
-          var totalSales = product.totalQuantity * product.price;
-          var totalCost = product.totalSizeQuantity * product.gianhap + product.totalQuantity * product.gianhap;
-          %>
-           
-         
-            <%= ( totalSales - totalCost).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-         
-        
-        </td>
-        <!-- <td style="text-align: center">
+          <% var totalSales = product.totalQuantity * product.price; var
+          totalCost = product.totalSizeQuantity * product.gianhap +
+          product.totalQuantity * product.gianhap; var profit = totalSales -
+          totalCost; %>
+
+          <p
+            style="color: <%= profit > 0 ? '#33CC33' : 'red' %>;font-weight: bold;"
+          >
+            <%= profit.toLocaleString('vi-VN', { style: 'currency', currency:
+            'VND' }) %>
+          </p>
+          <!-- <td style="text-align: center">
           <%= ((product.gianhap * product.totalSizeQuantity) - (product.price *
           product.totalQuantity)).toLocaleString('vi-VN', { style: 'currency',
           currency: 'VND' }) %>
         </td> -->
+        </td>
+
         <td></td>
       </tr>
       <% }); %>
@@ -134,7 +137,7 @@
         <th scope="col" style="text-align: center">Số sản phẩm còn lại</th>
         <th scope="col" style="text-align: center">Tổng số tiền nhập vào</th>
         <th scope="col" style="text-align: center">Doanh thu</th>
-        <th scope="col" style="text-align: center">Số tiền lãi</th>
+        <th scope="col" style="text-align: center">Số tiền hoàn vốn / lãi</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -187,9 +190,13 @@
           'currency', currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
-          <%= (totalMoneyFromStatus3And5 - totalMoney -
-          totalProductMoney).toLocaleString('vi-VN', { style: 'currency',
-          currency: 'VND' }) %>
+          <% var calculatedValue = totalMoneyFromStatus3And5 - totalMoney -
+          totalProductMoney; %>
+
+          <span style="color: <%= calculatedValue > 0 ? '#33CC33' : 'red' %>;">
+            <%= calculatedValue.toLocaleString('vi-VN', { style: 'currency',
+            currency: 'VND' }) %>
+          </span>
         </td>
       </tr>
     </tbody>

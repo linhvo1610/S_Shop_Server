@@ -148,7 +148,7 @@
       <th style="text-align: center">Giá bán</th>
       <th style="text-align: center">Tiền hàng</th>
       <th style="text-align: center">Doanh thu</th>
-      <th style="text-align: center">Số tiền lãi</th>
+      <th style="text-align: center">Số tiền hoàn vốn / lãi</th>
       <!-- <th style="text-align: center">Số tiền lãi / hoàn vốn</th> -->
       <th></th>
     </thead>
@@ -187,11 +187,12 @@
         <td style="text-align: center">
           <%var totalSales = product.totalQuantity * product.price;
           var totalCost = product.totalSizeQuantity * product.gianhap + product.totalQuantity * product.gianhap;
+          var profit = totalSales - totalCost;
          %>
             
-         
-            <%= ( totalSales - totalCost).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
-        
+         <p style="color: <%= profit > 0 ? '#33CC33' : 'red' %>;font-weight: bold;">
+            <%= profit.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %>
+          </p>
         </td>
         <!-- <td style="text-align: center">
           <%= ((product.gianhap * product.totalSizeQuantity) - (product.price *
