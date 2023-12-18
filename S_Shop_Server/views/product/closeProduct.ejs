@@ -59,19 +59,12 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="size">Kích cỡ:</label>
-                  <% var allSizes = []; %> <%
-                  listProduct.forEach(function(product) { %> <%
-                  product.sizes.forEach(function(size) { %> <% if
-                  (!allSizes.includes(size.size)) { %> <%
-                  allSizes.push(size.size); %> <% } %> <% }); %> <% }); %> <%
-                  var initialSizes = allSizes.slice(); %>
-                  <!-- Size Dropdown -->
                   <select class="form-control" id="size" name="size">
-                    <option value="">All Sizes</option>
-                    <% initialSizes.forEach(function(size) { %>
-                    <option value="<%= size %>"><%= size %></option>
-                    <% }); %>
-                  </select>
+                    <option value="">Tất cả Size</option>
+                    <% for (var size = 32; size <= 46; size++) { %>
+                        <option value="<%= size %>"><%= size %></option>
+                    <% } %>
+                </select>
                 </div>
               </div>
 
@@ -275,7 +268,7 @@
      var maxPrice = $("#maxPrice").val();
  
      // Construct the URL with the selected filter values
-     var url = "/product/list/filter?";
+     var url = "/product/closeProduct/filter?";
  
      if (selectedSize) {
        url += "size=" + selectedSize + "&";

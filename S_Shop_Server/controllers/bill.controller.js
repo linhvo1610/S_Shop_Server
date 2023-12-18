@@ -354,7 +354,7 @@ exports.updatebillProHuy = async (req, res) => {
     await bill.save();
     const userToken = await usModel.usersModel.findById(bill.id_user);
     sendNotification(bill.status, 'Đơn hàng có mã ' + idbill + 'đã bị hủy', userToken.tokenNotify)
-    res.redirect("/bill/listBills");
+    res.redirect("/bill/listBillsXacnhan");
     const posts = await BillMore.find()
     res.render("product/order", {
       listBill: posts,

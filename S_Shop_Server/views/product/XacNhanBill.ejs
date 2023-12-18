@@ -164,13 +164,8 @@
             <% } %>
           </form>
           
-          <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
-            <% if (item.status !== 1&& item.status !== 2&& item.status !== 3&& item.status !== 4) { %>
-            <button type="submit" class="btn-primary btn-sm">
-              <span>Hủy</span>
-            </button>
-            <% } %>
-          </form>
+          
+          
           
           <form action="/bill/updatebillProGiaohang/<%= item._id %>" method="post">
             <% if (item.status === 1&& item.status !== 2&& item.status !== 3&& item.status !== 4) { %>
@@ -178,6 +173,13 @@
               <span>Giao hàng</span>
             </button>
             <% } %> 
+          </form>
+          <form action="/bill/updatebillProHuy/<%= item._id %>" method="post">
+            <% if (item.status == 1&& item.status !== 2&& item.status !== 3&& item.status !== 4) { %>
+            <button type="submit" class="btn-primary btn-sm">
+              <span>Hủy</span>
+            </button>
+            <% } %>
           </form>
         </div>
         </td>
