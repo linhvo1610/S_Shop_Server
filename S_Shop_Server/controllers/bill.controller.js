@@ -704,12 +704,11 @@ exports.listThongke10SPBancham = async (req, res, next) => {
       const matchedSoldProduct = totalSoldProducts.find(p => p._id.toString() === product._id.toString());
       if (matchedSoldProduct) {
         const totalSizeQuantity = product.sizes.reduce((acc, size) => acc + size.quantity, 0);
+        
         const totalProductMoney = totalSizeQuantity * product.gianhap;
         const totalProductProfit = (product.price * matchedSoldProduct.totalQuantity) - (matchedSoldProduct.totalQuantity * product.gianhap);
-
         totalMoney += totalProductMoney;
         totalProfit += totalProductProfit;
-
         result.push({
           productId: product._id,
           totalQuantity: matchedSoldProduct.totalQuantity,
@@ -733,7 +732,6 @@ exports.listThongke10SPBancham = async (req, res, next) => {
         });
       }
     }
-
     result.sort((a, b) => a.totalQuantity - b.totalQuantity); // Sắp xếp theo totalQuantity từ nhỏ đến lớn
     const top10LeastSoldProducts = result.slice(0, 10);
 
@@ -748,7 +746,7 @@ exports.listThongke10SPBancham = async (req, res, next) => {
       pro: productList,
       totalMoney: totalMoney,
       totalMoneyFromStatus3And5: totalMoneyFromStatus3And5.length > 0 ? totalMoneyFromStatus3And5[0].total : 0,
-      totalQuantityAllProducts: totalSoldProducts.reduce((acc, product) => acc + product.totalQuantity, 0),
+      totalQuantityAllProducts: top10LeastSoldProducts.reduce((acc, product) => acc + product.totalQuantity, 0),
     });
   } catch (err) {
     console.error(err);
