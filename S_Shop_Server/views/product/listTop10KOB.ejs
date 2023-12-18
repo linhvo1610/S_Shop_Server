@@ -158,7 +158,9 @@
         <td style="width: 330px"><%= product.productName %></td>
         <!-- <td style="text-align: center"><%= product.totalSizeQuantity %></td> -->
         <td style="text-align: center">
+
           <%= product.totalQuantity.toLocaleString() %>
+          
         </td>
         <% if (product.gianhap !== undefined) { %>
         <td style="text-align: center">
@@ -181,6 +183,7 @@
           currency: 'VND' }) %>
         </td>
         <td style="text-align: center">
+
           <%= (product.totalQuantity * product.price).toLocaleString('vi-VN', {
           style: 'currency', currency: 'VND' }) %>
         </td>
